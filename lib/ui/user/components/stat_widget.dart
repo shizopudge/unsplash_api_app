@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/fonts.dart';
@@ -16,7 +17,7 @@ class StatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
           Icon(
@@ -24,12 +25,18 @@ class StatWidget extends StatelessWidget {
             color: color,
             size: 40,
           ),
-          Text(
-            text,
-            style: AppFonts.defaultStyle.copyWith(
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-            ),
+          AnimatedTextKit(
+            isRepeatingAnimation: false,
+            animatedTexts: [
+              TyperAnimatedText(
+                text,
+                textStyle: AppFonts.smallStyle.copyWith(
+                  letterSpacing: 1.2,
+                ),
+                textAlign: TextAlign.center,
+                speed: const Duration(milliseconds: 100),
+              ),
+            ],
           ),
         ],
       ),

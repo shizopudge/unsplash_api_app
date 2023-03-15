@@ -1,4 +1,4 @@
-# animated_app
+# unsplash_api_app
 
 A new Flutter project.
 

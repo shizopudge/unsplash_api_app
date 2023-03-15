@@ -12,11 +12,13 @@ import '../state/home_grid_cubit.dart';
 
 class HomeAppbar extends StatelessWidget {
   final double height;
+  final bool isCollapsed;
   final TextEditingController searchController;
   const HomeAppbar({
     super.key,
     required this.height,
     required this.searchController,
+    required this.isCollapsed,
   });
 
   @override
@@ -72,6 +74,7 @@ class HomeAppbar extends StatelessWidget {
           onPressed: () => Scaffold.of(context).openEndDrawer(),
           icon: const Icon(
             Icons.menu,
+            color: Colors.white,
           ),
         ),
       ],
@@ -90,10 +93,11 @@ class HomeAppbar extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
               ),
             ),
-            const RiveAnimation.asset(
-              "assets/bg.riv",
-              fit: BoxFit.cover,
-            ),
+            if (!isCollapsed)
+              const RiveAnimation.asset(
+                "assets/bg.riv",
+                fit: BoxFit.cover,
+              ),
             Positioned.fill(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
@@ -153,6 +157,7 @@ class SearchField extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(21),
       ),
+      color: Colors.white,
       child: TextField(
         controller: searchController,
         onSubmitted: (query) => context.read<ImagesBloc>().add(
@@ -170,7 +175,9 @@ class SearchField extends StatelessWidget {
         cursorColor: Colors.black,
         cursorWidth: 1,
         cursorRadius: const Radius.circular(21),
-        style: AppFonts.smallStyle,
+        style: AppFonts.smallStyle.copyWith(
+          color: Colors.black,
+        ),
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(15),
@@ -180,7 +187,7 @@ class SearchField extends StatelessWidget {
           ),
           prefixIcon: Icon(
             Icons.search,
-            color: Colors.grey.shade900,
+            color: Colors.grey.shade700,
           ),
           suffixIcon: ValueListenableBuilder(
             valueListenable: searchController,

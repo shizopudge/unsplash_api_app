@@ -619,42 +619,49 @@ abstract class _ImageErrorState implements ImageState {
 
 /// @nodoc
 mixin _$ImageEvent {
-  String get id => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) getOneImage,
+    required TResult Function(UnsplashImage image) likeImage,
+    required TResult Function(UnsplashImage image) unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? getOneImage,
+    TResult? Function(UnsplashImage image)? likeImage,
+    TResult? Function(UnsplashImage image)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? getOneImage,
+    TResult Function(UnsplashImage image)? likeImage,
+    TResult Function(UnsplashImage image)? unlikeImage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ImageGetOneImageEvent value) getOneImage,
+    required TResult Function(ImageLikeImageEvent value) likeImage,
+    required TResult Function(ImageUnlikeImageEvent value) unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult? Function(ImageLikeImageEvent value)? likeImage,
+    TResult? Function(ImageUnlikeImageEvent value)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult Function(ImageLikeImageEvent value)? likeImage,
+    TResult Function(ImageUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ImageEventCopyWith<ImageEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -663,8 +670,6 @@ abstract class $ImageEventCopyWith<$Res> {
   factory $ImageEventCopyWith(
           ImageEvent value, $Res Function(ImageEvent) then) =
       _$ImageEventCopyWithImpl<$Res, ImageEvent>;
-  @useResult
-  $Res call({String id});
 }
 
 /// @nodoc
@@ -676,28 +681,13 @@ class _$ImageEventCopyWithImpl<$Res, $Val extends ImageEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$ImageGetOneImageEventCopyWith<$Res>
-    implements $ImageEventCopyWith<$Res> {
+abstract class _$$ImageGetOneImageEventCopyWith<$Res> {
   factory _$$ImageGetOneImageEventCopyWith(_$ImageGetOneImageEvent value,
           $Res Function(_$ImageGetOneImageEvent) then) =
       __$$ImageGetOneImageEventCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String id});
 }
@@ -759,6 +749,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) getOneImage,
+    required TResult Function(UnsplashImage image) likeImage,
+    required TResult Function(UnsplashImage image) unlikeImage,
   }) {
     return getOneImage(id);
   }
@@ -767,6 +759,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? getOneImage,
+    TResult? Function(UnsplashImage image)? likeImage,
+    TResult? Function(UnsplashImage image)? unlikeImage,
   }) {
     return getOneImage?.call(id);
   }
@@ -775,6 +769,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? getOneImage,
+    TResult Function(UnsplashImage image)? likeImage,
+    TResult Function(UnsplashImage image)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getOneImage != null) {
@@ -787,6 +783,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ImageGetOneImageEvent value) getOneImage,
+    required TResult Function(ImageLikeImageEvent value) likeImage,
+    required TResult Function(ImageUnlikeImageEvent value) unlikeImage,
   }) {
     return getOneImage(this);
   }
@@ -795,6 +793,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult? Function(ImageLikeImageEvent value)? likeImage,
+    TResult? Function(ImageUnlikeImageEvent value)? unlikeImage,
   }) {
     return getOneImage?.call(this);
   }
@@ -803,6 +803,8 @@ class _$ImageGetOneImageEvent implements ImageGetOneImageEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult Function(ImageLikeImageEvent value)? likeImage,
+    TResult Function(ImageUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getOneImage != null) {
@@ -816,10 +818,310 @@ abstract class ImageGetOneImageEvent implements ImageEvent {
   const factory ImageGetOneImageEvent({required final String id}) =
       _$ImageGetOneImageEvent;
 
-  @override
   String get id;
-  @override
   @JsonKey(ignore: true)
   _$$ImageGetOneImageEventCopyWith<_$ImageGetOneImageEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ImageLikeImageEventCopyWith<$Res> {
+  factory _$$ImageLikeImageEventCopyWith(_$ImageLikeImageEvent value,
+          $Res Function(_$ImageLikeImageEvent) then) =
+      __$$ImageLikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({UnsplashImage image});
+
+  $UnsplashImageCopyWith<$Res> get image;
+}
+
+/// @nodoc
+class __$$ImageLikeImageEventCopyWithImpl<$Res>
+    extends _$ImageEventCopyWithImpl<$Res, _$ImageLikeImageEvent>
+    implements _$$ImageLikeImageEventCopyWith<$Res> {
+  __$$ImageLikeImageEventCopyWithImpl(
+      _$ImageLikeImageEvent _value, $Res Function(_$ImageLikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = null,
+  }) {
+    return _then(_$ImageLikeImageEvent(
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as UnsplashImage,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UnsplashImageCopyWith<$Res> get image {
+    return $UnsplashImageCopyWith<$Res>(_value.image, (value) {
+      return _then(_value.copyWith(image: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$ImageLikeImageEvent implements ImageLikeImageEvent {
+  const _$ImageLikeImageEvent({required this.image});
+
+  @override
+  final UnsplashImage image;
+
+  @override
+  String toString() {
+    return 'ImageEvent.likeImage(image: $image)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImageLikeImageEvent &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImageLikeImageEventCopyWith<_$ImageLikeImageEvent> get copyWith =>
+      __$$ImageLikeImageEventCopyWithImpl<_$ImageLikeImageEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getOneImage,
+    required TResult Function(UnsplashImage image) likeImage,
+    required TResult Function(UnsplashImage image) unlikeImage,
+  }) {
+    return likeImage(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getOneImage,
+    TResult? Function(UnsplashImage image)? likeImage,
+    TResult? Function(UnsplashImage image)? unlikeImage,
+  }) {
+    return likeImage?.call(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getOneImage,
+    TResult Function(UnsplashImage image)? likeImage,
+    TResult Function(UnsplashImage image)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImageGetOneImageEvent value) getOneImage,
+    required TResult Function(ImageLikeImageEvent value) likeImage,
+    required TResult Function(ImageUnlikeImageEvent value) unlikeImage,
+  }) {
+    return likeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult? Function(ImageLikeImageEvent value)? likeImage,
+    TResult? Function(ImageUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return likeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult Function(ImageLikeImageEvent value)? likeImage,
+    TResult Function(ImageUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImageLikeImageEvent implements ImageEvent {
+  const factory ImageLikeImageEvent({required final UnsplashImage image}) =
+      _$ImageLikeImageEvent;
+
+  UnsplashImage get image;
+  @JsonKey(ignore: true)
+  _$$ImageLikeImageEventCopyWith<_$ImageLikeImageEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ImageUnlikeImageEventCopyWith<$Res> {
+  factory _$$ImageUnlikeImageEventCopyWith(_$ImageUnlikeImageEvent value,
+          $Res Function(_$ImageUnlikeImageEvent) then) =
+      __$$ImageUnlikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({UnsplashImage image});
+
+  $UnsplashImageCopyWith<$Res> get image;
+}
+
+/// @nodoc
+class __$$ImageUnlikeImageEventCopyWithImpl<$Res>
+    extends _$ImageEventCopyWithImpl<$Res, _$ImageUnlikeImageEvent>
+    implements _$$ImageUnlikeImageEventCopyWith<$Res> {
+  __$$ImageUnlikeImageEventCopyWithImpl(_$ImageUnlikeImageEvent _value,
+      $Res Function(_$ImageUnlikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = null,
+  }) {
+    return _then(_$ImageUnlikeImageEvent(
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as UnsplashImage,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UnsplashImageCopyWith<$Res> get image {
+    return $UnsplashImageCopyWith<$Res>(_value.image, (value) {
+      return _then(_value.copyWith(image: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$ImageUnlikeImageEvent implements ImageUnlikeImageEvent {
+  const _$ImageUnlikeImageEvent({required this.image});
+
+  @override
+  final UnsplashImage image;
+
+  @override
+  String toString() {
+    return 'ImageEvent.unlikeImage(image: $image)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImageUnlikeImageEvent &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImageUnlikeImageEventCopyWith<_$ImageUnlikeImageEvent> get copyWith =>
+      __$$ImageUnlikeImageEventCopyWithImpl<_$ImageUnlikeImageEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) getOneImage,
+    required TResult Function(UnsplashImage image) likeImage,
+    required TResult Function(UnsplashImage image) unlikeImage,
+  }) {
+    return unlikeImage(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? getOneImage,
+    TResult? Function(UnsplashImage image)? likeImage,
+    TResult? Function(UnsplashImage image)? unlikeImage,
+  }) {
+    return unlikeImage?.call(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? getOneImage,
+    TResult Function(UnsplashImage image)? likeImage,
+    TResult Function(UnsplashImage image)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImageGetOneImageEvent value) getOneImage,
+    required TResult Function(ImageLikeImageEvent value) likeImage,
+    required TResult Function(ImageUnlikeImageEvent value) unlikeImage,
+  }) {
+    return unlikeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult? Function(ImageLikeImageEvent value)? likeImage,
+    TResult? Function(ImageUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return unlikeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImageGetOneImageEvent value)? getOneImage,
+    TResult Function(ImageLikeImageEvent value)? likeImage,
+    TResult Function(ImageUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImageUnlikeImageEvent implements ImageEvent {
+  const factory ImageUnlikeImageEvent({required final UnsplashImage image}) =
+      _$ImageUnlikeImageEvent;
+
+  UnsplashImage get image;
+  @JsonKey(ignore: true)
+  _$$ImageUnlikeImageEventCopyWith<_$ImageUnlikeImageEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }

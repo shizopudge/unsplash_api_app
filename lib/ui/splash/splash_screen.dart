@@ -1,10 +1,13 @@
-import 'package:animated_app/data/repositories/auth_repository.dart';
+import 'package:animated_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
-import '../../core/colors.dart';
 import '../../core/fonts.dart';
+import 'components/splash_error_view.dart';
+import 'components/splash_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +18,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final ValueNotifier<bool> _showLoginNotifier = ValueNotifier<bool>(false);
-  // final ValueNotifier<double> _bgOpacityNotifier = ValueNotifier<double>(0);
+  final ValueNotifier<bool> _isErrorNotifier = ValueNotifier<bool>(false);
+  late String message;
   @override
   void initState() {
     super.initState();
@@ -25,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
       () {
         _showLoginNotifier.value = true;
-        // _bgOpacityNotifier.value = 1;
       },
     );
   }
@@ -35,151 +38,83 @@ class _SplashScreenState extends State<SplashScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
-        children: [
-          const RiveAnimation.asset(
-            'assets/splash.riv',
-            fit: BoxFit.cover,
-          ),
-          // ValueListenableBuilder(
-          //   valueListenable: _bgOpacityNotifier,
-          //   builder: (BuildContext context, double opacity, Widget? child) =>
-          //       AnimatedOpacity(
-          //     opacity: opacity,
-          //     duration: const Duration(
-          //       milliseconds: 3000,
-          //     ),
-          //     child: SizedBox(
-          //       height: screenHeight,
-          //       width: screenWidth,
-          //       child: BackdropFilter(
-          //         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          //         child: SizedBox(
-          //           height: screenHeight,
-          //           width: screenWidth,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          ValueListenableBuilder(
-            valueListenable: _showLoginNotifier,
-            builder: (context, isShowed, child) => AnimatedPositioned(
-              top: isShowed ? 0 : screenHeight,
-              right: isShowed ? 0 : 0,
-              left: isShowed ? 0 : 0,
-              bottom: isShowed ? 0 : screenHeight,
-              duration: const Duration(
-                milliseconds: 2500,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthErrorState) {
+            _isErrorNotifier.value = true;
+            message = state.message;
+            Future.delayed(
+                const Duration(
+                  milliseconds: 500,
+                ), () {
+              _showLoginNotifier.value = true;
+            });
+          } else if (state is AuthNotAuthorizedState) {
+            _showLoginNotifier.value = true;
+          } else if (state is AuthAuthorizedState) {
+            Future.delayed(
+              const Duration(
+                milliseconds: 5000,
               ),
-              child: Opacity(
-                opacity: .95,
-                child: Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: screenWidth * .1,
-                    vertical: screenHeight * .2,
-                  ),
-                  height: screenHeight / 2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(21),
-                    color: Colors.white,
-                  ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey.shade300,
-                            radius: 75,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _showLoginNotifier.value = false;
-                                // _bgOpacityNotifier.value = 1;
-                                Future.delayed(
-                                  const Duration(
-                                    milliseconds: 4000,
-                                  ),
-                                  () => AuthRepository().auth(),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                backgroundColor: Colors.grey.shade100,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 8,
-                                ),
-                                minimumSize: const Size(
-                                  double.infinity,
-                                  50,
-                                ),
-                                elevation: 4,
-                              ),
-                              child: Text(
-                                'Login',
-                                style: AppFonts.titleStyle.copyWith(
-                                  foreground: Paint()
-                                    ..shader = AppColors.linearGradientPink,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextButton(
-                              onPressed: () {
-                                _showLoginNotifier.value = false;
-                                // _bgOpacityNotifier.value = 1;
-                                Future.delayed(
-                                  const Duration(
-                                    milliseconds: 4000,
-                                  ),
-                                  () => context.go('/home'),
-                                );
-                              },
-                              child: Wrap(
-                                alignment: WrapAlignment.spaceAround,
-                                runAlignment: WrapAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Continue without authorization',
-                                    style: AppFonts.smallStyle.copyWith(
-                                      fontSize: 16,
-                                      foreground: Paint()
-                                        ..shader = AppColors.linearGradientPink,
-                                    ),
-                                  ),
-                                  ShaderMask(
-                                    shaderCallback: (bounds) {
-                                      return AppColors.linearGradientBlue
-                                          .createShader(bounds);
-                                    },
-                                    blendMode: BlendMode.srcIn,
-                                    child: const Icon(
-                                      Icons.arrow_circle_right,
-                                      size: 21,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+              () => context.go('/home'),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              const RiveAnimation.asset(
+                'assets/splash.riv',
+                fit: BoxFit.cover,
+              ),
+              state.when(
+                initial: () => const SizedBox(),
+                loading: () => const SizedBox(),
+                authorized: (user) => Center(
+                  child: DefaultTextStyle(
+                    style: AppFonts.headerStyle.copyWith(
+                      color: Colors.white,
+                    ),
+                    child: AnimatedTextKit(
+                      isRepeatingAnimation: false,
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          'Hi\n${user.username}',
+                          textAlign: TextAlign.center,
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+                notAuthorized: (message) => SplashView(
+                    showLoginNotifier: _showLoginNotifier,
+                    screenHeight: screenHeight,
+                    screenWidth: screenWidth),
+                error: (message) => ValueListenableBuilder(
+                  valueListenable: _isErrorNotifier,
+                  builder: (context, isError, child) {
+                    if (isError) {
+                      return SplashErrorView(
+                        showLoginNotifier: _showLoginNotifier,
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        isErrorNotifier: _isErrorNotifier,
+                        message: message,
+                      );
+                    } else {
+                      return SplashView(
+                        showLoginNotifier: _showLoginNotifier,
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

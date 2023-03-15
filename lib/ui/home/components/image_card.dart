@@ -11,11 +11,10 @@ class ImageCard extends StatelessWidget {
   const ImageCard({
     super.key,
     required this.image,
-    required this.index,
   });
 
   final UnsplashImage image;
-  final int index;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -48,26 +47,26 @@ class ImageCard extends StatelessWidget {
             ),
             // child: Align(
             //   alignment: Alignment.topRight,
-            //   child: Container(
-            //     margin: const EdgeInsets.all(8),
-            //     width: 25,
-            //     height: 25,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(12),
-            //       color: Colors.white,
-            //     ),
-            //     child: IconButton(
-            //       onPressed: () {},
-            //       icon: image.liked_by_user
+            //   child: InkWell(
+            //     onTap: () {},
+            //     borderRadius: BorderRadius.circular(12),
+            //     child: Container(
+            //       margin: const EdgeInsets.all(8),
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(10),
+            //         color: Colors.white,
+            //       ),
+            //       padding: const EdgeInsets.all(6),
+            //       child: image.liked_by_user
             //           ? Icon(
             //               Icons.favorite,
             //               color: Colors.deepOrange.shade900,
-            //               size: 10,
+            //               size: 21,
             //             )
             //           : const Icon(
             //               Icons.favorite_outline,
             //               color: Colors.black,
-            //               size: 10,
+            //               size: 21,
             //             ),
             //     ),
             //   ),

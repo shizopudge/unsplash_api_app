@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppFonts {
   static final TextStyle headerStyle = GoogleFonts.lato(
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: FontWeight.bold,
   );
 
   static final TextStyle titleStyle = GoogleFonts.lato(
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: FontWeight.w500,
   );
 

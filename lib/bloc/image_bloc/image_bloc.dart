@@ -14,6 +14,8 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
   ImageBloc({required this.imagesRepository})
       : super(const ImageState.initial()) {
     on<ImageGetOneImageEvent>(_getOneImage);
+    on<ImageLikeImageEvent>(_likeImage);
+    on<ImageUnlikeImageEvent>(_unlikeImage);
   }
 
   Future _getOneImage(
@@ -26,6 +28,51 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       emit(
         ImageState.loaded(
           image: res,
+        ),
+      );
+    } catch (e) {
+      emit(
+        ImageState.error(
+          message: e.toString(),
+        ),
+      );
+      throw Exception(
+        e.toString(),
+      );
+    }
+  }
+
+  Future _likeImage(ImageLikeImageEvent event, Emitter<ImageState> emit) async {
+    try {
+      await imagesRepository.likeImage(
+        id: event.image.id,
+      );
+      emit(
+        ImageState.loaded(
+          image: event.image.copyWith(liked_by_user: true),
+        ),
+      );
+    } catch (e) {
+      emit(
+        ImageState.error(
+          message: e.toString(),
+        ),
+      );
+      throw Exception(
+        e.toString(),
+      );
+    }
+  }
+
+  Future _unlikeImage(
+      ImageUnlikeImageEvent event, Emitter<ImageState> emit) async {
+    try {
+      await imagesRepository.unlikeImage(
+        id: event.image.id,
+      );
+      emit(
+        ImageState.loaded(
+          image: event.image.copyWith(liked_by_user: false),
         ),
       );
     } catch (e) {

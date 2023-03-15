@@ -60,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final bool isCollapsed = context.watch<HomeAppbarCubit>().state;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
       endDrawer: const HomeDrawer(),
       body: SafeArea(
         child: NestedScrollView(
@@ -68,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             HomeAppbar(
               height: screenHeight,
+              isCollapsed: isCollapsed,
               searchController: _searchController,
             ),
           ],
@@ -303,7 +303,6 @@ class _HomeScreenState extends State<HomeScreen> {
               final UnsplashImage image = images[index];
               return ImageCard(
                 image: image,
-                index: index,
               );
             },
             childCount: images.length,
@@ -381,7 +380,6 @@ class _HomeScreenState extends State<HomeScreen> {
               final UnsplashImage image = images[index];
               return ImageCard(
                 image: image,
-                index: index,
               );
             },
             childCount: images.length,
@@ -461,7 +459,6 @@ class _HomeScreenState extends State<HomeScreen> {
               final UnsplashImage image = images[index];
               return ImageCard(
                 image: image,
-                index: index,
               );
             },
           ),
@@ -529,7 +526,6 @@ class _HomeScreenState extends State<HomeScreen> {
             final UnsplashImage image = images[index];
             return ImageCard(
               image: image,
-              index: index,
             );
           },
         ),
@@ -596,7 +592,6 @@ class _HomeScreenState extends State<HomeScreen> {
             final UnsplashImage image = images[index];
             return ImageCard(
               image: image,
-              index: index,
             );
           },
         ),
