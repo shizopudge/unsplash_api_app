@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
+
+import 'fonts.dart';
 
 class AppUtils {
   Future linkShare({
@@ -51,5 +54,26 @@ class AppUtils {
     } catch (e) {
       throw 'Could not launch $url';
     }
+  }
+
+  void showSnackBar({
+    required BuildContext context,
+    required String text,
+  }) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          padding: const EdgeInsets.all(15),
+          content: Center(
+            child: Text(
+              text,
+              style: AppFonts.smallStyle.copyWith(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+      );
   }
 }

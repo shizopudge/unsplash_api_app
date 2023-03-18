@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../bloc/auth_bloc/auth_bloc.dart';
+import '../../../bloc/liked_images_bloc/liked_images_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
+import '../../common/circular_loader.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -28,112 +30,132 @@ class HomeDrawer extends StatelessWidget {
           ),
         ),
         child: state.when(
-          initial: () => const SizedBox(),
-          loading: () =>
-              const Center(child: CircularProgressIndicator(strokeWidth: 1)),
-          authorized: (user) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                if (theme == 'dark')
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback: (bounds) => AppColors.linearGradientRed,
-                        child: IconButton(
-                          onPressed: () =>
-                              context.read<ThemeCubit>().setTheme('light'),
-                          icon: const Icon(
-                            Icons.light_mode,
-                            size: 32,
+          initial: () => const CircularLoader(),
+          loading: () => const CircularLoader(),
+          authorized: (user) => SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  if (theme == 'dark')
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: ShaderMask(
+                          blendMode: BlendMode.srcIn,
+                          shaderCallback: (bounds) =>
+                              AppColors.linearGradientRed,
+                          child: IconButton(
+                            onPressed: () =>
+                                context.read<ThemeCubit>().setTheme('light'),
+                            icon: const Icon(
+                              Icons.light_mode,
+                              size: 32,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: ShaderMask(
+                          blendMode: BlendMode.srcIn,
+                          shaderCallback: (bounds) =>
+                              AppColors.linearGradientRed,
+                          child: IconButton(
+                            onPressed: () =>
+                                context.read<ThemeCubit>().setTheme('dark'),
+                            icon: const Icon(
+                              Icons.dark_mode,
+                              size: 32,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  )
-                else
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback: (bounds) => AppColors.linearGradientRed,
-                        child: IconButton(
-                          onPressed: () =>
-                              context.read<ThemeCubit>().setTheme('dark'),
-                          icon: const Icon(
-                            Icons.dark_mode,
-                            size: 32,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CachedNetworkImage(
-                    imageUrl: user.profile_image.large,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      backgroundImage: imageProvider,
-                      radius: 75,
-                    ),
-                    placeholder: (context, url) => ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (bounds) => AppColors.linearGradientRed,
-                      child: const CircleAvatar(
+                    child: CachedNetworkImage(
+                      imageUrl: user.profile_image.large,
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        backgroundColor: Colors.grey.shade100,
+                        backgroundImage: imageProvider,
                         radius: 75,
                       ),
-                    ),
-                    errorWidget: (context, url, error) => CircleAvatar(
-                      radius: 75,
-                      child: ShaderMask(
+                      placeholder: (context, url) => ShaderMask(
                         blendMode: BlendMode.srcIn,
                         shaderCallback: (bounds) => AppColors.linearGradientRed,
-                        child: const Icon(
-                          Icons.photo_rounded,
+                        child: const CircleAvatar(
+                          radius: 75,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                        radius: 75,
+                        child: ShaderMask(
+                          blendMode: BlendMode.srcIn,
+                          shaderCallback: (bounds) =>
+                              AppColors.linearGradientRed,
+                          child: const Icon(
+                            Icons.photo_rounded,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ShaderMask(
-                    blendMode: BlendMode.srcIn,
-                    shaderCallback: (bounds) => AppColors.linearGradientPink,
-                    child: Text(
-                      user.username,
-                      style: AppFonts.titleStyle.copyWith(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (bounds) => AppColors.linearGradientPink,
+                      child: Text(
+                        user.username,
+                        style:
+                            AppFonts.titleStyle.copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-                DrawerListTile(
-                  icon: Icons.person,
-                  text: 'Profile',
-                  onTap: () => context.go(
-                    '/home/current_user_profile',
+                  DrawerListTile(
+                    icon: Icons.person,
+                    text: 'Profile',
+                    onTap: () => context.go(
+                      '/home/current_user_profile',
+                    ),
                   ),
-                ),
-                DrawerListTile(
-                  icon: Icons.image,
-                  text: 'Favorite',
-                  onTap: () {},
-                ),
-                DrawerListTile(
-                  icon: Icons.logout,
-                  text: 'Logout',
-                  onTap: () {
-                    Scaffold.of(context).closeEndDrawer();
-                    context.go('/');
-                    context.read<AuthBloc>().add(const AuthEvent.logout());
-                  },
-                ),
-              ],
+                  DrawerListTile(
+                    icon: Icons.favorite,
+                    text: 'Likes',
+                    onTap: () {
+                      context.read<LikedImagesBloc>().add(
+                            LikedImagesEvent.getLikedImages(
+                              page: 1,
+                              username: user.username,
+                            ),
+                          );
+                      context.go('/home/favorite');
+                    },
+                  ),
+                  DrawerListTile(
+                    icon: Icons.image_rounded,
+                    text: 'Collections',
+                    onTap: () {},
+                  ),
+                  DrawerListTile(
+                    icon: Icons.logout,
+                    text: 'Logout',
+                    onTap: () {
+                      Scaffold.of(context).closeEndDrawer();
+                      context.go('/');
+                      context.read<AuthBloc>().add(
+                            const AuthEvent.logout(),
+                          );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           notAuthorized: (message) => Stack(
@@ -222,7 +244,39 @@ class HomeDrawer extends StatelessWidget {
               ),
             ],
           ),
-          error: (message) => const SizedBox(),
+          error: (message) => Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.error_outline_rounded,
+                  color: Colors.red,
+                  size: 50,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Oops...',
+                  textAlign: TextAlign.center,
+                  style: AppFonts.titleStyle.copyWith(
+                    foreground: Paint()..shader = AppColors.linearGradientPink,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: AppFonts.smallStyle.copyWith(
+                    fontSize: 14,
+                    foreground: Paint()..shader = AppColors.linearGradientPink,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

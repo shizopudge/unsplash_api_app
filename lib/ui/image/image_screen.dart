@@ -8,6 +8,7 @@ import 'package:rive/rive.dart';
 import '../../bloc/image_bloc/image_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
+import '../common/circular_loader.dart';
 import 'components/big_image.dart';
 import 'components/image_view.dart';
 import 'state/image_cubit.dart';
@@ -19,9 +20,13 @@ class ImageScreen extends StatefulWidget {
   State<ImageScreen> createState() => _ImageScreenState();
 }
 
-class _ImageScreenState extends State<ImageScreen> {
+class _ImageScreenState extends State<ImageScreen>
+    with SingleTickerProviderStateMixin {
   final ValueNotifier<bool> _isSharingOrDownloadingValueNotifier =
       ValueNotifier<bool>(false);
+  final ValueNotifier<double> _likedOpacityValueNotifier =
+      ValueNotifier<double>(0);
+
   @override
   Widget build(BuildContext context) {
     final ImageState state = context.watch<ImageBloc>().state;
@@ -50,27 +55,25 @@ class _ImageScreenState extends State<ImageScreen> {
               initial: () => Center(
                 child: SizedBox(
                   height: screenHeight * .3,
-                  child: const RiveAnimation.asset(
-                    'assets/loading.riv',
-                    fit: BoxFit.cover,
-                  ),
+                  child: const CircularLoader(),
                 ),
               ),
               loading: () => Center(
                 child: SizedBox(
                   height: screenHeight * .3,
-                  child: const RiveAnimation.asset(
-                    'assets/loading.riv',
-                    fit: BoxFit.cover,
-                  ),
+                  child: const CircularLoader(),
                 ),
               ),
               loaded: (image) => isImageBig
-                  ? BigImage(image: image)
+                  ? BigImage(
+                      image: image,
+                      likedOpacityValueNotifier: _likedOpacityValueNotifier,
+                    )
                   : ImageView(
                       image: image,
                       isSharingOrDownloadingValueNotifier:
                           _isSharingOrDownloadingValueNotifier,
+                      likedOpacityValueNotifier: _likedOpacityValueNotifier,
                     ),
               error: (error) => Stack(
                 alignment: Alignment.topLeft,
@@ -107,12 +110,7 @@ class _ImageScreenState extends State<ImageScreen> {
                               child: const SizedBox(),
                             ),
                           ),
-                          const Center(
-                            child: RiveAnimation.asset(
-                              'assets/loading.riv',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          const CircularLoader(),
                         ],
                       )
                     : const SizedBox(),

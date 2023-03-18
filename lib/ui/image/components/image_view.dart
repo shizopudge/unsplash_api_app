@@ -1,25 +1,29 @@
-import 'package:animated_app/core/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rive/rive.dart';
 
 import '../../../bloc/auth_bloc/auth_bloc.dart';
 import '../../../bloc/image_bloc/image_bloc.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
+import '../../../core/utils.dart';
 import '../../../data/models/unsplash_image/unsplash_image.dart';
+import '../../common/animated_icon.dart';
+import '../../common/circular_loader.dart';
+import '../../common/auth_suggestion_dialog.dart';
 import '../state/image_cubit.dart';
 
 class ImageView extends StatelessWidget {
   final UnsplashImage image;
   final ValueNotifier<bool> isSharingOrDownloadingValueNotifier;
+  final ValueNotifier<double> likedOpacityValueNotifier;
   const ImageView({
     super.key,
     required this.image,
     required this.isSharingOrDownloadingValueNotifier,
+    required this.likedOpacityValueNotifier,
   });
 
   @override
@@ -30,11 +34,40 @@ class ImageView extends StatelessWidget {
         Expanded(
           child: InkWell(
             onTap: () => context.read<ImageCubit>().isImageBig(true),
+            onDoubleTap: () {
+              if (authState is AuthAuthorizedState) {
+                if (image.liked_by_user) {
+                  context.read<ImageBloc>().add(
+                        ImageEvent.unlikeImage(
+                          image: image,
+                        ),
+                      );
+                } else {
+                  context.read<ImageBloc>().add(
+                        ImageEvent.likeImage(
+                          image: image,
+                        ),
+                      );
+                  likedOpacityValueNotifier.value = 1.0;
+                  Future.delayed(
+                    const Duration(
+                      milliseconds: 1000,
+                    ),
+                    () => likedOpacityValueNotifier.value = 0,
+                  );
+                }
+              } else {
+                showDialog(
+                  context: context,
+                  builder: ((context) => const AuthSuggestionDialog()),
+                );
+              }
+            },
             borderRadius: BorderRadius.circular(21),
             child: Stack(
-              alignment: Alignment.topLeft,
               children: [
                 CachedNetworkImage(
+                  key: const Key('image'),
                   imageUrl: image.urls.raw,
                   imageBuilder: (context, imageProvider) => Container(
                     margin: const EdgeInsets.all(8),
@@ -54,10 +87,7 @@ class ImageView extends StatelessWidget {
                         gradient: AppColors.silverPlaceholderGradient,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const RiveAnimation.asset(
-                        'assets/loading.riv',
-                        fit: BoxFit.cover,
-                      ),
+                      child: const CircularLoader(),
                     ),
                   ),
                   errorWidget: (context, url, error) => Container(
@@ -118,6 +148,14 @@ class ImageView extends StatelessWidget {
                         size: 21,
                       ),
                     ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: OpacityAnimatedIcon(
+                    color: Colors.red.shade900,
+                    notifier: likedOpacityValueNotifier,
+                    icon: Icons.favorite_rounded,
                   ),
                 ),
               ],
@@ -227,7 +265,6 @@ class ImageView extends StatelessWidget {
                                 image.likes.toString(),
                                 style: AppFonts.smallStyle.copyWith(
                                   color: Colors.grey,
-                                  fontSize: 14,
                                 ),
                               ),
                             ],
@@ -267,7 +304,11 @@ class ImageView extends StatelessWidget {
                                   ),
                                 );
                           } else {
-                            //?showDialog
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  const AuthSuggestionDialog(),
+                            );
                           }
                         },
                         icon: Icon(
@@ -288,8 +329,19 @@ class ImageView extends StatelessWidget {
                                     image: image,
                                   ),
                                 );
+                            likedOpacityValueNotifier.value = 1.0;
+                            Future.delayed(
+                              const Duration(
+                                milliseconds: 1000,
+                              ),
+                              () => likedOpacityValueNotifier.value = 0,
+                            );
                           } else {
-                            //?showDialog
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  const AuthSuggestionDialog(),
+                            );
                           }
                         },
                         icon: Icon(
@@ -308,8 +360,15 @@ class ImageView extends StatelessWidget {
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         padding: const EdgeInsets.all(8),
-                        onTap: () => AppUtils()
-                            .linkShare(htmlLink: image.links.html ?? ''),
+                        onTap: () {
+                          isSharingOrDownloadingValueNotifier.value = true;
+                          AppUtils()
+                              .linkShare(htmlLink: image.links.html ?? '')
+                              .whenComplete(
+                                () => isSharingOrDownloadingValueNotifier
+                                    .value = false,
+                              );
+                        },
                         child: Align(
                           alignment: Alignment.center,
                           child: Row(
@@ -364,19 +423,10 @@ class ImageView extends StatelessWidget {
                               .whenComplete(
                             () {
                               isSharingOrDownloadingValueNotifier.value = false;
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    padding: const EdgeInsets.all(8),
-                                    content: Center(
-                                      child: Text(
-                                        'Image successfully saved into gallery',
-                                        style: AppFonts.smallStyle,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                              AppUtils().showSnackBar(
+                                context: context,
+                                text: 'Image successfully saved into gallery',
+                              );
                             },
                           );
                         },

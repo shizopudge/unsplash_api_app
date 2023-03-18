@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/image_bloc/image_bloc.dart';
 import 'bloc/images_bloc/images_bloc.dart';
+import 'bloc/liked_images_bloc/liked_images_bloc.dart';
 import 'bloc/user_bloc/user_bloc.dart';
 import 'core/theme.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/images_repository.dart';
 import 'data/repositories/users_repository.dart';
 import 'router.dart';
-import 'ui/home/state/home_appbar_cubit.dart';
 import 'ui/home/state/home_grid_cubit.dart';
 import 'ui/image/state/image_cubit.dart';
 
@@ -41,6 +41,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
+          create: (context) => LikedImagesBloc(
+            imagesRepository: ImagesRepository(),
+          ),
+        ),
+        BlocProvider(
           create: (context) => UserBloc(
             usersRepository: UsersRepository(),
           ),
@@ -50,9 +55,6 @@ class MyApp extends StatelessWidget {
             authRepository: AuthRepository(),
             usersRepository: UsersRepository(),
           )..add(const AuthEvent.isAuthorized()),
-        ),
-        BlocProvider(
-          create: (context) => HomeAppbarCubit(),
         ),
         BlocProvider(
           create: (context) => HomeGridTypeCubit()..getGridType(),

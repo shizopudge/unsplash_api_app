@@ -74,9 +74,9 @@ class SplashErrorView extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           message,
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.center,
                           style: AppFonts.smallStyle.copyWith(
-                            fontSize: 18,
+                            fontSize: 14,
                             foreground: Paint()
                               ..shader = AppColors.linearGradientPink,
                           ),
@@ -95,7 +95,7 @@ class SplashErrorView extends StatelessWidget {
                             });
                             Future.delayed(
                                 const Duration(
-                                  milliseconds: 1500,
+                                  milliseconds: 1200,
                                 ), () {
                               _showLoginNotifier.value = true;
                             });

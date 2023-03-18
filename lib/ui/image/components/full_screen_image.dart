@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rive/rive.dart';
 
 import '../../../core/colors.dart';
+import '../../common/circular_loader.dart';
 
 class FullScreenImage extends StatefulWidget {
   final String? image;
@@ -37,6 +37,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
         alignment: Alignment.topRight,
         children: [
           CachedNetworkImage(
+            key: const Key('image'),
             imageUrl: widget.image ?? '',
             imageBuilder: (context, imageProvider) => InteractiveViewer(
               child: Container(
@@ -58,10 +59,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                   gradient: AppColors.silverPlaceholderGradient,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const RiveAnimation.asset(
-                  'assets/loading.riv',
-                  fit: BoxFit.cover,
-                ),
+                child: const CircularLoader(),
               ),
             ),
             errorWidget: (context, url, error) => Container(

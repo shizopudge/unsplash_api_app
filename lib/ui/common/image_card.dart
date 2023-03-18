@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../bloc/image_bloc/image_bloc.dart';
-import '../../../core/colors.dart';
-import '../../../data/models/unsplash_image/unsplash_image.dart';
+import '../../bloc/image_bloc/image_bloc.dart';
+import '../../core/colors.dart';
+import '../../data/models/unsplash_image/unsplash_image.dart';
 
 class ImageCard extends StatelessWidget {
+  final bool isFavorite;
   const ImageCard({
     super.key,
     required this.image,
+    required this.isFavorite,
   });
 
   final UnsplashImage image;
@@ -20,9 +22,13 @@ class ImageCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(21),
       onTap: () {
-        context.go(
-          '/home/image',
-        );
+        isFavorite
+            ? context.go(
+                '/home/favorite/image',
+              )
+            : context.go(
+                '/home/image',
+              );
         context.read<ImageBloc>().add(
               ImageEvent.getOneImage(
                 id: image.id,
@@ -82,7 +88,7 @@ class ImageCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(21),
-              gradient: AppColors.placeholderGradient,
+              gradient: AppColors.silverPlaceholderGradient,
             ),
           ),
         ),
@@ -95,6 +101,7 @@ class ImageCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(21),
+              gradient: AppColors.silverPlaceholderGradient,
             ),
             child: ShaderMask(
               blendMode: BlendMode.srcIn,

@@ -1,3 +1,4 @@
+import 'package:animated_app/ui/favorite/favorite_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'ui/home/home_screen.dart';
@@ -42,6 +43,16 @@ class AppRouter {
             builder: (context, state) => const UserProfileScreen(
               isCurrentUserProfile: 'true',
             ),
+          ),
+          GoRoute(
+            path: 'favorite',
+            builder: (context, state) => const FavoriteScreen(),
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'image',
+                builder: (context, state) => const ImageScreen(),
+              ),
+            ],
           ),
         ],
       ),

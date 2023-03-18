@@ -11,6 +11,7 @@ import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/user_bloc/user_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
+import '../common/circular_loader.dart';
 import 'components/social_widget.dart';
 import 'components/stat_widget.dart';
 
@@ -53,7 +54,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     final UserState state = context.watch<UserBloc>().state;
     final AuthState authState = context.watch<AuthBloc>().state;
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -88,24 +88,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             padding: const EdgeInsets.only(bottom: 15, left: 8, right: 8),
             child: widget.isCurrentUserProfile == 'true'
                 ? authState.when(
-                    initial: () => Center(
-                      child: SizedBox(
-                        height: screenHeight * .3,
-                        child: const RiveAnimation.asset(
-                          'assets/loading.riv',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    loading: () => Center(
-                      child: SizedBox(
-                        height: screenHeight * .3,
-                        child: const RiveAnimation.asset(
-                          'assets/loading.riv',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    initial: () => const CircularLoader(),
+                    loading: () => const CircularLoader(),
                     notAuthorized: (message) => Padding(
                       padding: const EdgeInsets.all(8),
                       child: Column(
@@ -406,24 +390,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   )
                 : state.when(
-                    initial: () => Center(
-                      child: SizedBox(
-                        height: screenHeight * .3,
-                        child: const RiveAnimation.asset(
-                          'assets/loading.riv',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    loading: () => Center(
-                      child: SizedBox(
-                        height: screenHeight * .3,
-                        child: const RiveAnimation.asset(
-                          'assets/loading.riv',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    initial: () => const CircularLoader(),
+                    loading: () => const CircularLoader(),
                     loaded: (user) => PageView(
                       scrollDirection: Axis.vertical,
                       controller: _pageController,
@@ -488,6 +456,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(21),
+                                      gradient:
+                                          AppColors.silverPlaceholderGradient,
                                     ),
                                     child: ShaderMask(
                                       blendMode: BlendMode.srcIn,
@@ -551,6 +521,34 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             speed: const Duration(
                                                 milliseconds: 110),
                                           ),
+                                        ],
+                                      ),
+                                    if (user.social.instagram_username !=
+                                            null ||
+                                        user.social.twitter_username != null)
+                                      Wrap(
+                                        alignment: WrapAlignment.center,
+                                        children: [
+                                          if (user.social.instagram_username !=
+                                              null)
+                                            SocialWidget(
+                                              imagePath:
+                                                  'assets/icons/instagram.png',
+                                              imageColor: Colors.blue.shade900,
+                                              text: user.social
+                                                      .instagram_username ??
+                                                  '',
+                                            ),
+                                          if (user.social.twitter_username !=
+                                              null)
+                                            SocialWidget(
+                                              imagePath:
+                                                  'assets/icons/twitter.png',
+                                              imageColor: Colors.blue.shade900,
+                                              text: user.social
+                                                      .twitter_username ??
+                                                  '',
+                                            ),
                                         ],
                                       ),
                                     Align(
@@ -642,26 +640,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 ],
                               ),
                             ),
-                            if (user.social.instagram_username != null ||
-                                user.social.twitter_username != null)
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  if (user.social.instagram_username != null)
-                                    SocialWidget(
-                                      imagePath: 'assets/icons/instagram.png',
-                                      imageColor: Colors.blue.shade900,
-                                      text:
-                                          user.social.instagram_username ?? '',
-                                    ),
-                                  if (user.social.twitter_username != null)
-                                    SocialWidget(
-                                      imagePath: 'assets/icons/twitter.png',
-                                      imageColor: Colors.blue.shade900,
-                                      text: user.social.twitter_username ?? '',
-                                    ),
-                                ],
-                              ),
                           ],
                         ),
                       ],

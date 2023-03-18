@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(
       const Duration(
-        milliseconds: 500,
+        milliseconds: 100,
       ),
       () {
         _showLoginNotifier.value = true;

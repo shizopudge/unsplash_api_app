@@ -29,17 +29,25 @@ class AppColors {
     ),
   );
 
+  static final Shader linearGradientOrange = const LinearGradient(
+    colors: <Color>[
+      Color.fromARGB(255, 103, 17, 129),
+      Color.fromARGB(255, 4, 65, 134),
+      Color.fromARGB(255, 153, 71, 4),
+    ],
+  ).createShader(
+    const Rect.fromLTWH(
+      0.0,
+      0.0,
+      200.0,
+      70.0,
+    ),
+  );
+
   static const LinearGradient linearGradientBlue = LinearGradient(
     colors: [
       Color.fromARGB(255, 112, 20, 173),
       Color.fromARGB(255, 49, 73, 207),
-    ],
-  );
-
-  static const LinearGradient placeholderGradient = LinearGradient(
-    colors: [
-      Color.fromARGB(255, 82, 52, 212),
-      Color.fromARGB(255, 122, 144, 173),
     ],
   );
 

@@ -43,6 +43,7 @@ class AppTheme {
         ),
       ),
     ),
+    dialogBackgroundColor: Colors.white,
     iconTheme: const IconThemeData(
       color: Colors.black,
     ),
@@ -79,6 +80,7 @@ class AppTheme {
         ),
       ),
     ),
+    dialogBackgroundColor: Colors.black,
     iconTheme: const IconThemeData(
       color: Colors.white,
     ),

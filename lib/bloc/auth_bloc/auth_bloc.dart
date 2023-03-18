@@ -51,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on DioError catch (e) {
       if (e.response?.statusCode != null) {
         emit(
-          AuthState.notAuthorized(
+          AuthState.error(
               message:
                   e.message ?? 'Something went wrong during authorization...'),
         );

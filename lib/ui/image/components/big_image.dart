@@ -2,19 +2,23 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rive/rive.dart';
 
 import '../../../bloc/auth_bloc/auth_bloc.dart';
 import '../../../bloc/image_bloc/image_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../data/models/unsplash_image/unsplash_image.dart';
+import '../../common/animated_icon.dart';
+import '../../common/circular_loader.dart';
+import '../../common/auth_suggestion_dialog.dart';
 import '../state/image_cubit.dart';
 
 class BigImage extends StatelessWidget {
   final UnsplashImage image;
+  final ValueNotifier<double> likedOpacityValueNotifier;
   const BigImage({
     super.key,
     required this.image,
+    required this.likedOpacityValueNotifier,
   });
 
   @override
@@ -34,14 +38,47 @@ class BigImage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   CachedNetworkImage(
+                    key: const Key('image'),
                     imageUrl: image.urls.raw,
-                    imageBuilder: (context, imageProvider) => Container(
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+                    imageBuilder: (context, imageProvider) => GestureDetector(
+                      onDoubleTap: () {
+                        if (authState is AuthAuthorizedState) {
+                          if (image.liked_by_user) {
+                            context.read<ImageBloc>().add(
+                                  ImageEvent.unlikeImage(
+                                    image: image,
+                                  ),
+                                );
+                          } else {
+                            context.read<ImageBloc>().add(
+                                  ImageEvent.likeImage(
+                                    image: image,
+                                  ),
+                                );
+                            likedOpacityValueNotifier.value = 1.0;
+                            Future.delayed(
+                              const Duration(
+                                milliseconds: 1000,
+                              ),
+                              () => likedOpacityValueNotifier.value = 0,
+                            );
+                          }
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: ((context) =>
+                                const AuthSuggestionDialog()),
+                          );
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -53,10 +90,7 @@ class BigImage extends StatelessWidget {
                           gradient: AppColors.silverPlaceholderGradient,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const RiveAnimation.asset(
-                          'assets/loading.riv',
-                          fit: BoxFit.cover,
-                        ),
+                        child: const CircularLoader(),
                       ),
                     ),
                     errorWidget: (context, url, error) => Container(
@@ -89,7 +123,11 @@ class BigImage extends StatelessWidget {
                                   ),
                                 );
                           } else {
-                            //?showDialog
+                            showDialog(
+                              context: context,
+                              builder: ((context) =>
+                                  const AuthSuggestionDialog()),
+                            );
                           }
                         },
                         borderRadius: BorderRadius.circular(21),
@@ -119,8 +157,19 @@ class BigImage extends StatelessWidget {
                                     image: image,
                                   ),
                                 );
+                            likedOpacityValueNotifier.value = 1.0;
+                            Future.delayed(
+                              const Duration(
+                                milliseconds: 1000,
+                              ),
+                              () => likedOpacityValueNotifier.value = 0,
+                            );
                           } else {
-                            //?showDialog
+                            showDialog(
+                              context: context,
+                              builder: ((context) =>
+                                  const AuthSuggestionDialog()),
+                            );
                           }
                         },
                         borderRadius: BorderRadius.circular(21),
@@ -180,6 +229,14 @@ class BigImage extends StatelessWidget {
                           size: 21,
                         ),
                       ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: OpacityAnimatedIcon(
+                      color: Colors.red.shade900,
+                      notifier: likedOpacityValueNotifier,
+                      icon: Icons.favorite_rounded,
                     ),
                   ),
                 ],

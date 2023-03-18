@@ -82,7 +82,7 @@ class ImagesRepository {
       queryParameters: {
         'client_id': AppConstants.clientId,
         'page': page,
-        'per_page': 30,
+        'per_page': 5,
       },
       options: Options(
         headers: {
@@ -90,7 +90,8 @@ class ImagesRepository {
         },
       ),
     );
-    for (int i = 0; i < 30; i++) {
+    final List imagesList = res.data;
+    for (int i = 0; i < imagesList.length; i++) {
       images.add(
         UnsplashImage.fromJson(
           res.data[i],

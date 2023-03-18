@@ -44,13 +44,13 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
 
   Future _likeImage(ImageLikeImageEvent event, Emitter<ImageState> emit) async {
     try {
-      await imagesRepository.likeImage(
-        id: event.image.id,
-      );
       emit(
         ImageState.loaded(
           image: event.image.copyWith(liked_by_user: true),
         ),
+      );
+      await imagesRepository.likeImage(
+        id: event.image.id,
       );
     } catch (e) {
       emit(
@@ -67,13 +67,13 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
   Future _unlikeImage(
       ImageUnlikeImageEvent event, Emitter<ImageState> emit) async {
     try {
-      await imagesRepository.unlikeImage(
-        id: event.image.id,
-      );
       emit(
         ImageState.loaded(
           image: event.image.copyWith(liked_by_user: false),
         ),
+      );
+      await imagesRepository.unlikeImage(
+        id: event.image.id,
       );
     } catch (e) {
       emit(
