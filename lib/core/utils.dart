@@ -76,4 +76,23 @@ class AppUtils {
         ),
       );
   }
+
+  String errorIdentifier(int statusCode) {
+    switch (statusCode) {
+      case 400:
+        return '$statusCode \n Bad Request. The request was unacceptable, often due to missing a required parameter.';
+      case 401:
+        return '$statusCode \n Unauthorized. Invalid Access Token.';
+      case 403:
+        return '$statusCode \n Forbidden. Missing permissions to perform request.';
+      case 404:
+        return '$statusCode \n Not Found. The requested resource doesn’t exist.';
+      case 500:
+        return '$statusCode \n Something went wrong on our end.';
+      case 503:
+        return '$statusCode \n Something went wrong on our end.';
+      default:
+        return 'Something went wrong...';
+    }
+  }
 }

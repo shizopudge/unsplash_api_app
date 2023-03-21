@@ -16,7 +16,7 @@ import 'components/social_widget.dart';
 import 'components/stat_widget.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  final String? isCurrentUserProfile;
+  final bool isCurrentUserProfile;
   const UserProfileScreen({super.key, required this.isCurrentUserProfile});
 
   @override
@@ -86,7 +86,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15, left: 8, right: 8),
-            child: widget.isCurrentUserProfile == 'true'
+            child: widget.isCurrentUserProfile
                 ? authState.when(
                     initial: () => const CircularLoader(),
                     loading: () => const CircularLoader(),
@@ -378,15 +378,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ],
                     ),
-                    error: (error) => Center(
-                      child: Text(
-                        error,
-                        textAlign: TextAlign.center,
-                        style: AppFonts.defaultStyle.copyWith(
-                          foreground: Paint()
-                            ..shader = AppColors.linearGradientRed,
+                    error: (error) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_rounded,
+                          color: Colors.red.shade900,
+                          size: 50,
                         ),
-                      ),
+                        Text(
+                          error,
+                          textAlign: TextAlign.center,
+                          style: AppFonts.defaultStyle.copyWith(
+                            foreground: Paint()
+                              ..shader = AppColors.linearGradientRed,
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : state.when(
@@ -644,15 +652,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ],
                     ),
-                    error: (error) => Center(
-                      child: Text(
-                        error,
-                        textAlign: TextAlign.center,
-                        style: AppFonts.defaultStyle.copyWith(
-                          foreground: Paint()
-                            ..shader = AppColors.linearGradientRed,
+                    error: (error) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_rounded,
+                          color: Colors.red.shade900,
+                          size: 50,
                         ),
-                      ),
+                        Text(
+                          error,
+                          textAlign: TextAlign.center,
+                          style: AppFonts.defaultStyle.copyWith(
+                            foreground: Paint()
+                              ..shader = AppColors.linearGradientRed,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
           ),

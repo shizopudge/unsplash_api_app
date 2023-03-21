@@ -50,23 +50,16 @@ class SplashView extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8),
-                        child: ShaderMask(
-                          shaderCallback: (bounds) {
-                            return AppColors.linearGradientBlue
-                                .createShader(bounds);
-                          },
-                          blendMode: BlendMode.srcIn,
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/logo.png',
-                                ),
-                                fit: BoxFit.cover,
+                        child: Container(
+                          height: 120,
+                          width: 120,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/icons/launch_icon.png',
                               ),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

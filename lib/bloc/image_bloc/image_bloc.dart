@@ -1,6 +1,8 @@
 import 'package:animated_app/data/repositories/images_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../core/utils.dart';
 import '../../data/models/unsplash_image/unsplash_image.dart';
 
 part 'image_state.dart';
@@ -30,14 +32,19 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
           image: res,
         ),
       );
+    } on DioError catch (e) {
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        ImageState.error(
+          message: errorMessage,
+        ),
+      );
     } catch (e) {
       emit(
         ImageState.error(
           message: e.toString(),
         ),
-      );
-      throw Exception(
-        e.toString(),
       );
     }
   }
@@ -52,14 +59,19 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       await imagesRepository.likeImage(
         id: event.image.id,
       );
+    } on DioError catch (e) {
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        ImageState.error(
+          message: errorMessage,
+        ),
+      );
     } catch (e) {
       emit(
         ImageState.error(
           message: e.toString(),
         ),
-      );
-      throw Exception(
-        e.toString(),
       );
     }
   }
@@ -75,14 +87,19 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       await imagesRepository.unlikeImage(
         id: event.image.id,
       );
+    } on DioError catch (e) {
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        ImageState.error(
+          message: errorMessage,
+        ),
+      );
     } catch (e) {
       emit(
         ImageState.error(
           message: e.toString(),
         ),
-      );
-      throw Exception(
-        e.toString(),
       );
     }
   }

@@ -11,6 +11,7 @@ import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/liked_images_bloc/liked_images_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
+import '../../core/theme.dart';
 import '../../data/models/unsplash_image/unsplash_image.dart';
 import '../common/circular_loader.dart';
 import '../common/refreshable_grid_view.dart';
@@ -44,16 +45,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     final LikedImagesState state = context.watch<LikedImagesBloc>().state;
+    final String theme = context.watch<ThemeCubit>().state;
     final int gridTypeState = context.watch<HomeGridTypeCubit>().state;
     final AuthState authState = context.watch<AuthBloc>().state;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           PopupMenuButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.grid_view_rounded,
-              color: Colors.white,
+              color: theme == 'dark' ? Colors.white : Colors.black,
             ),
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -117,26 +120,30 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   );
                 }
               },
-              loaded: (images) {
-                if (_isPagination) {
-                  _currentImages += images;
-                  if (_refreshController.isLoading) {
-                    _refreshController.loadComplete();
-                  }
-                  if (_refreshController.isRefresh) {
-                    _refreshController.refreshCompleted();
-                  }
-                  _isPagination = false;
+              loaded: (images, isLikedorUnliked) {
+                if (isLikedorUnliked ?? false) {
+                  _currentImages = images;
                 } else {
-                  _currentImages += images;
-                  if (_refreshController.isLoading) {
-                    _refreshController.loadComplete();
+                  if (_isPagination) {
+                    _currentImages += images;
+                    if (_refreshController.isLoading) {
+                      _refreshController.loadComplete();
+                    }
+                    if (_refreshController.isRefresh) {
+                      _refreshController.refreshCompleted();
+                    }
+                    _isPagination = false;
+                  } else {
+                    _currentImages += images;
+                    if (_refreshController.isLoading) {
+                      _refreshController.loadComplete();
+                    }
+                    if (_refreshController.isRefresh) {
+                      _refreshController.refreshCompleted();
+                    }
                   }
-                  if (_refreshController.isRefresh) {
-                    _refreshController.refreshCompleted();
-                  }
+                  _countOfRemainingImages -= images.length;
                 }
-                _countOfRemainingImages -= images.length;
                 if (authState is AuthAuthorizedState) {
                   if (_currentImages.isNotEmpty) {
                     return GridViewRefresher(
@@ -267,6 +274,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               error: (message) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Icon(
+                    Icons.error_rounded,
+                    color: Colors.red.shade900,
+                    size: 50,
+                  ),
                   Text(
                     message,
                     textAlign: TextAlign.center,

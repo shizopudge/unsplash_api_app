@@ -14,14 +14,14 @@ import 'components/image_view.dart';
 import 'state/image_cubit.dart';
 
 class ImageScreen extends StatefulWidget {
-  const ImageScreen({super.key});
+  final bool isFromFavorite;
+  const ImageScreen({super.key, required this.isFromFavorite});
 
   @override
   State<ImageScreen> createState() => _ImageScreenState();
 }
 
-class _ImageScreenState extends State<ImageScreen>
-    with SingleTickerProviderStateMixin {
+class _ImageScreenState extends State<ImageScreen> {
   final ValueNotifier<bool> _isSharingOrDownloadingValueNotifier =
       ValueNotifier<bool>(false);
   final ValueNotifier<double> _likedOpacityValueNotifier =
@@ -67,10 +67,12 @@ class _ImageScreenState extends State<ImageScreen>
               loaded: (image) => isImageBig
                   ? BigImage(
                       image: image,
+                      isFromFavorite: widget.isFromFavorite,
                       likedOpacityValueNotifier: _likedOpacityValueNotifier,
                     )
                   : ImageView(
                       image: image,
+                      isFromFavorite: widget.isFromFavorite,
                       isSharingOrDownloadingValueNotifier:
                           _isSharingOrDownloadingValueNotifier,
                       likedOpacityValueNotifier: _likedOpacityValueNotifier,
@@ -78,15 +80,23 @@ class _ImageScreenState extends State<ImageScreen>
               error: (error) => Stack(
                 alignment: Alignment.topLeft,
                 children: [
-                  Center(
-                    child: Text(
-                      error,
-                      textAlign: TextAlign.center,
-                      style: AppFonts.defaultStyle.copyWith(
-                        foreground: Paint()
-                          ..shader = AppColors.linearGradientRed,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_rounded,
+                        color: Colors.red.shade900,
+                        size: 50,
                       ),
-                    ),
+                      Text(
+                        error,
+                        textAlign: TextAlign.center,
+                        style: AppFonts.defaultStyle.copyWith(
+                          foreground: Paint()
+                            ..shader = AppColors.linearGradientRed,
+                        ),
+                      ),
+                    ],
                   ),
                   IconButton(
                     onPressed: () => context.pop(),

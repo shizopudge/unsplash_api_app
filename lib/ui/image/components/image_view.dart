@@ -19,11 +19,13 @@ class ImageView extends StatelessWidget {
   final UnsplashImage image;
   final ValueNotifier<bool> isSharingOrDownloadingValueNotifier;
   final ValueNotifier<double> likedOpacityValueNotifier;
+  final bool isFromFavorite;
   const ImageView({
     super.key,
     required this.image,
     required this.isSharingOrDownloadingValueNotifier,
     required this.likedOpacityValueNotifier,
+    required this.isFromFavorite,
   });
 
   @override
@@ -127,12 +129,19 @@ class ImageView extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => context.goNamed(
-                    'full_image',
-                    queryParams: {
-                      'image': image.urls.raw,
-                    },
-                  ),
+                  onTap: () => isFromFavorite
+                      ? context.goNamed(
+                          'full_image_from_fav',
+                          queryParams: {
+                            'image': image.urls.raw,
+                          },
+                        )
+                      : context.goNamed(
+                          'full_image',
+                          queryParams: {
+                            'image': image.urls.raw,
+                          },
+                        ),
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Container(
@@ -156,6 +165,7 @@ class ImageView extends StatelessWidget {
                     color: Colors.red.shade900,
                     notifier: likedOpacityValueNotifier,
                     icon: Icons.favorite_rounded,
+                    size: 50.0,
                   ),
                 ),
               ],
@@ -170,16 +180,27 @@ class ImageView extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                    onTap: () {
-                      context.read<UserBloc>().add(
-                            UserGetUserEvent(
-                              username: image.user.username,
-                            ),
-                          );
-                      context.go(
-                        '/home/image/user_profile',
-                      );
-                    },
+                    onTap: isFromFavorite
+                        ? () {
+                            context.read<UserBloc>().add(
+                                  UserGetUserEvent(
+                                    username: image.user.username,
+                                  ),
+                                );
+                            context.go(
+                              '/home/favorite/image/user_profile_from_fav',
+                            );
+                          }
+                        : () {
+                            context.read<UserBloc>().add(
+                                  UserGetUserEvent(
+                                    username: image.user.username,
+                                  ),
+                                );
+                            context.go(
+                              '/home/image/user_profile',
+                            );
+                          },
                     borderRadius: BorderRadius.circular(21),
                     child: CachedNetworkImage(
                       imageUrl: image.user.profile_image.medium,

@@ -20,13 +20,14 @@ class AppRouter {
         routes: <RouteBase>[
           GoRoute(
             path: 'image',
-            builder: (context, state) => const ImageScreen(),
+            builder: (context, state) => const ImageScreen(
+              isFromFavorite: false,
+            ),
             routes: <RouteBase>[
               GoRoute(
                 path: 'user_profile',
-                name: 'user_profile',
                 builder: (context, state) => const UserProfileScreen(
-                  isCurrentUserProfile: 'false',
+                  isCurrentUserProfile: false,
                 ),
               ),
               GoRoute(
@@ -41,7 +42,7 @@ class AppRouter {
           GoRoute(
             path: 'current_user_profile',
             builder: (context, state) => const UserProfileScreen(
-              isCurrentUserProfile: 'true',
+              isCurrentUserProfile: true,
             ),
           ),
           GoRoute(
@@ -50,7 +51,24 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: 'image',
-                builder: (context, state) => const ImageScreen(),
+                builder: (context, state) => const ImageScreen(
+                  isFromFavorite: true,
+                ),
+                routes: <RouteBase>[
+                  GoRoute(
+                    path: 'user_profile_from_fav',
+                    builder: (context, state) => const UserProfileScreen(
+                      isCurrentUserProfile: false,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'full_image_from_fav',
+                    name: 'full_image_from_fav',
+                    builder: (context, state) => FullScreenImage(
+                      image: state.queryParams['image'],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

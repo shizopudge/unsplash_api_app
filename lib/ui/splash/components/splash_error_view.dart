@@ -51,11 +51,11 @@ class SplashErrorView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.error_outline_rounded,
-                          color: Colors.red,
+                          color: Colors.red.shade900,
                           size: 50,
                         ),
                       ),

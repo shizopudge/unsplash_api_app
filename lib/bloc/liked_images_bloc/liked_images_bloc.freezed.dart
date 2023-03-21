@@ -20,7 +20,9 @@ mixin _$LikedImagesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(
+            List<UnsplashImage> images, bool? isLikedorUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +30,8 @@ mixin _$LikedImagesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +39,8 @@ mixin _$LikedImagesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -127,7 +131,9 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(
+            List<UnsplashImage> images, bool? isLikedorUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -138,7 +144,8 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -149,7 +156,8 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -242,7 +250,9 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(
+            List<UnsplashImage> images, bool? isLikedorUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -253,7 +263,8 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -264,7 +275,8 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -322,7 +334,7 @@ abstract class _$$_LikedImagesLoadedStateCopyWith<$Res> {
           $Res Function(_$_LikedImagesLoadedState) then) =
       __$$_LikedImagesLoadedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<UnsplashImage> images});
+  $Res call({List<UnsplashImage> images, bool? isLikedorUnliked});
 }
 
 /// @nodoc
@@ -337,12 +349,17 @@ class __$$_LikedImagesLoadedStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? images = null,
+    Object? isLikedorUnliked = freezed,
   }) {
     return _then(_$_LikedImagesLoadedState(
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<UnsplashImage>,
+      isLikedorUnliked: freezed == isLikedorUnliked
+          ? _value.isLikedorUnliked
+          : isLikedorUnliked // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -350,7 +367,8 @@ class __$$_LikedImagesLoadedStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
-  const _$_LikedImagesLoadedState({required final List<UnsplashImage> images})
+  const _$_LikedImagesLoadedState(
+      {required final List<UnsplashImage> images, this.isLikedorUnliked})
       : _images = images;
 
   final List<UnsplashImage> _images;
@@ -362,8 +380,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   }
 
   @override
+  final bool? isLikedorUnliked;
+
+  @override
   String toString() {
-    return 'LikedImagesState.loaded(images: $images)';
+    return 'LikedImagesState.loaded(images: $images, isLikedorUnliked: $isLikedorUnliked)';
   }
 
   @override
@@ -371,12 +392,14 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_LikedImagesLoadedState &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.isLikedorUnliked, isLikedorUnliked) ||
+                other.isLikedorUnliked == isLikedorUnliked));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_images));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_images), isLikedorUnliked);
 
   @JsonKey(ignore: true)
   @override
@@ -390,10 +413,12 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(
+            List<UnsplashImage> images, bool? isLikedorUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(images);
+    return loaded(images, isLikedorUnliked);
   }
 
   @override
@@ -401,10 +426,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(images);
+    return loaded?.call(images, isLikedorUnliked);
   }
 
   @override
@@ -412,12 +438,13 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(images);
+      return loaded(images, isLikedorUnliked);
     }
     return orElse();
   }
@@ -462,9 +489,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
 
 abstract class _LikedImagesLoadedState implements LikedImagesState {
   const factory _LikedImagesLoadedState(
-      {required final List<UnsplashImage> images}) = _$_LikedImagesLoadedState;
+      {required final List<UnsplashImage> images,
+      final bool? isLikedorUnliked}) = _$_LikedImagesLoadedState;
 
   List<UnsplashImage> get images;
+  bool? get isLikedorUnliked;
   @JsonKey(ignore: true)
   _$$_LikedImagesLoadedStateCopyWith<_$_LikedImagesLoadedState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -537,7 +566,9 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(
+            List<UnsplashImage> images, bool? isLikedorUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -548,7 +579,8 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -559,7 +591,8 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool? isLikedorUnliked)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -619,21 +652,27 @@ abstract class _LikedImagesErrorState implements LikedImagesState {
 
 /// @nodoc
 mixin _$LikedImagesEvent {
-  int get page => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int page, String username) getLikedImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int page, String username)? getLikedImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int page, String username)? getLikedImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -641,22 +680,24 @@ mixin _$LikedImagesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(LikedImagesGetLikedImagesEvent value)
         getLikedImages,
+    required TResult Function(LikedImagesLikeImageEvent value) likeImage,
+    required TResult Function(LikedImagesUnlikeImageEvent value) unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult? Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult? Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $LikedImagesEventCopyWith<LikedImagesEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -665,8 +706,6 @@ abstract class $LikedImagesEventCopyWith<$Res> {
   factory $LikedImagesEventCopyWith(
           LikedImagesEvent value, $Res Function(LikedImagesEvent) then) =
       _$LikedImagesEventCopyWithImpl<$Res, LikedImagesEvent>;
-  @useResult
-  $Res call({int page, String username});
 }
 
 /// @nodoc
@@ -678,34 +717,14 @@ class _$LikedImagesEventCopyWithImpl<$Res, $Val extends LikedImagesEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? page = null,
-    Object? username = null,
-  }) {
-    return _then(_value.copyWith(
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$LikedImagesGetLikedImagesEventCopyWith<$Res>
-    implements $LikedImagesEventCopyWith<$Res> {
+abstract class _$$LikedImagesGetLikedImagesEventCopyWith<$Res> {
   factory _$$LikedImagesGetLikedImagesEventCopyWith(
           _$LikedImagesGetLikedImagesEvent value,
           $Res Function(_$LikedImagesGetLikedImagesEvent) then) =
       __$$LikedImagesGetLikedImagesEventCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int page, String username});
 }
@@ -780,6 +799,10 @@ class _$LikedImagesGetLikedImagesEvent
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int page, String username) getLikedImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
   }) {
     return getLikedImages(page, username);
   }
@@ -788,6 +811,8 @@ class _$LikedImagesGetLikedImagesEvent
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int page, String username)? getLikedImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
   }) {
     return getLikedImages?.call(page, username);
   }
@@ -796,6 +821,8 @@ class _$LikedImagesGetLikedImagesEvent
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int page, String username)? getLikedImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getLikedImages != null) {
@@ -809,6 +836,8 @@ class _$LikedImagesGetLikedImagesEvent
   TResult map<TResult extends Object?>({
     required TResult Function(LikedImagesGetLikedImagesEvent value)
         getLikedImages,
+    required TResult Function(LikedImagesLikeImageEvent value) likeImage,
+    required TResult Function(LikedImagesUnlikeImageEvent value) unlikeImage,
   }) {
     return getLikedImages(this);
   }
@@ -817,6 +846,8 @@ class _$LikedImagesGetLikedImagesEvent
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult? Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult? Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
   }) {
     return getLikedImages?.call(this);
   }
@@ -825,6 +856,8 @@ class _$LikedImagesGetLikedImagesEvent
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getLikedImages != null) {
@@ -839,12 +872,337 @@ abstract class LikedImagesGetLikedImagesEvent implements LikedImagesEvent {
       {required final int page,
       required final String username}) = _$LikedImagesGetLikedImagesEvent;
 
-  @override
   int get page;
-  @override
   String get username;
-  @override
   @JsonKey(ignore: true)
   _$$LikedImagesGetLikedImagesEventCopyWith<_$LikedImagesGetLikedImagesEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LikedImagesLikeImageEventCopyWith<$Res> {
+  factory _$$LikedImagesLikeImageEventCopyWith(
+          _$LikedImagesLikeImageEvent value,
+          $Res Function(_$LikedImagesLikeImageEvent) then) =
+      __$$LikedImagesLikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String imageId, List<UnsplashImage> images});
+}
+
+/// @nodoc
+class __$$LikedImagesLikeImageEventCopyWithImpl<$Res>
+    extends _$LikedImagesEventCopyWithImpl<$Res, _$LikedImagesLikeImageEvent>
+    implements _$$LikedImagesLikeImageEventCopyWith<$Res> {
+  __$$LikedImagesLikeImageEventCopyWithImpl(_$LikedImagesLikeImageEvent _value,
+      $Res Function(_$LikedImagesLikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imageId = null,
+    Object? images = null,
+  }) {
+    return _then(_$LikedImagesLikeImageEvent(
+      imageId: null == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<UnsplashImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LikedImagesLikeImageEvent implements LikedImagesLikeImageEvent {
+  const _$LikedImagesLikeImageEvent(
+      {required this.imageId, required final List<UnsplashImage> images})
+      : _images = images;
+
+  @override
+  final String imageId;
+  final List<UnsplashImage> _images;
+  @override
+  List<UnsplashImage> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  @override
+  String toString() {
+    return 'LikedImagesEvent.likeImage(imageId: $imageId, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LikedImagesLikeImageEvent &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, imageId, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LikedImagesLikeImageEventCopyWith<_$LikedImagesLikeImageEvent>
+      get copyWith => __$$LikedImagesLikeImageEventCopyWithImpl<
+          _$LikedImagesLikeImageEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int page, String username) getLikedImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
+  }) {
+    return likeImage(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int page, String username)? getLikedImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+  }) {
+    return likeImage?.call(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int page, String username)? getLikedImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(imageId, images);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LikedImagesGetLikedImagesEvent value)
+        getLikedImages,
+    required TResult Function(LikedImagesLikeImageEvent value) likeImage,
+    required TResult Function(LikedImagesUnlikeImageEvent value) unlikeImage,
+  }) {
+    return likeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult? Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult? Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return likeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LikedImagesLikeImageEvent implements LikedImagesEvent {
+  const factory LikedImagesLikeImageEvent(
+      {required final String imageId,
+      required final List<UnsplashImage> images}) = _$LikedImagesLikeImageEvent;
+
+  String get imageId;
+  List<UnsplashImage> get images;
+  @JsonKey(ignore: true)
+  _$$LikedImagesLikeImageEventCopyWith<_$LikedImagesLikeImageEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LikedImagesUnlikeImageEventCopyWith<$Res> {
+  factory _$$LikedImagesUnlikeImageEventCopyWith(
+          _$LikedImagesUnlikeImageEvent value,
+          $Res Function(_$LikedImagesUnlikeImageEvent) then) =
+      __$$LikedImagesUnlikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String imageId, List<UnsplashImage> images});
+}
+
+/// @nodoc
+class __$$LikedImagesUnlikeImageEventCopyWithImpl<$Res>
+    extends _$LikedImagesEventCopyWithImpl<$Res, _$LikedImagesUnlikeImageEvent>
+    implements _$$LikedImagesUnlikeImageEventCopyWith<$Res> {
+  __$$LikedImagesUnlikeImageEventCopyWithImpl(
+      _$LikedImagesUnlikeImageEvent _value,
+      $Res Function(_$LikedImagesUnlikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imageId = null,
+    Object? images = null,
+  }) {
+    return _then(_$LikedImagesUnlikeImageEvent(
+      imageId: null == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<UnsplashImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LikedImagesUnlikeImageEvent implements LikedImagesUnlikeImageEvent {
+  const _$LikedImagesUnlikeImageEvent(
+      {required this.imageId, required final List<UnsplashImage> images})
+      : _images = images;
+
+  @override
+  final String imageId;
+  final List<UnsplashImage> _images;
+  @override
+  List<UnsplashImage> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  @override
+  String toString() {
+    return 'LikedImagesEvent.unlikeImage(imageId: $imageId, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LikedImagesUnlikeImageEvent &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, imageId, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LikedImagesUnlikeImageEventCopyWith<_$LikedImagesUnlikeImageEvent>
+      get copyWith => __$$LikedImagesUnlikeImageEventCopyWithImpl<
+          _$LikedImagesUnlikeImageEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int page, String username) getLikedImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
+  }) {
+    return unlikeImage(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int page, String username)? getLikedImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+  }) {
+    return unlikeImage?.call(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int page, String username)? getLikedImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(imageId, images);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LikedImagesGetLikedImagesEvent value)
+        getLikedImages,
+    required TResult Function(LikedImagesLikeImageEvent value) likeImage,
+    required TResult Function(LikedImagesUnlikeImageEvent value) unlikeImage,
+  }) {
+    return unlikeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult? Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult? Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return unlikeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LikedImagesGetLikedImagesEvent value)? getLikedImages,
+    TResult Function(LikedImagesLikeImageEvent value)? likeImage,
+    TResult Function(LikedImagesUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LikedImagesUnlikeImageEvent implements LikedImagesEvent {
+  const factory LikedImagesUnlikeImageEvent(
+          {required final String imageId,
+          required final List<UnsplashImage> images}) =
+      _$LikedImagesUnlikeImageEvent;
+
+  String get imageId;
+  List<UnsplashImage> get images;
+  @JsonKey(ignore: true)
+  _$$LikedImagesUnlikeImageEventCopyWith<_$LikedImagesUnlikeImageEvent>
       get copyWith => throw _privateConstructorUsedError;
 }

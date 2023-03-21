@@ -82,7 +82,7 @@ class _$UnsplashImageCopyWithImpl<$Res, $Val extends UnsplashImage>
     Object? tags = freezed,
     Object? links = null,
     Object? urls = null,
-    Object? user = freezed,
+    Object? user = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -121,7 +121,7 @@ class _$UnsplashImageCopyWithImpl<$Res, $Val extends UnsplashImage>
           ? _value.urls
           : urls // ignore: cast_nullable_to_non_nullable
               as Urls,
-      user: freezed == user
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as Author,
@@ -205,7 +205,7 @@ class __$$_UnsplashImageCopyWithImpl<$Res>
     Object? tags = freezed,
     Object? links = null,
     Object? urls = null,
-    Object? user = freezed,
+    Object? user = null,
   }) {
     return _then(_$_UnsplashImage(
       id: null == id
@@ -244,7 +244,7 @@ class __$$_UnsplashImageCopyWithImpl<$Res>
           ? _value.urls
           : urls // ignore: cast_nullable_to_non_nullable
               as Urls,
-      user: freezed == user
+      user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as Author,
@@ -324,7 +324,7 @@ class _$_UnsplashImage implements _UnsplashImage {
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.links, links) || other.links == links) &&
             (identical(other.urls, urls) || other.urls == urls) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
@@ -340,7 +340,7 @@ class _$_UnsplashImage implements _UnsplashImage {
       const DeepCollectionEquality().hash(_tags),
       links,
       urls,
-      const DeepCollectionEquality().hash(user));
+      user);
 
   @JsonKey(ignore: true)
   @override

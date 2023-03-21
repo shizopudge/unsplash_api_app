@@ -19,16 +19,21 @@ class AuthSuggestionDialog extends StatelessWidget {
         horizontal: 25,
         vertical: 10,
       ),
+      elevation: 8,
       children: [
         Align(
           alignment: Alignment.topRight,
           child: InkWell(
             onTap: () => context.pop(),
             borderRadius: BorderRadius.circular(21),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) => AppColors.linearGradientRed,
+                blendMode: BlendMode.srcIn,
+                child: const Icon(
+                  Icons.close,
+                ),
               ),
             ),
           ),

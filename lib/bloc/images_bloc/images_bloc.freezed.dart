@@ -659,23 +659,30 @@ abstract class _ImagesErrorState implements ImagesState {
 
 /// @nodoc
 mixin _$ImagesEvent {
-  int get page => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int page) getImages,
     required TResult Function(String query, int page) searchImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int page)? getImages,
     TResult? Function(String query, int page)? searchImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int page)? getImages,
     TResult Function(String query, int page)? searchImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -683,24 +690,26 @@ mixin _$ImagesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(ImagesGetImagesEvent value) getImages,
     required TResult Function(ImagesSearchImagesEvent value) searchImages,
+    required TResult Function(ImagesLikeImageEvent value) likeImage,
+    required TResult Function(ImagesUnlikeImageEvent value) unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImagesGetImagesEvent value)? getImages,
     TResult? Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult? Function(ImagesLikeImageEvent value)? likeImage,
+    TResult? Function(ImagesUnlikeImageEvent value)? unlikeImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImagesGetImagesEvent value)? getImages,
     TResult Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult Function(ImagesLikeImageEvent value)? likeImage,
+    TResult Function(ImagesUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ImagesEventCopyWith<ImagesEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -709,8 +718,6 @@ abstract class $ImagesEventCopyWith<$Res> {
   factory $ImagesEventCopyWith(
           ImagesEvent value, $Res Function(ImagesEvent) then) =
       _$ImagesEventCopyWithImpl<$Res, ImagesEvent>;
-  @useResult
-  $Res call({int page});
 }
 
 /// @nodoc
@@ -722,28 +729,13 @@ class _$ImagesEventCopyWithImpl<$Res, $Val extends ImagesEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? page = null,
-  }) {
-    return _then(_value.copyWith(
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$ImagesGetImagesEventCopyWith<$Res>
-    implements $ImagesEventCopyWith<$Res> {
+abstract class _$$ImagesGetImagesEventCopyWith<$Res> {
   factory _$$ImagesGetImagesEventCopyWith(_$ImagesGetImagesEvent value,
           $Res Function(_$ImagesGetImagesEvent) then) =
       __$$ImagesGetImagesEventCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int page});
 }
@@ -806,6 +798,10 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(int page) getImages,
     required TResult Function(String query, int page) searchImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
   }) {
     return getImages(page);
   }
@@ -815,6 +811,8 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int page)? getImages,
     TResult? Function(String query, int page)? searchImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
   }) {
     return getImages?.call(page);
   }
@@ -824,6 +822,8 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int page)? getImages,
     TResult Function(String query, int page)? searchImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getImages != null) {
@@ -837,6 +837,8 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(ImagesGetImagesEvent value) getImages,
     required TResult Function(ImagesSearchImagesEvent value) searchImages,
+    required TResult Function(ImagesLikeImageEvent value) likeImage,
+    required TResult Function(ImagesUnlikeImageEvent value) unlikeImage,
   }) {
     return getImages(this);
   }
@@ -846,6 +848,8 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImagesGetImagesEvent value)? getImages,
     TResult? Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult? Function(ImagesLikeImageEvent value)? likeImage,
+    TResult? Function(ImagesUnlikeImageEvent value)? unlikeImage,
   }) {
     return getImages?.call(this);
   }
@@ -855,6 +859,8 @@ class _$ImagesGetImagesEvent implements ImagesGetImagesEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImagesGetImagesEvent value)? getImages,
     TResult Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult Function(ImagesLikeImageEvent value)? likeImage,
+    TResult Function(ImagesUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) {
     if (getImages != null) {
@@ -868,21 +874,17 @@ abstract class ImagesGetImagesEvent implements ImagesEvent {
   const factory ImagesGetImagesEvent({required final int page}) =
       _$ImagesGetImagesEvent;
 
-  @override
   int get page;
-  @override
   @JsonKey(ignore: true)
   _$$ImagesGetImagesEventCopyWith<_$ImagesGetImagesEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ImagesSearchImagesEventCopyWith<$Res>
-    implements $ImagesEventCopyWith<$Res> {
+abstract class _$$ImagesSearchImagesEventCopyWith<$Res> {
   factory _$$ImagesSearchImagesEventCopyWith(_$ImagesSearchImagesEvent value,
           $Res Function(_$ImagesSearchImagesEvent) then) =
       __$$ImagesSearchImagesEventCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String query, int page});
 }
@@ -953,6 +955,10 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(int page) getImages,
     required TResult Function(String query, int page) searchImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
   }) {
     return searchImages(query, page);
   }
@@ -962,6 +968,8 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int page)? getImages,
     TResult? Function(String query, int page)? searchImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
   }) {
     return searchImages?.call(query, page);
   }
@@ -971,6 +979,8 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int page)? getImages,
     TResult Function(String query, int page)? searchImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
     required TResult orElse(),
   }) {
     if (searchImages != null) {
@@ -984,6 +994,8 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(ImagesGetImagesEvent value) getImages,
     required TResult Function(ImagesSearchImagesEvent value) searchImages,
+    required TResult Function(ImagesLikeImageEvent value) likeImage,
+    required TResult Function(ImagesUnlikeImageEvent value) unlikeImage,
   }) {
     return searchImages(this);
   }
@@ -993,6 +1005,8 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImagesGetImagesEvent value)? getImages,
     TResult? Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult? Function(ImagesLikeImageEvent value)? likeImage,
+    TResult? Function(ImagesUnlikeImageEvent value)? unlikeImage,
   }) {
     return searchImages?.call(this);
   }
@@ -1002,6 +1016,8 @@ class _$ImagesSearchImagesEvent implements ImagesSearchImagesEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImagesGetImagesEvent value)? getImages,
     TResult Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult Function(ImagesLikeImageEvent value)? likeImage,
+    TResult Function(ImagesUnlikeImageEvent value)? unlikeImage,
     required TResult orElse(),
   }) {
     if (searchImages != null) {
@@ -1017,10 +1033,342 @@ abstract class ImagesSearchImagesEvent implements ImagesEvent {
       required final int page}) = _$ImagesSearchImagesEvent;
 
   String get query;
-  @override
   int get page;
-  @override
   @JsonKey(ignore: true)
   _$$ImagesSearchImagesEventCopyWith<_$ImagesSearchImagesEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ImagesLikeImageEventCopyWith<$Res> {
+  factory _$$ImagesLikeImageEventCopyWith(_$ImagesLikeImageEvent value,
+          $Res Function(_$ImagesLikeImageEvent) then) =
+      __$$ImagesLikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String imageId, List<UnsplashImage> images});
+}
+
+/// @nodoc
+class __$$ImagesLikeImageEventCopyWithImpl<$Res>
+    extends _$ImagesEventCopyWithImpl<$Res, _$ImagesLikeImageEvent>
+    implements _$$ImagesLikeImageEventCopyWith<$Res> {
+  __$$ImagesLikeImageEventCopyWithImpl(_$ImagesLikeImageEvent _value,
+      $Res Function(_$ImagesLikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imageId = null,
+    Object? images = null,
+  }) {
+    return _then(_$ImagesLikeImageEvent(
+      imageId: null == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<UnsplashImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ImagesLikeImageEvent implements ImagesLikeImageEvent {
+  const _$ImagesLikeImageEvent(
+      {required this.imageId, required final List<UnsplashImage> images})
+      : _images = images;
+
+  @override
+  final String imageId;
+  final List<UnsplashImage> _images;
+  @override
+  List<UnsplashImage> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  @override
+  String toString() {
+    return 'ImagesEvent.likeImage(imageId: $imageId, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImagesLikeImageEvent &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, imageId, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImagesLikeImageEventCopyWith<_$ImagesLikeImageEvent> get copyWith =>
+      __$$ImagesLikeImageEventCopyWithImpl<_$ImagesLikeImageEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int page) getImages,
+    required TResult Function(String query, int page) searchImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
+  }) {
+    return likeImage(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int page)? getImages,
+    TResult? Function(String query, int page)? searchImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+  }) {
+    return likeImage?.call(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int page)? getImages,
+    TResult Function(String query, int page)? searchImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(imageId, images);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImagesGetImagesEvent value) getImages,
+    required TResult Function(ImagesSearchImagesEvent value) searchImages,
+    required TResult Function(ImagesLikeImageEvent value) likeImage,
+    required TResult Function(ImagesUnlikeImageEvent value) unlikeImage,
+  }) {
+    return likeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImagesGetImagesEvent value)? getImages,
+    TResult? Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult? Function(ImagesLikeImageEvent value)? likeImage,
+    TResult? Function(ImagesUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return likeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImagesGetImagesEvent value)? getImages,
+    TResult Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult Function(ImagesLikeImageEvent value)? likeImage,
+    TResult Function(ImagesUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (likeImage != null) {
+      return likeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImagesLikeImageEvent implements ImagesEvent {
+  const factory ImagesLikeImageEvent(
+      {required final String imageId,
+      required final List<UnsplashImage> images}) = _$ImagesLikeImageEvent;
+
+  String get imageId;
+  List<UnsplashImage> get images;
+  @JsonKey(ignore: true)
+  _$$ImagesLikeImageEventCopyWith<_$ImagesLikeImageEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ImagesUnlikeImageEventCopyWith<$Res> {
+  factory _$$ImagesUnlikeImageEventCopyWith(_$ImagesUnlikeImageEvent value,
+          $Res Function(_$ImagesUnlikeImageEvent) then) =
+      __$$ImagesUnlikeImageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String imageId, List<UnsplashImage> images});
+}
+
+/// @nodoc
+class __$$ImagesUnlikeImageEventCopyWithImpl<$Res>
+    extends _$ImagesEventCopyWithImpl<$Res, _$ImagesUnlikeImageEvent>
+    implements _$$ImagesUnlikeImageEventCopyWith<$Res> {
+  __$$ImagesUnlikeImageEventCopyWithImpl(_$ImagesUnlikeImageEvent _value,
+      $Res Function(_$ImagesUnlikeImageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imageId = null,
+    Object? images = null,
+  }) {
+    return _then(_$ImagesUnlikeImageEvent(
+      imageId: null == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
+              as String,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<UnsplashImage>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ImagesUnlikeImageEvent implements ImagesUnlikeImageEvent {
+  const _$ImagesUnlikeImageEvent(
+      {required this.imageId, required final List<UnsplashImage> images})
+      : _images = images;
+
+  @override
+  final String imageId;
+  final List<UnsplashImage> _images;
+  @override
+  List<UnsplashImage> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  @override
+  String toString() {
+    return 'ImagesEvent.unlikeImage(imageId: $imageId, images: $images)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImagesUnlikeImageEvent &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, imageId, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImagesUnlikeImageEventCopyWith<_$ImagesUnlikeImageEvent> get copyWith =>
+      __$$ImagesUnlikeImageEventCopyWithImpl<_$ImagesUnlikeImageEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int page) getImages,
+    required TResult Function(String query, int page) searchImages,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        likeImage,
+    required TResult Function(String imageId, List<UnsplashImage> images)
+        unlikeImage,
+  }) {
+    return unlikeImage(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int page)? getImages,
+    TResult? Function(String query, int page)? searchImages,
+    TResult? Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult? Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+  }) {
+    return unlikeImage?.call(imageId, images);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int page)? getImages,
+    TResult Function(String query, int page)? searchImages,
+    TResult Function(String imageId, List<UnsplashImage> images)? likeImage,
+    TResult Function(String imageId, List<UnsplashImage> images)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(imageId, images);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImagesGetImagesEvent value) getImages,
+    required TResult Function(ImagesSearchImagesEvent value) searchImages,
+    required TResult Function(ImagesLikeImageEvent value) likeImage,
+    required TResult Function(ImagesUnlikeImageEvent value) unlikeImage,
+  }) {
+    return unlikeImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImagesGetImagesEvent value)? getImages,
+    TResult? Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult? Function(ImagesLikeImageEvent value)? likeImage,
+    TResult? Function(ImagesUnlikeImageEvent value)? unlikeImage,
+  }) {
+    return unlikeImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImagesGetImagesEvent value)? getImages,
+    TResult Function(ImagesSearchImagesEvent value)? searchImages,
+    TResult Function(ImagesLikeImageEvent value)? likeImage,
+    TResult Function(ImagesUnlikeImageEvent value)? unlikeImage,
+    required TResult orElse(),
+  }) {
+    if (unlikeImage != null) {
+      return unlikeImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImagesUnlikeImageEvent implements ImagesEvent {
+  const factory ImagesUnlikeImageEvent(
+      {required final String imageId,
+      required final List<UnsplashImage> images}) = _$ImagesUnlikeImageEvent;
+
+  String get imageId;
+  List<UnsplashImage> get images;
+  @JsonKey(ignore: true)
+  _$$ImagesUnlikeImageEventCopyWith<_$ImagesUnlikeImageEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }

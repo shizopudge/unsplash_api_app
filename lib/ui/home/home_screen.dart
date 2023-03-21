@@ -227,6 +227,11 @@ class _HomeScreenState extends State<HomeScreen> {
             error: (error) => Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Icon(
+                  Icons.error_rounded,
+                  color: Colors.red.shade900,
+                  size: 50,
+                ),
                 Text(
                   error,
                   textAlign: TextAlign.center,

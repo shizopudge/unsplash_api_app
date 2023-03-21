@@ -6,11 +6,13 @@ class OpacityAnimatedIcon extends StatelessWidget {
     required this.notifier,
     required this.icon,
     required this.color,
+    required this.size,
   });
 
   final ValueNotifier<double> notifier;
   final IconData icon;
   final Color color;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,12 @@ class OpacityAnimatedIcon extends StatelessWidget {
       builder: (context, opacity, child) => AnimatedOpacity(
         opacity: opacity,
         duration: const Duration(
-          milliseconds: 750,
+          milliseconds: 1000,
         ),
         child: Icon(
           icon,
           color: Colors.red.shade900,
-          size: 50,
+          size: size,
         ),
       ),
     );

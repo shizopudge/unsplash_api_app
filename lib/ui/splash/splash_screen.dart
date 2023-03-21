@@ -2,6 +2,7 @@ import 'package:animated_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
@@ -23,9 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
     Future.delayed(
       const Duration(
-        milliseconds: 100,
+        milliseconds: 500,
       ),
       () {
         _showLoginNotifier.value = true;

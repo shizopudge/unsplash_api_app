@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/image_bloc/image_bloc.dart';
@@ -15,7 +16,9 @@ import 'ui/home/state/home_grid_cubit.dart';
 import 'ui/image/state/image_cubit.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding =
+      WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 

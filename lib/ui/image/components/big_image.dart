@@ -15,10 +15,12 @@ import '../state/image_cubit.dart';
 class BigImage extends StatelessWidget {
   final UnsplashImage image;
   final ValueNotifier<double> likedOpacityValueNotifier;
+  final bool isFromFavorite;
   const BigImage({
     super.key,
     required this.image,
     required this.likedOpacityValueNotifier,
+    required this.isFromFavorite,
   });
 
   @override
@@ -208,12 +210,19 @@ class BigImage extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => context.goNamed(
-                      'full_image',
-                      queryParams: {
-                        'image': image.urls.raw,
-                      },
-                    ),
+                    onTap: () => isFromFavorite
+                        ? context.goNamed(
+                            'full_image_from_fav',
+                            queryParams: {
+                              'image': image.urls.raw,
+                            },
+                          )
+                        : context.goNamed(
+                            'full_image',
+                            queryParams: {
+                              'image': image.urls.raw,
+                            },
+                          ),
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Container(
@@ -237,6 +246,7 @@ class BigImage extends StatelessWidget {
                       color: Colors.red.shade900,
                       notifier: likedOpacityValueNotifier,
                       icon: Icons.favorite_rounded,
+                      size: 50.0,
                     ),
                   ),
                 ],

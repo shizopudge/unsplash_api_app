@@ -82,7 +82,7 @@ class ImagesRepository {
       queryParameters: {
         'client_id': AppConstants.clientId,
         'page': page,
-        'per_page': 5,
+        'per_page': 10,
       },
       options: Options(
         headers: {

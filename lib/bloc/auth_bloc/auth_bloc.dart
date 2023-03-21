@@ -1,3 +1,4 @@
+import 'package:animated_app/core/utils.dart';
 import 'package:animated_app/data/repositories/users_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -49,13 +50,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     } on DioError catch (e) {
-      if (e.response?.statusCode != null) {
-        emit(
-          AuthState.error(
-              message:
-                  e.message ?? 'Something went wrong during authorization...'),
-        );
-      }
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        AuthState.error(
+          message: errorMessage,
+        ),
+      );
     } catch (e) {
       emit(
         AuthState.error(
@@ -71,6 +72,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await authRepository.logout();
       emit(
         const AuthState.notAuthorized(),
+      );
+    } on DioError catch (e) {
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        AuthState.error(
+          message: errorMessage,
+        ),
       );
     } catch (e) {
       emit(
@@ -98,6 +107,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           const AuthState.notAuthorized(),
         );
       }
+    } on DioError catch (e) {
+      final String errorMessage =
+          AppUtils().errorIdentifier(e.response?.statusCode ?? 0);
+      emit(
+        AuthState.error(
+          message: errorMessage,
+        ),
+      );
     } catch (e) {
       emit(
         AuthState.error(
