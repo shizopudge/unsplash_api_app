@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -36,35 +37,35 @@ class ImageView extends StatelessWidget {
         Expanded(
           child: InkWell(
             onTap: () => context.read<ImageCubit>().isImageBig(true),
-            onDoubleTap: () {
-              if (authState is AuthAuthorizedState) {
-                if (image.liked_by_user) {
-                  context.read<ImageBloc>().add(
-                        ImageEvent.unlikeImage(
-                          image: image,
-                        ),
-                      );
-                } else {
-                  context.read<ImageBloc>().add(
-                        ImageEvent.likeImage(
-                          image: image,
-                        ),
-                      );
-                  likedOpacityValueNotifier.value = 1.0;
-                  Future.delayed(
-                    const Duration(
-                      milliseconds: 1000,
-                    ),
-                    () => likedOpacityValueNotifier.value = 0,
-                  );
-                }
-              } else {
-                showDialog(
-                  context: context,
-                  builder: ((context) => const AuthSuggestionDialog()),
-                );
-              }
-            },
+            //? onDoubleTap: () {
+            //   if (authState is AuthAuthorizedState) {
+            //     if (image.liked_by_user) {
+            //       context.read<ImageBloc>().add(
+            //             ImageEvent.unlikeImage(
+            //               image: image,
+            //             ),
+            //           );
+            //     } else {
+            //       context.read<ImageBloc>().add(
+            //             ImageEvent.likeImage(
+            //               image: image,
+            //             ),
+            //           );
+            //       likedOpacityValueNotifier.value = 1.0;
+            //       Future.delayed(
+            //         const Duration(
+            //           milliseconds: 1000,
+            //         ),
+            //         () => likedOpacityValueNotifier.value = 0,
+            //       );
+            //     }
+            //   } else {
+            //     showDialog(
+            //       context: context,
+            //       builder: ((context) => const AuthSuggestionDialog()),
+            //     );
+            //   }
+            // },
             borderRadius: BorderRadius.circular(21),
             child: Stack(
               children: [
@@ -174,9 +175,42 @@ class ImageView extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(8.0),
-          margin: const EdgeInsets.all(8.0),
+          margin: const EdgeInsets.all(4.0),
           child: Column(
             children: [
+              RichText(
+                overflow: TextOverflow.visible,
+                text: TextSpan(
+                  text: 'Photo by ',
+                  style: AppFonts.smallStyle,
+                  children: [
+                    TextSpan(
+                      text: image.user.name,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => AppUtils().openUrl(
+                              link: image.user.links.html ?? '',
+                            ),
+                      style: AppFonts.smallStyle.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' on ',
+                      style: AppFonts.smallStyle,
+                    ),
+                    TextSpan(
+                      text: 'Unsplash',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => AppUtils().openUrl(
+                              link: 'https://unsplash.com/',
+                            ),
+                      style: AppFonts.smallStyle.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 children: [
                   InkWell(
@@ -185,6 +219,9 @@ class ImageView extends StatelessWidget {
                             context.read<UserBloc>().add(
                                   UserGetUserEvent(
                                     username: image.user.username,
+                                    collectionsPage: 1,
+                                    likedImagesPage: 1,
+                                    uploadedImagesPage: 1,
                                   ),
                                 );
                             context.go(
@@ -195,6 +232,9 @@ class ImageView extends StatelessWidget {
                             context.read<UserBloc>().add(
                                   UserGetUserEvent(
                                     username: image.user.username,
+                                    collectionsPage: 1,
+                                    likedImagesPage: 1,
+                                    uploadedImagesPage: 1,
                                   ),
                                 );
                             context.go(
@@ -412,7 +452,9 @@ class ImageView extends StatelessWidget {
                         onTap: () {
                           isSharingOrDownloadingValueNotifier.value = true;
                           AppUtils()
-                              .picShare(imageLink: image.links.download ?? '')
+                              .picShare(
+                                  imageLink:
+                                      image.links.download_location ?? '')
                               .whenComplete(
                                 () => isSharingOrDownloadingValueNotifier
                                     .value = false,
@@ -440,7 +482,8 @@ class ImageView extends StatelessWidget {
                           isSharingOrDownloadingValueNotifier.value = true;
                           AppUtils()
                               .savePictureToGallery(
-                                  downloadLink: image.links.download ?? '')
+                                  downloadLink:
+                                      image.links.download_location ?? '')
                               .whenComplete(
                             () {
                               isSharingOrDownloadingValueNotifier.value = false;

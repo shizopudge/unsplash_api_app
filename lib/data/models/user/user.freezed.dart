@@ -33,6 +33,7 @@ mixin _$User {
   String get username => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   ProfileImage get profile_image => throw _privateConstructorUsedError;
+  Links get links => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -50,8 +51,8 @@ mixin _$User {
             String? location,
             Links links)
         profile,
-    required TResult Function(
-            String id, String username, String name, ProfileImage profile_image)
+    required TResult Function(String id, String username, String name,
+            ProfileImage profile_image, Links links)
         author,
   }) =>
       throw _privateConstructorUsedError;
@@ -73,7 +74,7 @@ mixin _$User {
             Links links)?
         profile,
     TResult? Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
   }) =>
       throw _privateConstructorUsedError;
@@ -95,7 +96,7 @@ mixin _$User {
             Links links)?
         profile,
     TResult Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
     required TResult orElse(),
   }) =>
@@ -130,9 +131,14 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {String id, String username, String name, ProfileImage profile_image});
+      {String id,
+      String username,
+      String name,
+      ProfileImage profile_image,
+      Links links});
 
   $ProfileImageCopyWith<$Res> get profile_image;
+  $LinksCopyWith<$Res> get links;
 }
 
 /// @nodoc
@@ -152,6 +158,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? username = null,
     Object? name = null,
     Object? profile_image = null,
+    Object? links = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -170,6 +177,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.profile_image
           : profile_image // ignore: cast_nullable_to_non_nullable
               as ProfileImage,
+      links: null == links
+          ? _value.links
+          : links // ignore: cast_nullable_to_non_nullable
+              as Links,
     ) as $Val);
   }
 
@@ -178,6 +189,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $ProfileImageCopyWith<$Res> get profile_image {
     return $ProfileImageCopyWith<$Res>(_value.profile_image, (value) {
       return _then(_value.copyWith(profile_image: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LinksCopyWith<$Res> get links {
+    return $LinksCopyWith<$Res>(_value.links, (value) {
+      return _then(_value.copyWith(links: value) as $Val);
     });
   }
 }
@@ -206,6 +225,7 @@ abstract class _$$ProfileCopyWith<$Res> implements $UserCopyWith<$Res> {
   $SocialCopyWith<$Res> get social;
   @override
   $ProfileImageCopyWith<$Res> get profile_image;
+  @override
   $LinksCopyWith<$Res> get links;
 }
 
@@ -293,14 +313,6 @@ class __$$ProfileCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$Profile>
   $SocialCopyWith<$Res> get social {
     return $SocialCopyWith<$Res>(_value.social, (value) {
       return _then(_value.copyWith(social: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $LinksCopyWith<$Res> get links {
-    return $LinksCopyWith<$Res>(_value.links, (value) {
-      return _then(_value.copyWith(links: value));
     });
   }
 }
@@ -434,8 +446,8 @@ class _$Profile implements Profile {
             String? location,
             Links links)
         profile,
-    required TResult Function(
-            String id, String username, String name, ProfileImage profile_image)
+    required TResult Function(String id, String username, String name,
+            ProfileImage profile_image, Links links)
         author,
   }) {
     return profile(
@@ -473,7 +485,7 @@ class _$Profile implements Profile {
             Links links)?
         profile,
     TResult? Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
   }) {
     return profile?.call(
@@ -511,7 +523,7 @@ class _$Profile implements Profile {
             Links links)?
         profile,
     TResult Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
     required TResult orElse(),
   }) {
@@ -607,6 +619,7 @@ abstract class Profile implements User {
   bool get followed_by_user;
   int get followers_count;
   String? get location;
+  @override
   Links get links;
   @override
   @JsonKey(ignore: true)
@@ -621,10 +634,16 @@ abstract class _$$AuthorCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id, String username, String name, ProfileImage profile_image});
+      {String id,
+      String username,
+      String name,
+      ProfileImage profile_image,
+      Links links});
 
   @override
   $ProfileImageCopyWith<$Res> get profile_image;
+  @override
+  $LinksCopyWith<$Res> get links;
 }
 
 /// @nodoc
@@ -640,6 +659,7 @@ class __$$AuthorCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$Author>
     Object? username = null,
     Object? name = null,
     Object? profile_image = null,
+    Object? links = null,
   }) {
     return _then(_$Author(
       id: null == id
@@ -658,6 +678,10 @@ class __$$AuthorCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$Author>
           ? _value.profile_image
           : profile_image // ignore: cast_nullable_to_non_nullable
               as ProfileImage,
+      links: null == links
+          ? _value.links
+          : links // ignore: cast_nullable_to_non_nullable
+              as Links,
     ));
   }
 }
@@ -670,6 +694,7 @@ class _$Author implements Author {
       required this.username,
       required this.name,
       required this.profile_image,
+      required this.links,
       final String? $type})
       : $type = $type ?? 'author';
 
@@ -684,13 +709,15 @@ class _$Author implements Author {
   final String name;
   @override
   final ProfileImage profile_image;
+  @override
+  final Links links;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'User.author(id: $id, username: $username, name: $name, profile_image: $profile_image)';
+    return 'User.author(id: $id, username: $username, name: $name, profile_image: $profile_image, links: $links)';
   }
 
   @override
@@ -703,13 +730,14 @@ class _$Author implements Author {
                 other.username == username) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.profile_image, profile_image) ||
-                other.profile_image == profile_image));
+                other.profile_image == profile_image) &&
+            (identical(other.links, links) || other.links == links));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, username, name, profile_image);
+      Object.hash(runtimeType, id, username, name, profile_image, links);
 
   @JsonKey(ignore: true)
   @override
@@ -735,11 +763,11 @@ class _$Author implements Author {
             String? location,
             Links links)
         profile,
-    required TResult Function(
-            String id, String username, String name, ProfileImage profile_image)
+    required TResult Function(String id, String username, String name,
+            ProfileImage profile_image, Links links)
         author,
   }) {
-    return author(id, username, name, profile_image);
+    return author(id, username, name, profile_image, links);
   }
 
   @override
@@ -761,10 +789,10 @@ class _$Author implements Author {
             Links links)?
         profile,
     TResult? Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
   }) {
-    return author?.call(id, username, name, profile_image);
+    return author?.call(id, username, name, profile_image, links);
   }
 
   @override
@@ -786,12 +814,12 @@ class _$Author implements Author {
             Links links)?
         profile,
     TResult Function(String id, String username, String name,
-            ProfileImage profile_image)?
+            ProfileImage profile_image, Links links)?
         author,
     required TResult orElse(),
   }) {
     if (author != null) {
-      return author(id, username, name, profile_image);
+      return author(id, username, name, profile_image, links);
     }
     return orElse();
   }
@@ -840,7 +868,8 @@ abstract class Author implements User {
       {required final String id,
       required final String username,
       required final String name,
-      required final ProfileImage profile_image}) = _$Author;
+      required final ProfileImage profile_image,
+      required final Links links}) = _$Author;
 
   factory Author.fromJson(Map<String, dynamic> json) = _$Author.fromJson;
 
@@ -852,6 +881,8 @@ abstract class Author implements User {
   String get name;
   @override
   ProfileImage get profile_image;
+  @override
+  Links get links;
   @override
   @JsonKey(ignore: true)
   _$$AuthorCopyWith<_$Author> get copyWith =>

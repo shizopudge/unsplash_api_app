@@ -41,7 +41,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
             imageUrl: widget.image ?? '',
             imageBuilder: (context, imageProvider) => InteractiveViewer(
               child: Container(
-                margin: const EdgeInsets.all(8),
+                //? margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
@@ -54,7 +54,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
             placeholder: (context, url) => Opacity(
               opacity: .85,
               child: Container(
-                margin: const EdgeInsets.all(8),
+                //? margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   gradient: AppColors.silverPlaceholderGradient,
                   borderRadius: BorderRadius.circular(12),
@@ -64,7 +64,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
             ),
             errorWidget: (context, url, error) => Container(
               width: double.infinity,
-              margin: const EdgeInsets.all(8),
+              //? margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 gradient: AppColors.silverPlaceholderGradient,
                 borderRadius: BorderRadius.circular(12),

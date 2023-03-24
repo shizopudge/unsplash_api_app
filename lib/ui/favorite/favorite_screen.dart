@@ -16,6 +16,7 @@ import '../../data/models/unsplash_image/unsplash_image.dart';
 import '../common/circular_loader.dart';
 import '../common/refreshable_grid_view.dart';
 import '../home/state/home_grid_cubit.dart';
+import 'state/user_liked_images_cubit.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -28,17 +29,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final RefreshController _refreshController = RefreshController();
   final RefreshController _refreshController2 = RefreshController();
   List<UnsplashImage> _currentImages = [];
-  int _currentPage = 1;
-  late int _countOfRemainingImages;
+  final ValueNotifier<int> _currentPage = ValueNotifier<int>(1);
+  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
+  //? int _currentPage = 1;
+  int _countOfImages = 0;
   bool _isPagination = false;
+
   @override
   void initState() {
     super.initState();
-    final AuthState aS = context.read<AuthBloc>().state;
-    if (aS is AuthAuthorizedState) {
-      _countOfRemainingImages = aS.user.total_likes;
-    } else {
-      _countOfRemainingImages = 0;
+    _currentPage.addListener(_onPageChanged);
+  }
+
+  _onPageChanged() {
+    if (!_isLoading.value) {
+      _countOfImages += _currentImages.length;
     }
   }
 
@@ -48,6 +53,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     final String theme = context.watch<ThemeCubit>().state;
     final int gridTypeState = context.watch<HomeGridTypeCubit>().state;
     final AuthState authState = context.watch<AuthBloc>().state;
+    final int countOfLikedImages = context.watch<UserLikedImagesCubit>().state;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -115,58 +121,60 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 } else {
                   return GridViewRefresher(
                     isFavorite: true,
+                    isRefreshable: false,
                     refreshController: _refreshController2,
                     images: _currentImages,
                   );
                 }
               },
-              loaded: (images, isLikedorUnliked) {
-                if (isLikedorUnliked ?? false) {
+              loaded: (images) {
+                _isLoading.value = false;
+                if (_isPagination) {
                   _currentImages = images;
-                } else {
-                  if (_isPagination) {
-                    _currentImages += images;
-                    if (_refreshController.isLoading) {
-                      _refreshController.loadComplete();
-                    }
-                    if (_refreshController.isRefresh) {
-                      _refreshController.refreshCompleted();
-                    }
-                    _isPagination = false;
-                  } else {
-                    _currentImages += images;
-                    if (_refreshController.isLoading) {
-                      _refreshController.loadComplete();
-                    }
-                    if (_refreshController.isRefresh) {
-                      _refreshController.refreshCompleted();
-                    }
+                  if (_refreshController.isLoading) {
+                    _refreshController.loadComplete();
                   }
-                  _countOfRemainingImages -= images.length;
+                  if (_refreshController.isRefresh) {
+                    _refreshController.refreshCompleted();
+                  }
+                  _isPagination = false;
+                } else {
+                  _currentImages = images;
+                  _countOfImages += images.length;
+                  if (_refreshController.isLoading) {
+                    _refreshController.loadComplete();
+                  }
+                  if (_refreshController.isRefresh) {
+                    _refreshController.refreshCompleted();
+                  }
                 }
                 if (authState is AuthAuthorizedState) {
                   if (_currentImages.isNotEmpty) {
                     return GridViewRefresher(
                       isFavorite: true,
+                      isRefreshable: true,
                       refreshController: _refreshController,
                       images: _currentImages,
                       onRefresh: () {
+                        _isLoading.value = true;
                         _isPagination = false;
-                        _currentPage = 1;
+                        _currentPage.value = 1;
+                        _countOfImages = 0;
                         context.read<LikedImagesBloc>().add(
                               LikedImagesEvent.getLikedImages(
-                                page: _currentPage,
+                                page: _currentPage.value,
                                 username: authState.user.username,
                               ),
                             );
                       },
                       onLoading: () {
+                        _isLoading.value = true;
                         _isPagination = true;
-                        _currentPage++;
-                        if (_countOfRemainingImages != 0) {
+                        _currentPage.value++;
+                        if (_countOfImages < countOfLikedImages) {
                           context.read<LikedImagesBloc>().add(
                                 LikedImagesEvent.getLikedImages(
-                                  page: _currentPage,
+                                  page: _currentPage.value,
                                   username: authState.user.username,
                                 ),
                               );
@@ -198,25 +206,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               style: AppFonts.titleStyle.copyWith(
                                 foreground: Paint()
                                   ..shader = AppColors.linearGradientRed,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                context.read<LikedImagesBloc>().add(
-                                      LikedImagesEvent.getLikedImages(
-                                        page: 1,
-                                        username: authState.user.username,
-                                      ),
-                                    );
-                              },
-                              icon: ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (bounds) =>
-                                    AppColors.linearGradientRed,
-                                child: const Icon(
-                                  Icons.refresh_rounded,
-                                  size: 32,
-                                ),
                               ),
                             ),
                           ],

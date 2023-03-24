@@ -47,6 +47,7 @@ _$Author _$$AuthorFromJson(Map<String, dynamic> json) => _$Author(
       name: json['name'] as String,
       profile_image:
           ProfileImage.fromJson(json['profile_image'] as Map<String, dynamic>),
+      links: Links.fromJson(json['links'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
@@ -55,5 +56,6 @@ Map<String, dynamic> _$$AuthorToJson(_$Author instance) => <String, dynamic>{
       'username': instance.username,
       'name': instance.name,
       'profile_image': instance.profile_image,
+      'links': instance.links,
       'runtimeType': instance.$type,
     };

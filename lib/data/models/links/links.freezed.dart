@@ -22,7 +22,7 @@ Links _$LinksFromJson(Map<String, dynamic> json) {
 mixin _$Links {
   String? get self => throw _privateConstructorUsedError;
   String? get html => throw _privateConstructorUsedError;
-  String? get download => throw _privateConstructorUsedError;
+  String? get download_location => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $LinksCopyWith<$Res> {
   factory $LinksCopyWith(Links value, $Res Function(Links) then) =
       _$LinksCopyWithImpl<$Res, Links>;
   @useResult
-  $Res call({String? self, String? html, String? download});
+  $Res call({String? self, String? html, String? download_location});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$LinksCopyWithImpl<$Res, $Val extends Links>
   $Res call({
     Object? self = freezed,
     Object? html = freezed,
-    Object? download = freezed,
+    Object? download_location = freezed,
   }) {
     return _then(_value.copyWith(
       self: freezed == self
@@ -63,9 +63,9 @@ class _$LinksCopyWithImpl<$Res, $Val extends Links>
           ? _value.html
           : html // ignore: cast_nullable_to_non_nullable
               as String?,
-      download: freezed == download
-          ? _value.download
-          : download // ignore: cast_nullable_to_non_nullable
+      download_location: freezed == download_location
+          ? _value.download_location
+          : download_location // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -77,7 +77,7 @@ abstract class _$$_LinksCopyWith<$Res> implements $LinksCopyWith<$Res> {
       __$$_LinksCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? self, String? html, String? download});
+  $Res call({String? self, String? html, String? download_location});
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ class __$$_LinksCopyWithImpl<$Res> extends _$LinksCopyWithImpl<$Res, _$_Links>
   $Res call({
     Object? self = freezed,
     Object? html = freezed,
-    Object? download = freezed,
+    Object? download_location = freezed,
   }) {
     return _then(_$_Links(
       self: freezed == self
@@ -102,9 +102,9 @@ class __$$_LinksCopyWithImpl<$Res> extends _$LinksCopyWithImpl<$Res, _$_Links>
           ? _value.html
           : html // ignore: cast_nullable_to_non_nullable
               as String?,
-      download: freezed == download
-          ? _value.download
-          : download // ignore: cast_nullable_to_non_nullable
+      download_location: freezed == download_location
+          ? _value.download_location
+          : download_location // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -114,7 +114,7 @@ class __$$_LinksCopyWithImpl<$Res> extends _$LinksCopyWithImpl<$Res, _$_Links>
 
 @JsonSerializable(explicitToJson: true)
 class _$_Links implements _Links {
-  const _$_Links({this.self, this.html, this.download});
+  const _$_Links({this.self, this.html, this.download_location});
 
   factory _$_Links.fromJson(Map<String, dynamic> json) =>
       _$$_LinksFromJson(json);
@@ -124,11 +124,11 @@ class _$_Links implements _Links {
   @override
   final String? html;
   @override
-  final String? download;
+  final String? download_location;
 
   @override
   String toString() {
-    return 'Links(self: $self, html: $html, download: $download)';
+    return 'Links(self: $self, html: $html, download_location: $download_location)';
   }
 
   @override
@@ -138,13 +138,13 @@ class _$_Links implements _Links {
             other is _$_Links &&
             (identical(other.self, self) || other.self == self) &&
             (identical(other.html, html) || other.html == html) &&
-            (identical(other.download, download) ||
-                other.download == download));
+            (identical(other.download_location, download_location) ||
+                other.download_location == download_location));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, self, html, download);
+  int get hashCode => Object.hash(runtimeType, self, html, download_location);
 
   @JsonKey(ignore: true)
   @override
@@ -164,7 +164,7 @@ abstract class _Links implements Links {
   const factory _Links(
       {final String? self,
       final String? html,
-      final String? download}) = _$_Links;
+      final String? download_location}) = _$_Links;
 
   factory _Links.fromJson(Map<String, dynamic> json) = _$_Links.fromJson;
 
@@ -173,7 +173,7 @@ abstract class _Links implements Links {
   @override
   String? get html;
   @override
-  String? get download;
+  String? get download_location;
   @override
   @JsonKey(ignore: true)
   _$$_LinksCopyWith<_$_Links> get copyWith =>

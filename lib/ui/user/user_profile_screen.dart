@@ -7,17 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
-import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/user_bloc/user_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
 import '../common/circular_loader.dart';
+import '../common/horizontal_grid_view.dart';
 import 'components/social_widget.dart';
 import 'components/stat_widget.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  final bool isCurrentUserProfile;
-  const UserProfileScreen({super.key, required this.isCurrentUserProfile});
+  const UserProfileScreen({super.key});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -27,11 +26,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final PageController _pageController = PageController();
   final ValueNotifier<bool> _showAvatarValueNotifier =
       ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _openBio = ValueNotifier<bool>(false);
+  final ValueNotifier<double> _currentPage = ValueNotifier<double>(0);
+
   @override
   void initState() {
     super.initState();
-    _showAvatarValueNotifier.value = true;
     _pageController.addListener(_onPageChanged);
+    _showAvatarValueNotifier.value = true;
   }
 
   @override
@@ -43,6 +45,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   _onPageChanged() {
+    _currentPage.value = _pageController.page ?? 0;
     if (_pageController.page == 0.0) {
       _showAvatarValueNotifier.value = true;
     } else {
@@ -53,13 +56,90 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final UserState state = context.watch<UserBloc>().state;
-    final AuthState authState = context.watch<AuthBloc>().state;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: ValueListenableBuilder(
+          valueListenable: _currentPage,
+          builder: (context, currentPage, child) {
+            if (currentPage > 0.65 && currentPage < 1.65) {
+              return Text(
+                'Uploaded photos',
+                style: AppFonts.titleStyle.copyWith(
+                  foreground: Paint()..shader = AppColors.linearGradientPink,
+                ),
+              );
+            } else if (currentPage > 1.65 && currentPage < 2.65) {
+              return Text(
+                'Collections',
+                style: AppFonts.titleStyle.copyWith(
+                  foreground: Paint()..shader = AppColors.linearGradientPink,
+                ),
+              );
+            } else if (currentPage > 2.65) {
+              return Text(
+                'Liked photos',
+                style: AppFonts.titleStyle.copyWith(
+                  foreground: Paint()..shader = AppColors.linearGradientPink,
+                ),
+              );
+            } else {
+              return Text(
+                'Profile',
+                style: AppFonts.titleStyle.copyWith(
+                  foreground: Paint()..shader = AppColors.linearGradientPink,
+                ),
+              );
+            }
+          },
+        ),
+        // actions: [
+        //   ValueListenableBuilder(
+        //     valueListenable: _currentPage,
+        //     builder: (context, currentPage, child) {
+        //       if (currentPage > 0.65 && currentPage < 1.65) {
+        //         return TextButton(
+        //           onPressed: () {},
+        //           child: Text(
+        //             'See all',
+        //             style: AppFonts.smallStyle.copyWith(
+        //               fontSize: 16,
+        //               foreground: Paint()..shader = AppColors.linearGradientRed,
+        //             ),
+        //           ),
+        //         );
+        //       } else if (currentPage > 1.65 && currentPage < 2.65) {
+        //         return TextButton(
+        //           onPressed: () {},
+        //           child: Text(
+        //             'See all',
+        //             style: AppFonts.smallStyle.copyWith(
+        //               fontSize: 16,
+        //               foreground: Paint()..shader = AppColors.linearGradientRed,
+        //             ),
+        //           ),
+        //         );
+        //       } else if (currentPage > 2.65) {
+        //         return TextButton(
+        //           onPressed: () {},
+        //           child: Text(
+        //             'See all',
+        //             style: AppFonts.smallStyle.copyWith(
+        //               fontSize: 16,
+        //               foreground: Paint()..shader = AppColors.linearGradientRed,
+        //             ),
+        //           ),
+        //         );
+        //       } else {
+        //         return const SizedBox();
+        //       }
+        //     },
+        //   ),
+        // ],
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: const Icon(
@@ -86,591 +166,467 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15, left: 8, right: 8),
-            child: widget.isCurrentUserProfile
-                ? authState.when(
-                    initial: () => const CircularLoader(),
-                    loading: () => const CircularLoader(),
-                    notAuthorized: (message) => Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'You are not authorized.',
-                              textAlign: TextAlign.center,
-                              style: AppFonts.titleStyle.copyWith(
-                                foreground: Paint()
-                                  ..shader = AppColors.linearGradientPink,
+            child: state.when(
+              initial: () => const CircularLoader(),
+              loading: () => const CircularLoader(),
+              loaded: (user, likedImages, collections, uploadedImages) =>
+                  PageView(
+                scrollDirection: Axis.vertical,
+                controller: _pageController,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: user.profile_image.large,
+                              imageBuilder: (context, imageProvider) =>
+                                  ValueListenableBuilder(
+                                valueListenable: _showAvatarValueNotifier,
+                                builder: (context, isShowed, child) => Card(
+                                  margin: const EdgeInsets.all(8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(21),
+                                  ),
+                                  elevation: 8,
+                                  child: AnimatedContainer(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    curve: Curves.easeInOutCubicEmphasized,
+                                    height: isShowed ? 200 : 0,
+                                    width: isShowed ? screenWidth / 2 : 0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: ElevatedButton(
-                              onPressed: () => context.go('/'),
-                              style: ElevatedButton.styleFrom(
+                              placeholder: (context, url) =>
+                                  ValueListenableBuilder(
+                                valueListenable: _showAvatarValueNotifier,
+                                builder: (context, isShowed, child) => Card(
+                                  margin: const EdgeInsets.all(8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(21),
+                                  ),
+                                  elevation: 8,
+                                  child: AnimatedContainer(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    curve: Curves.easeInOutCubicEmphasized,
+                                    height: isShowed ? 200 : 0,
+                                    width: isShowed ? screenWidth / 2 : 0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Card(
+                                margin: const EdgeInsets.all(8),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(21),
                                 ),
-                                backgroundColor: Colors.grey.shade100,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 8,
-                                ),
-                                minimumSize: const Size(
-                                  double.infinity,
-                                  50,
-                                ),
-                                elevation: 4,
-                              ),
-                              child: Text(
-                                'Login / Sign up',
-                                style: AppFonts.defaultStyle.copyWith(
-                                  foreground: Paint()
-                                    ..shader = AppColors.linearGradientPink,
+                                elevation: 8,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(21),
+                                    gradient:
+                                        AppColors.silverPlaceholderGradient,
+                                  ),
+                                  child: ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (bounds) =>
+                                        AppColors.linearGradientPink,
+                                    child: const Icon(
+                                      Icons.photo_rounded,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  AnimatedTextKit(
+                                    isRepeatingAnimation: false,
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        user.username,
+                                        textStyle:
+                                            AppFonts.headerStyle.copyWith(
+                                          fontSize: 32,
+                                          foreground: Paint()
+                                            ..shader =
+                                                AppColors.linearGradientPink,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        speed: const Duration(milliseconds: 90),
+                                      ),
+                                    ],
+                                  ),
+                                  AnimatedTextKit(
+                                    isRepeatingAnimation: false,
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        user.name,
+                                        textStyle: AppFonts.titleStyle.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        speed:
+                                            const Duration(milliseconds: 100),
+                                      ),
+                                    ],
+                                  ),
+                                  if (user.location != null)
+                                    AnimatedTextKit(
+                                      isRepeatingAnimation: false,
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          user.location ?? '',
+                                          textStyle:
+                                              AppFonts.titleStyle.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                          speed:
+                                              const Duration(milliseconds: 110),
+                                        ),
+                                      ],
+                                    ),
+                                  if (user.social.instagram_username != null ||
+                                      user.social.twitter_username != null)
+                                    ValueListenableBuilder(
+                                      valueListenable: _openBio,
+                                      builder: (context, isOpened, child) =>
+                                          isOpened
+                                              ? const SizedBox()
+                                              : Wrap(
+                                                  alignment:
+                                                      WrapAlignment.center,
+                                                  children: [
+                                                    if (user.social
+                                                            .instagram_username !=
+                                                        null)
+                                                      SocialWidget(
+                                                        imagePath:
+                                                            'assets/icons/instagram.png',
+                                                        imageColor: Colors
+                                                            .blue.shade900,
+                                                        text: user.social
+                                                                .instagram_username ??
+                                                            '',
+                                                      ),
+                                                    if (user.social
+                                                            .twitter_username !=
+                                                        null)
+                                                      SocialWidget(
+                                                        imagePath:
+                                                            'assets/icons/twitter.png',
+                                                        imageColor: Colors
+                                                            .blue.shade900,
+                                                        text: user.social
+                                                                .twitter_username ??
+                                                            '',
+                                                      ),
+                                                  ],
+                                                ),
+                                    ),
+                                  if (user.bio != null)
+                                    InkWell(
+                                      onTap: () =>
+                                          _openBio.value = !_openBio.value,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ValueListenableBuilder(
+                                          valueListenable: _openBio,
+                                          builder: (context, isOpened, child) =>
+                                              isOpened
+                                                  ? Text(
+                                                      user.bio ?? '',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      overflow:
+                                                          TextOverflow.visible,
+                                                      style: AppFonts
+                                                          .defaultStyle
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      user.bio ?? '',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppFonts
+                                                          .defaultStyle
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .blue.shade300,
+                                                      ),
+                                                    ),
+                                        ),
+                                      ),
+                                    ),
+                                  ValueListenableBuilder(
+                                    valueListenable: _openBio,
+                                    builder: (context, isOpened, child) =>
+                                        isOpened
+                                            ? const SizedBox()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  alignment:
+                                                      WrapAlignment.center,
+                                                  children: [
+                                                    StatWidget(
+                                                      icon: Icons.favorite,
+                                                      text: user.total_likes
+                                                          .toString(),
+                                                      color:
+                                                          Colors.red.shade900,
+                                                    ),
+                                                    StatWidget(
+                                                      icon: Icons.download,
+                                                      text: user.downloads
+                                                          .toString(),
+                                                      color: Colors
+                                                          .lightGreen.shade900,
+                                                    ),
+                                                    StatWidget(
+                                                      icon: Icons.people,
+                                                      text: user.followers_count
+                                                          .toString(),
+                                                      color:
+                                                          Colors.blue.shade900,
+                                                    ),
+                                                    StatWidget(
+                                                      icon: Icons.collections,
+                                                      text: user.total_photos
+                                                          .toString(),
+                                                      color: Colors
+                                                          .purple.shade900,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    authorized: (user) => PageView(
-                      scrollDirection: Axis.vertical,
-                      controller: _pageController,
-                      children: [
-                        Center(
-                          child: Column(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: user.profile_image.large,
-                                imageBuilder: (context, imageProvider) =>
-                                    ValueListenableBuilder(
-                                  valueListenable: _showAvatarValueNotifier,
-                                  builder: (context, isShowed, child) => Card(
-                                    margin: const EdgeInsets.all(8),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(21),
-                                    ),
-                                    elevation: 8,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 1000),
-                                      curve: Curves.easeInOutCubicEmphasized,
-                                      height: isShowed ? 200 : 0,
-                                      width: isShowed ? screenWidth / 2 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    ValueListenableBuilder(
-                                  valueListenable: _showAvatarValueNotifier,
-                                  builder: (context, isShowed, child) => Card(
-                                    margin: const EdgeInsets.all(8),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(21),
-                                    ),
-                                    elevation: 8,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 1000),
-                                      curve: Curves.easeInOutCubicEmphasized,
-                                      height: isShowed ? 200 : 0,
-                                      width: isShowed ? screenWidth / 2 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Card(
-                                  margin: const EdgeInsets.all(8),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(21),
-                                  ),
-                                  elevation: 8,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(21),
-                                    ),
-                                    child: ShaderMask(
-                                      blendMode: BlendMode.srcIn,
-                                      shaderCallback: (bounds) =>
-                                          AppColors.linearGradientPink,
-                                      child: const Icon(
-                                        Icons.photo_rounded,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    AnimatedTextKit(
-                                      isRepeatingAnimation: false,
-                                      animatedTexts: [
-                                        TyperAnimatedText(
-                                          user.username,
-                                          textStyle:
-                                              AppFonts.headerStyle.copyWith(
-                                            fontSize: 32,
-                                            foreground: Paint()
-                                              ..shader =
-                                                  AppColors.linearGradientPink,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          speed:
-                                              const Duration(milliseconds: 90),
-                                        ),
-                                      ],
-                                    ),
-                                    AnimatedTextKit(
-                                      isRepeatingAnimation: false,
-                                      animatedTexts: [
-                                        TyperAnimatedText(
-                                          user.name,
-                                          textStyle:
-                                              AppFonts.titleStyle.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          speed:
-                                              const Duration(milliseconds: 100),
-                                        ),
-                                      ],
-                                    ),
-                                    if (user.location != null)
-                                      AnimatedTextKit(
-                                        isRepeatingAnimation: false,
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            user.location ?? '',
-                                            textStyle:
-                                                AppFonts.titleStyle.copyWith(
-                                              color: Colors.grey,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            speed: const Duration(
-                                                milliseconds: 110),
-                                          ),
-                                        ],
-                                      ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: InkWell(
-                                        onTap: () =>
-                                            _pageController.animateToPage(
-                                          1,
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          curve: Curves.linear,
-                                        ),
-                                        borderRadius: BorderRadius.circular(21),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Icon(
-                                              Icons.arrow_drop_down_rounded,
-                                              size: 44,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                          onTap: () => _pageController.animateToPage(
+                            3,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.linear,
+                          ),
+                          borderRadius: BorderRadius.circular(21),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 32,
                               ),
                             ],
                           ),
                         ),
-                        Column(
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () => _pageController.animateToPage(
+                          0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linear,
+                        ),
+                        borderRadius: BorderRadius.circular(21),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () => _pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.linear,
-                              ),
-                              borderRadius: BorderRadius.circular(21),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.arrow_drop_up_rounded,
-                                    size: 44,
-                                  ),
-                                ],
-                              ),
+                          children: const [
+                            Icon(
+                              Icons.arrow_drop_up_rounded,
+                              size: 32,
                             ),
-                            if (user.bio != null)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  user.bio ?? '',
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.visible,
-                                  style: AppFonts.defaultStyle.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  StatWidget(
-                                    icon: Icons.favorite,
-                                    text: user.total_likes.toString(),
-                                    color: Colors.red.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.download,
-                                    text: user.downloads.toString(),
-                                    color: Colors.lightGreen.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.people,
-                                    text: user.followers_count.toString(),
-                                    color: Colors.blue.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.collections,
-                                    text: user.total_photos.toString(),
-                                    color: Colors.purple.shade900,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            if (user.social.instagram_username != null ||
-                                user.social.twitter_username != null)
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  if (user.social.instagram_username != null)
-                                    SocialWidget(
-                                      imagePath: 'assets/icons/instagram.png',
-                                      imageColor: Colors.blue.shade900,
-                                      text:
-                                          user.social.instagram_username ?? '',
-                                    ),
-                                  if (user.social.twitter_username != null)
-                                    SocialWidget(
-                                      imagePath: 'assets/icons/twitter.png',
-                                      imageColor: Colors.blue.shade900,
-                                      text: user.social.twitter_username ?? '',
-                                    ),
-                                ],
-                              ),
                           ],
                         ),
-                      ],
-                    ),
-                    error: (error) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_rounded,
-                          color: Colors.red.shade900,
-                          size: 50,
-                        ),
-                        Text(
-                          error,
-                          textAlign: TextAlign.center,
-                          style: AppFonts.defaultStyle.copyWith(
-                            foreground: Paint()
-                              ..shader = AppColors.linearGradientRed,
+                      ),
+                      if (uploadedImages.isNotEmpty)
+                        Expanded(
+                          child: HorizontalUploadedImageGridView(
+                            images: uploadedImages,
+                          ),
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'Has no uploaded photos',
+                            style: AppFonts.headerStyle.copyWith(
+                              foreground: Paint()
+                                ..shader = AppColors.linearGradientRed,
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                : state.when(
-                    initial: () => const CircularLoader(),
-                    loading: () => const CircularLoader(),
-                    loaded: (user) => PageView(
-                      scrollDirection: Axis.vertical,
-                      controller: _pageController,
-                      children: [
-                        Center(
-                          child: Column(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: user.profile_image.large,
-                                imageBuilder: (context, imageProvider) =>
-                                    ValueListenableBuilder(
-                                  valueListenable: _showAvatarValueNotifier,
-                                  builder: (context, isShowed, child) => Card(
-                                    margin: const EdgeInsets.all(8),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(21),
-                                    ),
-                                    elevation: 8,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 1000),
-                                      curve: Curves.easeInOutCubicEmphasized,
-                                      height: isShowed ? 200 : 0,
-                                      width: isShowed ? screenWidth / 2 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    ValueListenableBuilder(
-                                  valueListenable: _showAvatarValueNotifier,
-                                  builder: (context, isShowed, child) => Card(
-                                    margin: const EdgeInsets.all(8),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(21),
-                                    ),
-                                    elevation: 8,
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 1000),
-                                      curve: Curves.easeInOutCubicEmphasized,
-                                      height: isShowed ? 200 : 0,
-                                      width: isShowed ? screenWidth / 2 : 0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Card(
-                                  margin: const EdgeInsets.all(8),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(21),
-                                  ),
-                                  elevation: 8,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(21),
-                                      gradient:
-                                          AppColors.silverPlaceholderGradient,
-                                    ),
-                                    child: ShaderMask(
-                                      blendMode: BlendMode.srcIn,
-                                      shaderCallback: (bounds) =>
-                                          AppColors.linearGradientPink,
-                                      child: const Icon(
-                                        Icons.photo_rounded,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    AnimatedTextKit(
-                                      isRepeatingAnimation: false,
-                                      animatedTexts: [
-                                        TyperAnimatedText(
-                                          user.username,
-                                          textStyle:
-                                              AppFonts.headerStyle.copyWith(
-                                            fontSize: 32,
-                                            foreground: Paint()
-                                              ..shader =
-                                                  AppColors.linearGradientPink,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          speed:
-                                              const Duration(milliseconds: 90),
-                                        ),
-                                      ],
-                                    ),
-                                    AnimatedTextKit(
-                                      isRepeatingAnimation: false,
-                                      animatedTexts: [
-                                        TyperAnimatedText(
-                                          user.name,
-                                          textStyle:
-                                              AppFonts.titleStyle.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          speed:
-                                              const Duration(milliseconds: 100),
-                                        ),
-                                      ],
-                                    ),
-                                    if (user.location != null)
-                                      AnimatedTextKit(
-                                        isRepeatingAnimation: false,
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            user.location ?? '',
-                                            textStyle:
-                                                AppFonts.titleStyle.copyWith(
-                                              color: Colors.grey,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                            speed: const Duration(
-                                                milliseconds: 110),
-                                          ),
-                                        ],
-                                      ),
-                                    if (user.social.instagram_username !=
-                                            null ||
-                                        user.social.twitter_username != null)
-                                      Wrap(
-                                        alignment: WrapAlignment.center,
-                                        children: [
-                                          if (user.social.instagram_username !=
-                                              null)
-                                            SocialWidget(
-                                              imagePath:
-                                                  'assets/icons/instagram.png',
-                                              imageColor: Colors.blue.shade900,
-                                              text: user.social
-                                                      .instagram_username ??
-                                                  '',
-                                            ),
-                                          if (user.social.twitter_username !=
-                                              null)
-                                            SocialWidget(
-                                              imagePath:
-                                                  'assets/icons/twitter.png',
-                                              imageColor: Colors.blue.shade900,
-                                              text: user.social
-                                                      .twitter_username ??
-                                                  '',
-                                            ),
-                                        ],
-                                      ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: InkWell(
-                                        onTap: () =>
-                                            _pageController.animateToPage(
-                                          1,
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          curve: Curves.linear,
-                                        ),
-                                        borderRadius: BorderRadius.circular(21),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Icon(
-                                              Icons.arrow_drop_down_rounded,
-                                              size: 44,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                          onTap: () => _pageController.animateToPage(
+                            3,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.linear,
+                          ),
+                          borderRadius: BorderRadius.circular(21),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 32,
                               ),
                             ],
                           ),
                         ),
-                        Column(
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () => _pageController.animateToPage(
+                          0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linear,
+                        ),
+                        borderRadius: BorderRadius.circular(21),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () => _pageController.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.linear,
-                              ),
-                              borderRadius: BorderRadius.circular(21),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.arrow_drop_up_rounded,
-                                    size: 44,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            if (user.bio != null)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  user.bio ?? '',
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.visible,
-                                  style: AppFonts.defaultStyle.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  StatWidget(
-                                    icon: Icons.favorite,
-                                    text: user.total_likes.toString(),
-                                    color: Colors.red.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.download,
-                                    text: user.downloads.toString(),
-                                    color: Colors.lightGreen.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.people,
-                                    text: user.followers_count.toString(),
-                                    color: Colors.blue.shade900,
-                                  ),
-                                  StatWidget(
-                                    icon: Icons.collections,
-                                    text: user.total_photos.toString(),
-                                    color: Colors.purple.shade900,
-                                  ),
-                                ],
-                              ),
+                          children: const [
+                            Icon(
+                              Icons.arrow_drop_up_rounded,
+                              size: 32,
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    error: (error) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_rounded,
-                          color: Colors.red.shade900,
-                          size: 50,
-                        ),
-                        Text(
-                          error,
-                          textAlign: TextAlign.center,
-                          style: AppFonts.defaultStyle.copyWith(
-                            foreground: Paint()
-                              ..shader = AppColors.linearGradientRed,
+                      ),
+                      if (collections.isNotEmpty)
+                        Expanded(
+                          child: HorizontalCollectionsImageGridView(
+                            collections: collections,
+                          ),
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'Has no collections',
+                            style: AppFonts.headerStyle.copyWith(
+                              foreground: Paint()
+                                ..shader = AppColors.linearGradientRed,
+                            ),
                           ),
                         ),
-                      ],
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                          onTap: () => _pageController.animateToPage(
+                            3,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.linear,
+                          ),
+                          borderRadius: BorderRadius.circular(21),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 32,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () => _pageController.animateToPage(
+                          0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linear,
+                        ),
+                        borderRadius: BorderRadius.circular(21),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.arrow_drop_up_rounded,
+                              size: 32,
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (likedImages.isNotEmpty)
+                        Expanded(
+                          child: HorizontalLikedImageGridView(
+                            images: likedImages,
+                          ),
+                        )
+                      else
+                        Center(
+                          child: Text(
+                            'Has no liked photos',
+                            style: AppFonts.headerStyle.copyWith(
+                              foreground: Paint()
+                                ..shader = AppColors.linearGradientRed,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+              error: (error) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_rounded,
+                    color: Colors.red.shade900,
+                    size: 50,
+                  ),
+                  Text(
+                    error,
+                    textAlign: TextAlign.center,
+                    style: AppFonts.defaultStyle.copyWith(
+                      foreground: Paint()..shader = AppColors.linearGradientRed,
                     ),
                   ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

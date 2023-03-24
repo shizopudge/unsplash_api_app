@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
               } else {
                 return GridViewRefresher(
                   isFavorite: false,
+                  isRefreshable: true,
                   refreshController: _refreshController2,
                   images: _currentImages,
                 );
@@ -126,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (_currentImages.isNotEmpty)
                     GridViewRefresher(
                       isFavorite: false,
+                      isRefreshable: true,
                       refreshController: _refreshController,
                       images: _currentImages,
                       onRefresh: () {

@@ -3,6 +3,8 @@ import 'package:animated_app/data/models/unsplash_image/unsplash_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../models/collection/collection.dart';
+import '../models/cover_image/cover_image.dart';
 import '../models/images_results/images_results.dart';
 
 class ImagesRepository {
@@ -82,7 +84,7 @@ class ImagesRepository {
       queryParameters: {
         'client_id': AppConstants.clientId,
         'page': page,
-        'per_page': 10,
+        'per_page': 20,
       },
       options: Options(
         headers: {
@@ -94,6 +96,62 @@ class ImagesRepository {
     for (int i = 0; i < imagesList.length; i++) {
       images.add(
         UnsplashImage.fromJson(
+          res.data[i],
+        ),
+      );
+    }
+    return images;
+  }
+
+  Future<List<Collection>> getCollections(
+      {required int page, required String username}) async {
+    final String? accessToken = await storage.read(key: 'accessToken');
+    final List<Collection> collections = [];
+    final Response res = await dio.get(
+      '/users/$username/collections',
+      queryParameters: {
+        'client_id': AppConstants.clientId,
+        'page': page,
+        'per_page': 20,
+      },
+      options: Options(
+        headers: {
+          'Authorization': accessToken,
+        },
+      ),
+    );
+    final List collectionsList = res.data;
+    for (int i = 0; i < collectionsList.length; i++) {
+      collections.add(
+        Collection.fromJson(
+          res.data[i],
+        ),
+      );
+    }
+    return collections;
+  }
+
+  Future<List<CoverImage>> getImagesUploadedByUser(
+      {required int page, required String username}) async {
+    final String? accessToken = await storage.read(key: 'accessToken');
+    final List<CoverImage> images = [];
+    final Response res = await dio.get(
+      '/users/$username/photos',
+      queryParameters: {
+        'client_id': AppConstants.clientId,
+        'page': page,
+        'per_page': 20,
+      },
+      options: Options(
+        headers: {
+          'Authorization': accessToken,
+        },
+      ),
+    );
+    final List imagesList = res.data;
+    for (int i = 0; i < imagesList.length; i++) {
+      images.add(
+        CoverImage.fromJson(
           res.data[i],
         ),
       );

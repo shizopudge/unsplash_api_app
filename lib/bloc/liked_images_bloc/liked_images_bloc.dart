@@ -63,7 +63,6 @@ class LikedImagesBloc extends Bloc<LikedImagesEvent, LikedImagesState> {
       emit(
         LikedImagesState.loaded(
           images: images,
-          isLikedorUnliked: true,
         ),
       );
       await imagesRepository.likeImage(
@@ -99,7 +98,6 @@ class LikedImagesBloc extends Bloc<LikedImagesEvent, LikedImagesState> {
       emit(
         LikedImagesState.loaded(
           images: images,
-          isLikedorUnliked: true,
         ),
       );
       await imagesRepository.unlikeImage(

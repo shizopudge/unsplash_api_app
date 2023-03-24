@@ -32,6 +32,7 @@ class User with _$User {
     required String username,
     required String name,
     required ProfileImage profile_image,
+    required Links links,
   }) = Author;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

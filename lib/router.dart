@@ -26,9 +26,7 @@ class AppRouter {
             routes: <RouteBase>[
               GoRoute(
                 path: 'user_profile',
-                builder: (context, state) => const UserProfileScreen(
-                  isCurrentUserProfile: false,
-                ),
+                builder: (context, state) => const UserProfileScreen(),
               ),
               GoRoute(
                 path: 'full_image',
@@ -41,9 +39,7 @@ class AppRouter {
           ),
           GoRoute(
             path: 'current_user_profile',
-            builder: (context, state) => const UserProfileScreen(
-              isCurrentUserProfile: true,
-            ),
+            builder: (context, state) => const UserProfileScreen(),
           ),
           GoRoute(
             path: 'favorite',
@@ -57,9 +53,7 @@ class AppRouter {
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'user_profile_from_fav',
-                    builder: (context, state) => const UserProfileScreen(
-                      isCurrentUserProfile: false,
-                    ),
+                    builder: (context, state) => const UserProfileScreen(),
                   ),
                   GoRoute(
                     path: 'full_image_from_fav',

@@ -10,7 +10,7 @@ class Links with _$Links {
   const factory Links({
     String? self,
     String? html,
-    String? download,
+    String? download_location,
   }) = _Links;
 
   factory Links.fromJson(Map<String, dynamic> json) => _$LinksFromJson(json);

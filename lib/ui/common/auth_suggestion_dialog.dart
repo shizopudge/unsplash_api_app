@@ -60,7 +60,8 @@ class AuthSuggestionDialog extends StatelessWidget {
                   foreground: Paint()..shader = AppColors.linearGradientRed,
                 ),
                 textAlign: TextAlign.center,
-                speed: const Duration(milliseconds: 50),
+                //?
+                speed: const Duration(milliseconds: 25),
               ),
             ],
           ),

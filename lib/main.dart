@@ -12,6 +12,7 @@ import 'data/repositories/auth_repository.dart';
 import 'data/repositories/images_repository.dart';
 import 'data/repositories/users_repository.dart';
 import 'router.dart';
+import 'ui/favorite/state/user_liked_images_cubit.dart';
 import 'ui/home/state/home_grid_cubit.dart';
 import 'ui/image/state/image_cubit.dart';
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UserBloc(
             usersRepository: UsersRepository(),
+            imagesRepository: ImagesRepository(),
           ),
         ),
         BlocProvider(
@@ -58,6 +60,11 @@ class MyApp extends StatelessWidget {
             authRepository: AuthRepository(),
             usersRepository: UsersRepository(),
           )..add(const AuthEvent.isAuthorized()),
+        ),
+        BlocProvider(
+          create: (context) => UserLikedImagesCubit(
+            usersRepository: UsersRepository(),
+          ),
         ),
         BlocProvider(
           create: (context) => HomeGridTypeCubit()..getGridType(),

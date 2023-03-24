@@ -17,19 +17,28 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserEvent {
   String get username => throw _privateConstructorUsedError;
+  int get likedImagesPage => throw _privateConstructorUsedError;
+  int get collectionsPage => throw _privateConstructorUsedError;
+  int get uploadedImagesPage => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String username) getImages,
+    required TResult Function(String username, int likedImagesPage,
+            int collectionsPage, int uploadedImagesPage)
+        getImages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String username)? getImages,
+    TResult? Function(String username, int likedImagesPage, int collectionsPage,
+            int uploadedImagesPage)?
+        getImages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String username)? getImages,
+    TResult Function(String username, int likedImagesPage, int collectionsPage,
+            int uploadedImagesPage)?
+        getImages,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -60,7 +69,11 @@ abstract class $UserEventCopyWith<$Res> {
   factory $UserEventCopyWith(UserEvent value, $Res Function(UserEvent) then) =
       _$UserEventCopyWithImpl<$Res, UserEvent>;
   @useResult
-  $Res call({String username});
+  $Res call(
+      {String username,
+      int likedImagesPage,
+      int collectionsPage,
+      int uploadedImagesPage});
 }
 
 /// @nodoc
@@ -77,12 +90,27 @@ class _$UserEventCopyWithImpl<$Res, $Val extends UserEvent>
   @override
   $Res call({
     Object? username = null,
+    Object? likedImagesPage = null,
+    Object? collectionsPage = null,
+    Object? uploadedImagesPage = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      likedImagesPage: null == likedImagesPage
+          ? _value.likedImagesPage
+          : likedImagesPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionsPage: null == collectionsPage
+          ? _value.collectionsPage
+          : collectionsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      uploadedImagesPage: null == uploadedImagesPage
+          ? _value.uploadedImagesPage
+          : uploadedImagesPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -95,7 +123,11 @@ abstract class _$$UserGetUserEventCopyWith<$Res>
       __$$UserGetUserEventCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username});
+  $Res call(
+      {String username,
+      int likedImagesPage,
+      int collectionsPage,
+      int uploadedImagesPage});
 }
 
 /// @nodoc
@@ -110,12 +142,27 @@ class __$$UserGetUserEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? username = null,
+    Object? likedImagesPage = null,
+    Object? collectionsPage = null,
+    Object? uploadedImagesPage = null,
   }) {
     return _then(_$UserGetUserEvent(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      likedImagesPage: null == likedImagesPage
+          ? _value.likedImagesPage
+          : likedImagesPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionsPage: null == collectionsPage
+          ? _value.collectionsPage
+          : collectionsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      uploadedImagesPage: null == uploadedImagesPage
+          ? _value.uploadedImagesPage
+          : uploadedImagesPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -123,14 +170,24 @@ class __$$UserGetUserEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UserGetUserEvent implements UserGetUserEvent {
-  const _$UserGetUserEvent({required this.username});
+  const _$UserGetUserEvent(
+      {required this.username,
+      required this.likedImagesPage,
+      required this.collectionsPage,
+      required this.uploadedImagesPage});
 
   @override
   final String username;
+  @override
+  final int likedImagesPage;
+  @override
+  final int collectionsPage;
+  @override
+  final int uploadedImagesPage;
 
   @override
   String toString() {
-    return 'UserEvent.getImages(username: $username)';
+    return 'UserEvent.getImages(username: $username, likedImagesPage: $likedImagesPage, collectionsPage: $collectionsPage, uploadedImagesPage: $uploadedImagesPage)';
   }
 
   @override
@@ -139,11 +196,18 @@ class _$UserGetUserEvent implements UserGetUserEvent {
         (other.runtimeType == runtimeType &&
             other is _$UserGetUserEvent &&
             (identical(other.username, username) ||
-                other.username == username));
+                other.username == username) &&
+            (identical(other.likedImagesPage, likedImagesPage) ||
+                other.likedImagesPage == likedImagesPage) &&
+            (identical(other.collectionsPage, collectionsPage) ||
+                other.collectionsPage == collectionsPage) &&
+            (identical(other.uploadedImagesPage, uploadedImagesPage) ||
+                other.uploadedImagesPage == uploadedImagesPage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, username);
+  int get hashCode => Object.hash(runtimeType, username, likedImagesPage,
+      collectionsPage, uploadedImagesPage);
 
   @JsonKey(ignore: true)
   @override
@@ -154,27 +218,36 @@ class _$UserGetUserEvent implements UserGetUserEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String username) getImages,
+    required TResult Function(String username, int likedImagesPage,
+            int collectionsPage, int uploadedImagesPage)
+        getImages,
   }) {
-    return getImages(username);
+    return getImages(
+        username, likedImagesPage, collectionsPage, uploadedImagesPage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String username)? getImages,
+    TResult? Function(String username, int likedImagesPage, int collectionsPage,
+            int uploadedImagesPage)?
+        getImages,
   }) {
-    return getImages?.call(username);
+    return getImages?.call(
+        username, likedImagesPage, collectionsPage, uploadedImagesPage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String username)? getImages,
+    TResult Function(String username, int likedImagesPage, int collectionsPage,
+            int uploadedImagesPage)?
+        getImages,
     required TResult orElse(),
   }) {
     if (getImages != null) {
-      return getImages(username);
+      return getImages(
+          username, likedImagesPage, collectionsPage, uploadedImagesPage);
     }
     return orElse();
   }
@@ -209,11 +282,20 @@ class _$UserGetUserEvent implements UserGetUserEvent {
 }
 
 abstract class UserGetUserEvent implements UserEvent {
-  const factory UserGetUserEvent({required final String username}) =
-      _$UserGetUserEvent;
+  const factory UserGetUserEvent(
+      {required final String username,
+      required final int likedImagesPage,
+      required final int collectionsPage,
+      required final int uploadedImagesPage}) = _$UserGetUserEvent;
 
   @override
   String get username;
+  @override
+  int get likedImagesPage;
+  @override
+  int get collectionsPage;
+  @override
+  int get uploadedImagesPage;
   @override
   @JsonKey(ignore: true)
   _$$UserGetUserEventCopyWith<_$UserGetUserEvent> get copyWith =>
@@ -226,7 +308,9 @@ mixin _$UserState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Profile user) loaded,
+    required TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)
+        loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -234,7 +318,9 @@ mixin _$UserState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Profile user)? loaded,
+    TResult? Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -242,7 +328,9 @@ mixin _$UserState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Profile user)? loaded,
+    TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -331,7 +419,9 @@ class _$_UserInitialState implements _UserInitialState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Profile user) loaded,
+    required TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -342,7 +432,9 @@ class _$_UserInitialState implements _UserInitialState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Profile user)? loaded,
+    TResult? Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -353,7 +445,9 @@ class _$_UserInitialState implements _UserInitialState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Profile user)? loaded,
+    TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -445,7 +539,9 @@ class _$_UserLoadingState implements _UserLoadingState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Profile user) loaded,
+    required TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -456,7 +552,9 @@ class _$_UserLoadingState implements _UserLoadingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Profile user)? loaded,
+    TResult? Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -467,7 +565,9 @@ class _$_UserLoadingState implements _UserLoadingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Profile user)? loaded,
+    TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -525,7 +625,11 @@ abstract class _$$_UserLoadedStateCopyWith<$Res> {
           _$_UserLoadedState value, $Res Function(_$_UserLoadedState) then) =
       __$$_UserLoadedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({Profile user});
+  $Res call(
+      {Profile user,
+      List<UnsplashImage> likedImages,
+      List<Collection> collections,
+      List<CoverImage> uploadedImages});
 }
 
 /// @nodoc
@@ -540,12 +644,27 @@ class __$$_UserLoadedStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = null,
+    Object? likedImages = null,
+    Object? collections = null,
+    Object? uploadedImages = null,
   }) {
     return _then(_$_UserLoadedState(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as Profile,
+      likedImages: null == likedImages
+          ? _value._likedImages
+          : likedImages // ignore: cast_nullable_to_non_nullable
+              as List<UnsplashImage>,
+      collections: null == collections
+          ? _value._collections
+          : collections // ignore: cast_nullable_to_non_nullable
+              as List<Collection>,
+      uploadedImages: null == uploadedImages
+          ? _value._uploadedImages
+          : uploadedImages // ignore: cast_nullable_to_non_nullable
+              as List<CoverImage>,
     ));
   }
 }
@@ -553,14 +672,44 @@ class __$$_UserLoadedStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UserLoadedState implements _UserLoadedState {
-  const _$_UserLoadedState({required this.user});
+  const _$_UserLoadedState(
+      {required this.user,
+      required final List<UnsplashImage> likedImages,
+      required final List<Collection> collections,
+      required final List<CoverImage> uploadedImages})
+      : _likedImages = likedImages,
+        _collections = collections,
+        _uploadedImages = uploadedImages;
 
   @override
   final Profile user;
+  final List<UnsplashImage> _likedImages;
+  @override
+  List<UnsplashImage> get likedImages {
+    if (_likedImages is EqualUnmodifiableListView) return _likedImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likedImages);
+  }
+
+  final List<Collection> _collections;
+  @override
+  List<Collection> get collections {
+    if (_collections is EqualUnmodifiableListView) return _collections;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_collections);
+  }
+
+  final List<CoverImage> _uploadedImages;
+  @override
+  List<CoverImage> get uploadedImages {
+    if (_uploadedImages is EqualUnmodifiableListView) return _uploadedImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_uploadedImages);
+  }
 
   @override
   String toString() {
-    return 'UserState.loaded(user: $user)';
+    return 'UserState.loaded(user: $user, likedImages: $likedImages, collections: $collections, uploadedImages: $uploadedImages)';
   }
 
   @override
@@ -568,11 +717,22 @@ class _$_UserLoadedState implements _UserLoadedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserLoadedState &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            const DeepCollectionEquality()
+                .equals(other._likedImages, _likedImages) &&
+            const DeepCollectionEquality()
+                .equals(other._collections, _collections) &&
+            const DeepCollectionEquality()
+                .equals(other._uploadedImages, _uploadedImages));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      user,
+      const DeepCollectionEquality().hash(_likedImages),
+      const DeepCollectionEquality().hash(_collections),
+      const DeepCollectionEquality().hash(_uploadedImages));
 
   @JsonKey(ignore: true)
   @override
@@ -585,10 +745,12 @@ class _$_UserLoadedState implements _UserLoadedState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Profile user) loaded,
+    required TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)
+        loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(user);
+    return loaded(user, likedImages, collections, uploadedImages);
   }
 
   @override
@@ -596,10 +758,12 @@ class _$_UserLoadedState implements _UserLoadedState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Profile user)? loaded,
+    TResult? Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(user);
+    return loaded?.call(user, likedImages, collections, uploadedImages);
   }
 
   @override
@@ -607,12 +771,14 @@ class _$_UserLoadedState implements _UserLoadedState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Profile user)? loaded,
+    TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(user);
+      return loaded(user, likedImages, collections, uploadedImages);
     }
     return orElse();
   }
@@ -656,10 +822,16 @@ class _$_UserLoadedState implements _UserLoadedState {
 }
 
 abstract class _UserLoadedState implements UserState {
-  const factory _UserLoadedState({required final Profile user}) =
-      _$_UserLoadedState;
+  const factory _UserLoadedState(
+      {required final Profile user,
+      required final List<UnsplashImage> likedImages,
+      required final List<Collection> collections,
+      required final List<CoverImage> uploadedImages}) = _$_UserLoadedState;
 
   Profile get user;
+  List<UnsplashImage> get likedImages;
+  List<Collection> get collections;
+  List<CoverImage> get uploadedImages;
   @JsonKey(ignore: true)
   _$$_UserLoadedStateCopyWith<_$_UserLoadedState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -731,7 +903,9 @@ class _$_UserErrorState implements _UserErrorState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Profile user) loaded,
+    required TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -742,7 +916,9 @@ class _$_UserErrorState implements _UserErrorState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Profile user)? loaded,
+    TResult? Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -753,7 +929,9 @@ class _$_UserErrorState implements _UserErrorState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Profile user)? loaded,
+    TResult Function(Profile user, List<UnsplashImage> likedImages,
+            List<Collection> collections, List<CoverImage> uploadedImages)?
+        loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

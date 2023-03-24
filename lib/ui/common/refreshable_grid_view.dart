@@ -15,6 +15,7 @@ class GridViewRefresher extends StatefulWidget {
   final void Function()? onRefresh;
   final List<UnsplashImage> images;
   final bool isFavorite;
+  final bool isRefreshable;
   const GridViewRefresher({
     super.key,
     required this.refreshController,
@@ -22,6 +23,7 @@ class GridViewRefresher extends StatefulWidget {
     this.onRefresh,
     required this.images,
     required this.isFavorite,
+    required this.isRefreshable,
   });
 
   @override
@@ -39,7 +41,7 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
     return SmartRefresher(
       controller: widget.refreshController,
       enablePullUp: true,
-      enablePullDown: true,
+      enablePullDown: widget.isRefreshable,
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoading,
       header: const WaterDropMaterialHeader(

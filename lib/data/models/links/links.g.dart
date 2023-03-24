@@ -9,11 +9,11 @@ part of 'links.dart';
 _$_Links _$$_LinksFromJson(Map<String, dynamic> json) => _$_Links(
       self: json['self'] as String?,
       html: json['html'] as String?,
-      download: json['download'] as String?,
+      download_location: json['download_location'] as String?,
     );
 
 Map<String, dynamic> _$$_LinksToJson(_$_Links instance) => <String, dynamic>{
       'self': instance.self,
       'html': instance.html,
-      'download': instance.download,
+      'download_location': instance.download_location,
     };

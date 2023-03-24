@@ -40,6 +40,23 @@ class UsersRepository {
     return user;
   }
 
+  Future<int> getCurrentUserLikedImagesCount() async {
+    final String? accessToken = await storage.read(key: 'accessToken');
+    final Response res = await dio.get(
+      '/me',
+      queryParameters: {
+        'client_id': AppConstants.clientId,
+      },
+      options: Options(
+        headers: {
+          'Authorization': accessToken,
+        },
+      ),
+    );
+    final int userLikedImagesCount = res.data['total_likes'];
+    return userLikedImagesCount;
+  }
+
   Future<Profile> getUser({required String username}) async {
     final String? accessToken = await storage.read(key: 'accessToken');
     final Response res = await dio.get(

@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../../bloc/auth_bloc/auth_bloc.dart';
 import '../../../bloc/liked_images_bloc/liked_images_bloc.dart';
+import '../../../bloc/user_bloc/user_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
 import '../../common/circular_loader.dart';
+import '../../favorite/state/user_liked_images_cubit.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -119,12 +121,21 @@ class HomeDrawer extends StatelessWidget {
                     ),
                   ),
                   DrawerListTile(
-                    icon: Icons.person,
-                    text: 'Profile',
-                    onTap: () => context.go(
-                      '/home/current_user_profile',
-                    ),
-                  ),
+                      icon: Icons.person,
+                      text: 'Profile',
+                      onTap: () {
+                        context.read<UserBloc>().add(
+                              UserEvent.getImages(
+                                username: user.username,
+                                likedImagesPage: 1,
+                                collectionsPage: 1,
+                                uploadedImagesPage: 1,
+                              ),
+                            );
+                        context.go(
+                          '/home/current_user_profile',
+                        );
+                      }),
                   DrawerListTile(
                     icon: Icons.favorite,
                     text: 'Likes',
@@ -135,13 +146,11 @@ class HomeDrawer extends StatelessWidget {
                               username: user.username,
                             ),
                           );
+                      context
+                          .read<UserLikedImagesCubit>()
+                          .getUserLikedImagesCount();
                       context.go('/home/favorite');
                     },
-                  ),
-                  DrawerListTile(
-                    icon: Icons.image_rounded,
-                    text: 'Collections',
-                    onTap: () {},
                   ),
                   DrawerListTile(
                     icon: Icons.logout,
@@ -245,6 +254,8 @@ class HomeDrawer extends StatelessWidget {
             ],
           ),
           error: (message) => Column(
+            //?
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Padding(
                 padding: EdgeInsets.all(8.0),

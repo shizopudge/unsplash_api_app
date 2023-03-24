@@ -15,7 +15,8 @@ class AppUtils {
   Future linkShare({
     required String htmlLink,
   }) async {
-    await Share.share(htmlLink);
+    await Share.share(
+        '$htmlLink?utm_source=SiCs/Search Increadible Creators&utm_medium=referral');
   }
 
   Future picShare({
@@ -48,7 +49,8 @@ class AppUtils {
   }
 
   Future openUrl({required String link}) async {
-    final Uri url = Uri.parse(link);
+    final Uri url = Uri.parse(
+        '$link?utm_source=SiCs/Search Increadible Creators&utm_medium=referral');
     try {
       await launchUrl(url);
     } catch (e) {
