@@ -7,7 +7,7 @@ class ImageCubit extends Cubit<bool> {
   Future isImageBig(bool isImageBig) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.setBool('isImageFull', isImageBig);
+    sharedPreferences.setBool('isImageBig', isImageBig);
     emit(isImageBig);
   }
 
