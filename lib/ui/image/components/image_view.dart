@@ -446,9 +446,7 @@ class ImageView extends StatelessWidget {
                         onTap: () {
                           isSharingOrDownloadingValueNotifier.value = true;
                           AppUtils()
-                              .picShare(
-                                  imageLink:
-                                      image.links.download_location ?? '')
+                              .picShare(imageLink: image.links.download ?? '')
                               .whenComplete(
                                 () => isSharingOrDownloadingValueNotifier
                                     .value = false,
@@ -476,8 +474,7 @@ class ImageView extends StatelessWidget {
                           isSharingOrDownloadingValueNotifier.value = true;
                           AppUtils()
                               .savePictureToGallery(
-                                  downloadLink:
-                                      image.links.download_location ?? '')
+                                  downloadLink: image.links.download ?? '')
                               .whenComplete(
                             () {
                               isSharingOrDownloadingValueNotifier.value = false;
