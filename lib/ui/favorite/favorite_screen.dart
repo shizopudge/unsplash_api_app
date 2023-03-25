@@ -16,7 +16,6 @@ import '../../data/models/unsplash_image/unsplash_image.dart';
 import '../common/circular_loader.dart';
 import '../common/refreshable_grid_view.dart';
 import '../home/state/home_grid_cubit.dart';
-import 'state/user_liked_images_cubit.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -30,7 +29,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final RefreshController _refreshController2 = RefreshController();
   List<UnsplashImage> _currentImages = [];
   int _currentPage = 1;
-  int _countOfImages = 0;
   bool _isPagination = false;
 
   @override
@@ -39,7 +37,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     final String theme = context.watch<ThemeCubit>().state;
     final int gridTypeState = context.watch<HomeGridTypeCubit>().state;
     final AuthState authState = context.watch<AuthBloc>().state;
-    final int countOfLikedImages = context.watch<UserLikedImagesCubit>().state;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -116,7 +113,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               loaded: (images, isLikedOrUnliked) {
                 if (isLikedOrUnliked) {
                   _currentImages = images;
-                  // _refreshController.resetNoData();
                   if (_refreshController.isLoading) {
                     _refreshController.loadComplete();
                   }
@@ -125,26 +121,27 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   }
                   _isPagination = false;
                 } else {
-                  if (_isPagination) {
-                    _currentImages += images;
-                    _countOfImages += images.length;
-                    // _refreshController.resetNoData();
-                    if (_refreshController.isLoading) {
-                      _refreshController.loadComplete();
-                    }
-                    if (_refreshController.isRefresh) {
-                      _refreshController.refreshCompleted();
-                    }
-                    _isPagination = false;
+                  if (images.isEmpty) {
+                    _refreshController.loadNoData();
                   } else {
-                    _currentImages = images;
-                    _countOfImages = images.length;
-                    // _refreshController.resetNoData();
-                    if (_refreshController.isLoading) {
-                      _refreshController.loadComplete();
-                    }
-                    if (_refreshController.isRefresh) {
-                      _refreshController.refreshCompleted();
+                    _refreshController.resetNoData();
+                    if (_isPagination) {
+                      _currentImages += images;
+                      if (_refreshController.isLoading) {
+                        _refreshController.loadComplete();
+                      }
+                      if (_refreshController.isRefresh) {
+                        _refreshController.refreshCompleted();
+                      }
+                      _isPagination = false;
+                    } else {
+                      _currentImages = images;
+                      if (_refreshController.isLoading) {
+                        _refreshController.loadComplete();
+                      }
+                      if (_refreshController.isRefresh) {
+                        _refreshController.refreshCompleted();
+                      }
                     }
                   }
                 }
@@ -168,16 +165,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       onLoading: () {
                         _isPagination = true;
                         _currentPage++;
-                        if (_countOfImages < countOfLikedImages) {
-                          context.read<LikedImagesBloc>().add(
-                                LikedImagesEvent.getLikedImages(
-                                  page: _currentPage,
-                                  username: authState.user.username,
-                                ),
-                              );
-                        } else {
-                          _refreshController.loadNoData();
-                        }
+                        context.read<LikedImagesBloc>().add(
+                              LikedImagesEvent.getLikedImages(
+                                page: _currentPage,
+                                username: authState.user.username,
+                              ),
+                            );
                       },
                     );
                   } else {

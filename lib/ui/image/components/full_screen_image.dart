@@ -43,7 +43,6 @@ class _FullScreenImageState extends State<FullScreenImage> {
               child: Container(
                 //? margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
@@ -55,9 +54,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
               opacity: .85,
               child: Container(
                 //? margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: AppColors.silverPlaceholderGradient,
-                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: const CircularLoader(),
               ),
@@ -65,9 +63,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
             errorWidget: (context, url, error) => Container(
               width: double.infinity,
               //? margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: AppColors.silverPlaceholderGradient,
-                borderRadius: BorderRadius.circular(12),
               ),
               child: ShaderMask(
                 blendMode: BlendMode.srcIn,

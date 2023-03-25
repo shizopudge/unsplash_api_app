@@ -3,9 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/utils.dart';
-import '../../data/models/collection/collection.dart';
-import '../../data/models/cover_image/cover_image.dart';
-import '../../data/models/unsplash_image/unsplash_image.dart';
 import '../../data/models/user/user.dart';
 import '../../data/repositories/images_repository.dart';
 import '../../data/repositories/users_repository.dart';

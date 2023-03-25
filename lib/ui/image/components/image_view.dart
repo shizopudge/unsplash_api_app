@@ -416,13 +416,13 @@ class ImageView extends StatelessWidget {
                       PopupMenuItem(
                         padding: const EdgeInsets.all(8),
                         onTap: () {
-                          isSharingOrDownloadingValueNotifier.value = true;
+                          // isSharingOrDownloadingValueNotifier.value = true;
                           AppUtils()
-                              .linkShare(htmlLink: image.links.html ?? '')
-                              .whenComplete(
-                                () => isSharingOrDownloadingValueNotifier
-                                    .value = false,
-                              );
+                              .linkShare(htmlLink: image.links.html ?? '');
+                          // .whenComplete(
+                          //   () => isSharingOrDownloadingValueNotifier
+                          //       .value = false,
+                          // );
                         },
                         child: Align(
                           alignment: Alignment.center,

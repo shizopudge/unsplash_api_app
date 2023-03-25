@@ -98,6 +98,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     children: [
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CachedNetworkImage(
                               imageUrl: user.profile_image.large,
@@ -254,53 +255,70 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                          onTap: () => _pageController.animateToPage(
-                            1,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.linear,
-                          ),
-                          borderRadius: BorderRadius.circular(21),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 24,
+                      ValueListenableBuilder(
+                        valueListenable: _currentPage,
+                        builder: (context, currentPage, child) => currentPage >
+                                0
+                            ? const SizedBox(
+                                height: 24,
+                              )
+                            : Align(
+                                alignment: Alignment.bottomCenter,
+                                child: InkWell(
+                                  onTap: () => _pageController.animateToPage(
+                                    1,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.linear,
+                                  ),
+                                  borderRadius: BorderRadius.circular(21),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(
+                                        Icons.arrow_drop_down_rounded,
+                                        size: 24,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
                       ),
                     ],
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                          onTap: () => _pageController.animateToPage(
-                            0,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.linear,
-                          ),
-                          borderRadius: BorderRadius.circular(21),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.arrow_drop_up_rounded,
-                                size: 24,
+                      ValueListenableBuilder(
+                        valueListenable: _currentPage,
+                        builder: (context, currentPage, child) => currentPage <
+                                1
+                            ? const SizedBox(
+                                height: 24,
+                              )
+                            : Align(
+                                alignment: Alignment.topCenter,
+                                child: InkWell(
+                                  onTap: () => _pageController.animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.linear,
+                                  ),
+                                  borderRadius: BorderRadius.circular(21),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(
+                                        Icons.arrow_drop_up_rounded,
+                                        size: 24,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
                       ),
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             if (user.bio != null)
                               Padding(
