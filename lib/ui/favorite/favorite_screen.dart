@@ -29,23 +29,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final RefreshController _refreshController = RefreshController();
   final RefreshController _refreshController2 = RefreshController();
   List<UnsplashImage> _currentImages = [];
-  final ValueNotifier<int> _currentPage = ValueNotifier<int>(1);
-  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
-  //? int _currentPage = 1;
+  int _currentPage = 1;
   int _countOfImages = 0;
   bool _isPagination = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentPage.addListener(_onPageChanged);
-  }
-
-  _onPageChanged() {
-    if (!_isLoading.value) {
-      _countOfImages += _currentImages.length;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +113,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   );
                 }
               },
-              loaded: (images) {
-                _isLoading.value = false;
-                if (_isPagination) {
+              loaded: (images, isLikedOrUnliked) {
+                if (isLikedOrUnliked) {
                   _currentImages = images;
+                  // _refreshController.resetNoData();
                   if (_refreshController.isLoading) {
                     _refreshController.loadComplete();
                   }
@@ -139,13 +125,27 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   }
                   _isPagination = false;
                 } else {
-                  _currentImages = images;
-                  _countOfImages += images.length;
-                  if (_refreshController.isLoading) {
-                    _refreshController.loadComplete();
-                  }
-                  if (_refreshController.isRefresh) {
-                    _refreshController.refreshCompleted();
+                  if (_isPagination) {
+                    _currentImages += images;
+                    _countOfImages += images.length;
+                    // _refreshController.resetNoData();
+                    if (_refreshController.isLoading) {
+                      _refreshController.loadComplete();
+                    }
+                    if (_refreshController.isRefresh) {
+                      _refreshController.refreshCompleted();
+                    }
+                    _isPagination = false;
+                  } else {
+                    _currentImages = images;
+                    _countOfImages = images.length;
+                    // _refreshController.resetNoData();
+                    if (_refreshController.isLoading) {
+                      _refreshController.loadComplete();
+                    }
+                    if (_refreshController.isRefresh) {
+                      _refreshController.refreshCompleted();
+                    }
                   }
                 }
                 if (authState is AuthAuthorizedState) {
@@ -156,25 +156,22 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       refreshController: _refreshController,
                       images: _currentImages,
                       onRefresh: () {
-                        _isLoading.value = true;
                         _isPagination = false;
-                        _currentPage.value = 1;
-                        _countOfImages = 0;
+                        _currentPage = 1;
                         context.read<LikedImagesBloc>().add(
                               LikedImagesEvent.getLikedImages(
-                                page: _currentPage.value,
+                                page: _currentPage,
                                 username: authState.user.username,
                               ),
                             );
                       },
                       onLoading: () {
-                        _isLoading.value = true;
                         _isPagination = true;
-                        _currentPage.value++;
+                        _currentPage++;
                         if (_countOfImages < countOfLikedImages) {
                           context.read<LikedImagesBloc>().add(
                                 LikedImagesEvent.getLikedImages(
-                                  page: _currentPage.value,
+                                  page: _currentPage,
                                   username: authState.user.username,
                                 ),
                               );

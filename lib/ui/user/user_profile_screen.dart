@@ -11,7 +11,6 @@ import '../../bloc/user_bloc/user_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/fonts.dart';
 import '../common/circular_loader.dart';
-import '../common/horizontal_grid_view.dart';
 import 'components/social_widget.dart';
 import 'components/stat_widget.dart';
 
@@ -26,7 +25,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final PageController _pageController = PageController();
   final ValueNotifier<bool> _showAvatarValueNotifier =
       ValueNotifier<bool>(false);
-  final ValueNotifier<bool> _openBio = ValueNotifier<bool>(false);
   final ValueNotifier<double> _currentPage = ValueNotifier<double>(0);
 
   @override
@@ -62,84 +60,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: ValueListenableBuilder(
-          valueListenable: _currentPage,
-          builder: (context, currentPage, child) {
-            if (currentPage > 0.65 && currentPage < 1.65) {
-              return Text(
-                'Uploaded photos',
-                style: AppFonts.titleStyle.copyWith(
-                  foreground: Paint()..shader = AppColors.linearGradientPink,
-                ),
-              );
-            } else if (currentPage > 1.65 && currentPage < 2.65) {
-              return Text(
-                'Collections',
-                style: AppFonts.titleStyle.copyWith(
-                  foreground: Paint()..shader = AppColors.linearGradientPink,
-                ),
-              );
-            } else if (currentPage > 2.65) {
-              return Text(
-                'Liked photos',
-                style: AppFonts.titleStyle.copyWith(
-                  foreground: Paint()..shader = AppColors.linearGradientPink,
-                ),
-              );
-            } else {
-              return Text(
-                'Profile',
-                style: AppFonts.titleStyle.copyWith(
-                  foreground: Paint()..shader = AppColors.linearGradientPink,
-                ),
-              );
-            }
-          },
-        ),
-        // actions: [
-        //   ValueListenableBuilder(
-        //     valueListenable: _currentPage,
-        //     builder: (context, currentPage, child) {
-        //       if (currentPage > 0.65 && currentPage < 1.65) {
-        //         return TextButton(
-        //           onPressed: () {},
-        //           child: Text(
-        //             'See all',
-        //             style: AppFonts.smallStyle.copyWith(
-        //               fontSize: 16,
-        //               foreground: Paint()..shader = AppColors.linearGradientRed,
-        //             ),
-        //           ),
-        //         );
-        //       } else if (currentPage > 1.65 && currentPage < 2.65) {
-        //         return TextButton(
-        //           onPressed: () {},
-        //           child: Text(
-        //             'See all',
-        //             style: AppFonts.smallStyle.copyWith(
-        //               fontSize: 16,
-        //               foreground: Paint()..shader = AppColors.linearGradientRed,
-        //             ),
-        //           ),
-        //         );
-        //       } else if (currentPage > 2.65) {
-        //         return TextButton(
-        //           onPressed: () {},
-        //           child: Text(
-        //             'See all',
-        //             style: AppFonts.smallStyle.copyWith(
-        //               fontSize: 16,
-        //               foreground: Paint()..shader = AppColors.linearGradientRed,
-        //             ),
-        //           ),
-        //         );
-        //       } else {
-        //         return const SizedBox();
-        //       }
-        //     },
-        //   ),
-        // ],
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: const Icon(
@@ -169,8 +89,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             child: state.when(
               initial: () => const CircularLoader(),
               loading: () => const CircularLoader(),
-              loaded: (user, likedImages, collections, uploadedImages) =>
-                  PageView(
+              loaded: (user) => PageView(
                 scrollDirection: Axis.vertical,
                 controller: _pageController,
                 children: [
@@ -304,127 +223,31 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     ),
                                   if (user.social.instagram_username != null ||
                                       user.social.twitter_username != null)
-                                    ValueListenableBuilder(
-                                      valueListenable: _openBio,
-                                      builder: (context, isOpened, child) =>
-                                          isOpened
-                                              ? const SizedBox()
-                                              : Wrap(
-                                                  alignment:
-                                                      WrapAlignment.center,
-                                                  children: [
-                                                    if (user.social
-                                                            .instagram_username !=
-                                                        null)
-                                                      SocialWidget(
-                                                        imagePath:
-                                                            'assets/icons/instagram.png',
-                                                        imageColor: Colors
-                                                            .blue.shade900,
-                                                        text: user.social
-                                                                .instagram_username ??
-                                                            '',
-                                                      ),
-                                                    if (user.social
-                                                            .twitter_username !=
-                                                        null)
-                                                      SocialWidget(
-                                                        imagePath:
-                                                            'assets/icons/twitter.png',
-                                                        imageColor: Colors
-                                                            .blue.shade900,
-                                                        text: user.social
-                                                                .twitter_username ??
-                                                            '',
-                                                      ),
-                                                  ],
-                                                ),
+                                    Wrap(
+                                      alignment: WrapAlignment.center,
+                                      children: [
+                                        if (user.social.instagram_username !=
+                                            null)
+                                          SocialWidget(
+                                            imagePath:
+                                                'assets/icons/instagram.png',
+                                            imageColor: Colors.blue.shade900,
+                                            text: user.social
+                                                    .instagram_username ??
+                                                '',
+                                          ),
+                                        if (user.social.twitter_username !=
+                                            null)
+                                          SocialWidget(
+                                            imagePath:
+                                                'assets/icons/twitter.png',
+                                            imageColor: Colors.blue.shade900,
+                                            text:
+                                                user.social.twitter_username ??
+                                                    '',
+                                          ),
+                                      ],
                                     ),
-                                  if (user.bio != null)
-                                    InkWell(
-                                      onTap: () =>
-                                          _openBio.value = !_openBio.value,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ValueListenableBuilder(
-                                          valueListenable: _openBio,
-                                          builder: (context, isOpened, child) =>
-                                              isOpened
-                                                  ? Text(
-                                                      user.bio ?? '',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      overflow:
-                                                          TextOverflow.visible,
-                                                      style: AppFonts
-                                                          .defaultStyle
-                                                          .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      user.bio ?? '',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: AppFonts
-                                                          .defaultStyle
-                                                          .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors
-                                                            .blue.shade300,
-                                                      ),
-                                                    ),
-                                        ),
-                                      ),
-                                    ),
-                                  ValueListenableBuilder(
-                                    valueListenable: _openBio,
-                                    builder: (context, isOpened, child) =>
-                                        isOpened
-                                            ? const SizedBox()
-                                            : Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Wrap(
-                                                  alignment:
-                                                      WrapAlignment.center,
-                                                  children: [
-                                                    StatWidget(
-                                                      icon: Icons.favorite,
-                                                      text: user.total_likes
-                                                          .toString(),
-                                                      color:
-                                                          Colors.red.shade900,
-                                                    ),
-                                                    StatWidget(
-                                                      icon: Icons.download,
-                                                      text: user.downloads
-                                                          .toString(),
-                                                      color: Colors
-                                                          .lightGreen.shade900,
-                                                    ),
-                                                    StatWidget(
-                                                      icon: Icons.people,
-                                                      text: user.followers_count
-                                                          .toString(),
-                                                      color:
-                                                          Colors.blue.shade900,
-                                                    ),
-                                                    StatWidget(
-                                                      icon: Icons.collections,
-                                                      text: user.total_photos
-                                                          .toString(),
-                                                      color: Colors
-                                                          .purple.shade900,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -435,7 +258,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         alignment: Alignment.bottomCenter,
                         child: InkWell(
                           onTap: () => _pageController.animateToPage(
-                            3,
+                            1,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.linear,
                           ),
@@ -445,7 +268,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             children: const [
                               Icon(
                                 Icons.arrow_drop_down_rounded,
-                                size: 32,
+                                size: 24,
                               ),
                             ],
                           ),
@@ -456,44 +279,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () => _pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.linear,
-                        ),
-                        borderRadius: BorderRadius.circular(21),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.arrow_drop_up_rounded,
-                              size: 32,
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (uploadedImages.isNotEmpty)
-                        Expanded(
-                          child: HorizontalUploadedImageGridView(
-                            images: uploadedImages,
-                          ),
-                        )
-                      else
-                        Center(
-                          child: Text(
-                            'Has no uploaded photos',
-                            style: AppFonts.headerStyle.copyWith(
-                              foreground: Paint()
-                                ..shader = AppColors.linearGradientRed,
-                            ),
-                          ),
-                        ),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: InkWell(
                           onTap: () => _pageController.animateToPage(
-                            3,
+                            0,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.linear,
                           ),
@@ -502,109 +292,59 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 32,
+                                Icons.arrow_drop_up_rounded,
+                                size: 24,
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () => _pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.linear,
-                        ),
-                        borderRadius: BorderRadius.circular(21),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.arrow_drop_up_rounded,
-                              size: 32,
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (collections.isNotEmpty)
-                        Expanded(
-                          child: HorizontalCollectionsImageGridView(
-                            collections: collections,
-                          ),
-                        )
-                      else
-                        Center(
-                          child: Text(
-                            'Has no collections',
-                            style: AppFonts.headerStyle.copyWith(
-                              foreground: Paint()
-                                ..shader = AppColors.linearGradientRed,
-                            ),
-                          ),
-                        ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                          onTap: () => _pageController.animateToPage(
-                            3,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.linear,
-                          ),
-                          borderRadius: BorderRadius.circular(21),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 32,
+                      Expanded(
+                        child: Column(
+                          children: [
+                            if (user.bio != null)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  user.bio ?? '',
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.visible,
+                                  style: AppFonts.defaultStyle.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () => _pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.linear,
-                        ),
-                        borderRadius: BorderRadius.circular(21),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.arrow_drop_up_rounded,
-                              size: 32,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  StatWidget(
+                                    icon: Icons.favorite,
+                                    text: user.total_likes.toString(),
+                                    color: Colors.red.shade900,
+                                  ),
+                                  StatWidget(
+                                    icon: Icons.download,
+                                    text: user.downloads.toString(),
+                                    color: Colors.lightGreen.shade900,
+                                  ),
+                                  StatWidget(
+                                    icon: Icons.people,
+                                    text: user.followers_count.toString(),
+                                    color: Colors.blue.shade900,
+                                  ),
+                                  StatWidget(
+                                    icon: Icons.collections,
+                                    text: user.total_photos.toString(),
+                                    color: Colors.purple.shade900,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      if (likedImages.isNotEmpty)
-                        Expanded(
-                          child: HorizontalLikedImageGridView(
-                            images: likedImages,
-                          ),
-                        )
-                      else
-                        Center(
-                          child: Text(
-                            'Has no liked photos',
-                            style: AppFonts.headerStyle.copyWith(
-                              foreground: Paint()
-                                ..shader = AppColors.linearGradientRed,
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                 ],

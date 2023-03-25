@@ -113,14 +113,14 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                                       images: widget.images,
                                     ),
                                   );
-                              _likedImageIdValueNotifier.value = image.id;
-                              _likedOpacityValueNotifier.value = 1.0;
-                              Future.delayed(
-                                const Duration(
-                                  milliseconds: 1000,
-                                ),
-                                () => _likedOpacityValueNotifier.value = 0,
-                              );
+                              // _likedImageIdValueNotifier.value = image.id;
+                              // _likedOpacityValueNotifier.value = 1.0;
+                              // Future.delayed(
+                              //   const Duration(
+                              //     milliseconds: 1000,
+                              //   ),
+                              //   () => _likedOpacityValueNotifier.value = 0,
+                              // );
                             } else {
                               context.read<ImagesBloc>().add(
                                     ImagesEvent.likeImage(
@@ -128,14 +128,14 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                                       images: widget.images,
                                     ),
                                   );
-                              _likedImageIdValueNotifier.value = image.id;
-                              _likedOpacityValueNotifier.value = 1.0;
-                              Future.delayed(
-                                const Duration(
-                                  milliseconds: 1000,
-                                ),
-                                () => _likedOpacityValueNotifier.value = 0,
-                              );
+                              // _likedImageIdValueNotifier.value = image.id;
+                              // _likedOpacityValueNotifier.value = 1.0;
+                              // Future.delayed(
+                              //   const Duration(
+                              //     milliseconds: 1000,
+                              //   ),
+                              //   () => _likedOpacityValueNotifier.value = 0,
+                              // );
                             }
                           },
                   );

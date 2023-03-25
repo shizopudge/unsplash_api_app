@@ -20,7 +20,8 @@ mixin _$LikedImagesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +29,8 @@ mixin _$LikedImagesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool isLikedOrUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +38,7 @@ mixin _$LikedImagesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -127,7 +129,8 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -138,7 +141,8 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool isLikedOrUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -149,7 +153,7 @@ class _$_LikedImagesInitialState implements _LikedImagesInitialState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -242,7 +246,8 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -253,7 +258,8 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool isLikedOrUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -264,7 +270,7 @@ class _$_LikedImagesLoadingState implements _LikedImagesLoadingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -322,7 +328,7 @@ abstract class _$$_LikedImagesLoadedStateCopyWith<$Res> {
           $Res Function(_$_LikedImagesLoadedState) then) =
       __$$_LikedImagesLoadedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<UnsplashImage> images});
+  $Res call({List<UnsplashImage> images, bool isLikedOrUnliked});
 }
 
 /// @nodoc
@@ -337,12 +343,17 @@ class __$$_LikedImagesLoadedStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? images = null,
+    Object? isLikedOrUnliked = null,
   }) {
     return _then(_$_LikedImagesLoadedState(
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<UnsplashImage>,
+      isLikedOrUnliked: null == isLikedOrUnliked
+          ? _value.isLikedOrUnliked
+          : isLikedOrUnliked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -350,7 +361,9 @@ class __$$_LikedImagesLoadedStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
-  const _$_LikedImagesLoadedState({required final List<UnsplashImage> images})
+  const _$_LikedImagesLoadedState(
+      {required final List<UnsplashImage> images,
+      required this.isLikedOrUnliked})
       : _images = images;
 
   final List<UnsplashImage> _images;
@@ -362,8 +375,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   }
 
   @override
+  final bool isLikedOrUnliked;
+
+  @override
   String toString() {
-    return 'LikedImagesState.loaded(images: $images)';
+    return 'LikedImagesState.loaded(images: $images, isLikedOrUnliked: $isLikedOrUnliked)';
   }
 
   @override
@@ -371,12 +387,14 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_LikedImagesLoadedState &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.isLikedOrUnliked, isLikedOrUnliked) ||
+                other.isLikedOrUnliked == isLikedOrUnliked));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_images));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_images), isLikedOrUnliked);
 
   @JsonKey(ignore: true)
   @override
@@ -390,10 +408,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(images);
+    return loaded(images, isLikedOrUnliked);
   }
 
   @override
@@ -401,10 +420,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool isLikedOrUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(images);
+    return loaded?.call(images, isLikedOrUnliked);
   }
 
   @override
@@ -412,12 +432,12 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(images);
+      return loaded(images, isLikedOrUnliked);
     }
     return orElse();
   }
@@ -462,9 +482,11 @@ class _$_LikedImagesLoadedState implements _LikedImagesLoadedState {
 
 abstract class _LikedImagesLoadedState implements LikedImagesState {
   const factory _LikedImagesLoadedState(
-      {required final List<UnsplashImage> images}) = _$_LikedImagesLoadedState;
+      {required final List<UnsplashImage> images,
+      required final bool isLikedOrUnliked}) = _$_LikedImagesLoadedState;
 
   List<UnsplashImage> get images;
+  bool get isLikedOrUnliked;
   @JsonKey(ignore: true)
   _$$_LikedImagesLoadedStateCopyWith<_$_LikedImagesLoadedState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -537,7 +559,8 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<UnsplashImage> images) loaded,
+    required TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)
+        loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -548,7 +571,8 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<UnsplashImage> images)? loaded,
+    TResult? Function(List<UnsplashImage> images, bool isLikedOrUnliked)?
+        loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -559,7 +583,7 @@ class _$_LikedImagesErrorState implements _LikedImagesErrorState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<UnsplashImage> images)? loaded,
+    TResult Function(List<UnsplashImage> images, bool isLikedOrUnliked)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

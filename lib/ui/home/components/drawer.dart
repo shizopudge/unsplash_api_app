@@ -127,9 +127,6 @@ class HomeDrawer extends StatelessWidget {
                         context.read<UserBloc>().add(
                               UserEvent.getImages(
                                 username: user.username,
-                                likedImagesPage: 1,
-                                collectionsPage: 1,
-                                uploadedImagesPage: 1,
                               ),
                             );
                         context.go(

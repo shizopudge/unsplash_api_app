@@ -31,27 +31,27 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       );
       final Profile user =
           await usersRepository.getUser(username: event.username);
-      final List<UnsplashImage> likedImages =
-          await imagesRepository.getLikedImages(
-        page: event.likedImagesPage,
-        username: event.username,
-      );
-      final List<Collection> collections =
-          await imagesRepository.getCollections(
-        page: event.collectionsPage,
-        username: event.username,
-      );
-      final List<CoverImage> uploadedImages =
-          await imagesRepository.getImagesUploadedByUser(
-        page: event.uploadedImagesPage,
-        username: event.username,
-      );
+      // final List<UnsplashImage> likedImages =
+      //     await imagesRepository.getLikedImages(
+      //   page: event.likedImagesPage,
+      //   username: event.username,
+      // );
+      // final List<Collection> collections =
+      //     await imagesRepository.getCollections(
+      //   page: event.collectionsPage,
+      //   username: event.username,
+      // );
+      // final List<CoverImage> uploadedImages =
+      //     await imagesRepository.getImagesUploadedByUser(
+      //   page: event.uploadedImagesPage,
+      //   username: event.username,
+      // );
       emit(
         UserState.loaded(
           user: user,
-          likedImages: likedImages,
-          collections: collections,
-          uploadedImages: uploadedImages,
+          // likedImages: likedImages,
+          // collections: collections,
+          // uploadedImages: uploadedImages,
         ),
       );
     } on DioError catch (e) {

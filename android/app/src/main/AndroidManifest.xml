@@ -2,7 +2,7 @@
     package="com.example.unsplashapp">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="SiCs"
+        android:label="Search for Incredible"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

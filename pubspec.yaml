@@ -65,7 +65,7 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: "assets/icons/launch_icon.png"
+  image: "assets/icons/logo.png"
   android: true
   ios: true
 
@@ -74,7 +74,7 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   image_path: "assets/icons/launch_icon.png"
-  adaptive_icon_background: "#10000000"
+  adaptive_icon_background: "#778899"
   adaptive_icon_foreground: "assets/icons/launch_icon.png"
 
 # For information on the generic Dart part of this file, see the

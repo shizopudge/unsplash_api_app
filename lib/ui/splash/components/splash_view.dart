@@ -51,13 +51,13 @@ class SplashView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8),
                         child: Container(
-                          height: 120,
-                          width: 120,
+                          height: 150,
+                          width: 150,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: AssetImage(
-                                'assets/icons/launch_icon.png',
+                                'assets/icons/logo.png',
                               ),
                               fit: BoxFit.cover,
                             ),

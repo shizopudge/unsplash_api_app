@@ -31,6 +31,7 @@ class LikedImagesBloc extends Bloc<LikedImagesEvent, LikedImagesState> {
       emit(
         LikedImagesState.loaded(
           images: res,
+          isLikedOrUnliked: false,
         ),
       );
     } on DioError catch (e) {
@@ -63,6 +64,7 @@ class LikedImagesBloc extends Bloc<LikedImagesEvent, LikedImagesState> {
       emit(
         LikedImagesState.loaded(
           images: images,
+          isLikedOrUnliked: true,
         ),
       );
       await imagesRepository.likeImage(
@@ -98,6 +100,7 @@ class LikedImagesBloc extends Bloc<LikedImagesEvent, LikedImagesState> {
       emit(
         LikedImagesState.loaded(
           images: images,
+          isLikedOrUnliked: true,
         ),
       );
       await imagesRepository.unlikeImage(

@@ -219,9 +219,6 @@ class ImageView extends StatelessWidget {
                             context.read<UserBloc>().add(
                                   UserGetUserEvent(
                                     username: image.user.username,
-                                    collectionsPage: 1,
-                                    likedImagesPage: 1,
-                                    uploadedImagesPage: 1,
                                   ),
                                 );
                             context.go(
@@ -232,9 +229,6 @@ class ImageView extends StatelessWidget {
                             context.read<UserBloc>().add(
                                   UserGetUserEvent(
                                     username: image.user.username,
-                                    collectionsPage: 1,
-                                    likedImagesPage: 1,
-                                    uploadedImagesPage: 1,
                                   ),
                                 );
                             context.go(
