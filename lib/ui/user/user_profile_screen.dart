@@ -39,6 +39,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _pageController.removeListener(_onPageChanged);
     _pageController.dispose();
     _showAvatarValueNotifier.dispose();
+    _currentPage.dispose();
     super.dispose();
   }
 

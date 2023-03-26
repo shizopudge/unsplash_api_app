@@ -28,6 +28,13 @@ class _ImageScreenState extends State<ImageScreen> {
       ValueNotifier<double>(0);
 
   @override
+  void dispose() {
+    _isSharingOrDownloadingValueNotifier.dispose();
+    _likedOpacityValueNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ImageState state = context.watch<ImageBloc>().state;
     final bool isImageBig = context.watch<ImageCubit>().state;

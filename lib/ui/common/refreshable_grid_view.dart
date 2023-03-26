@@ -35,6 +35,14 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
       ValueNotifier<double>(0);
   final ValueNotifier<String> _likedImageIdValueNotifier =
       ValueNotifier<String>('');
+
+  @override
+  void dispose() {
+    _likedOpacityValueNotifier.dispose();
+    _likedImageIdValueNotifier.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final int state = context.watch<HomeGridTypeCubit>().state;
