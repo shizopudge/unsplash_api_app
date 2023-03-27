@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../bloc/auth_bloc/auth_bloc.dart';
-import '../../../bloc/image_bloc/image_bloc.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
@@ -13,8 +12,9 @@ import '../../../core/utils.dart';
 import '../../../data/models/unsplash_image/unsplash_image.dart';
 import '../../common/animated_icon.dart';
 import '../../common/circular_loader.dart';
-import '../../common/auth_suggestion_dialog.dart';
 import '../state/image_cubit.dart';
+import 'default_like.dart';
+import 'image_actions_popup.dart';
 
 class ImageView extends StatelessWidget {
   final UnsplashImage image;
@@ -37,35 +37,6 @@ class ImageView extends StatelessWidget {
         Expanded(
           child: InkWell(
             onTap: () => context.read<ImageCubit>().isImageBig(true),
-            //? onDoubleTap: () {
-            //   if (authState is AuthAuthorizedState) {
-            //     if (image.liked_by_user) {
-            //       context.read<ImageBloc>().add(
-            //             ImageEvent.unlikeImage(
-            //               image: image,
-            //             ),
-            //           );
-            //     } else {
-            //       context.read<ImageBloc>().add(
-            //             ImageEvent.likeImage(
-            //               image: image,
-            //             ),
-            //           );
-            //       likedOpacityValueNotifier.value = 1.0;
-            //       Future.delayed(
-            //         const Duration(
-            //           milliseconds: 1000,
-            //         ),
-            //         () => likedOpacityValueNotifier.value = 0,
-            //       );
-            //     }
-            //   } else {
-            //     showDialog(
-            //       context: context,
-            //       builder: ((context) => const AuthSuggestionDialog()),
-            //     );
-            //   }
-            // },
             borderRadius: BorderRadius.circular(21),
             child: Stack(
               children: [
@@ -347,164 +318,14 @@ class ImageView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (image.liked_by_user)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        onPressed: () {
-                          if (authState is AuthAuthorizedState) {
-                            context.read<ImageBloc>().add(
-                                  ImageEvent.unlikeImage(
-                                    image: image,
-                                  ),
-                                );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  const AuthSuggestionDialog(),
-                            );
-                          }
-                        },
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.red.shade900,
-                          size: 28,
-                        ),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        onPressed: () {
-                          if (authState is AuthAuthorizedState) {
-                            context.read<ImageBloc>().add(
-                                  ImageEvent.likeImage(
-                                    image: image,
-                                  ),
-                                );
-                            likedOpacityValueNotifier.value = 1.0;
-                            Future.delayed(
-                              const Duration(
-                                milliseconds: 1000,
-                              ),
-                              () => likedOpacityValueNotifier.value = 0,
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  const AuthSuggestionDialog(),
-                            );
-                          }
-                        },
-                        icon: Icon(
-                          Icons.favorite_outline,
-                          color: Colors.red.shade900,
-                          size: 32,
-                        ),
-                      ),
-                    ),
-                  PopupMenuButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        12,
-                      ),
-                    ),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        padding: const EdgeInsets.all(8),
-                        onTap: () {
-                          // isSharingOrDownloadingValueNotifier.value = true;
-                          AppUtils()
-                              .linkShare(htmlLink: image.links.html ?? '');
-                          // .whenComplete(
-                          //   () => isSharingOrDownloadingValueNotifier
-                          //       .value = false,
-                          // );
-                        },
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Link',
-                                style: AppFonts.smallStyle,
-                              ),
-                              const Icon(
-                                Icons.ios_share_rounded,
-                                size: 28,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        padding: const EdgeInsets.all(8),
-                        onTap: () {
-                          isSharingOrDownloadingValueNotifier.value = true;
-                          AppUtils()
-                              .picShare(imageLink: image.links.download ?? '')
-                              .whenComplete(
-                                () => isSharingOrDownloadingValueNotifier
-                                    .value = false,
-                              );
-                        },
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Picture',
-                                style: AppFonts.smallStyle,
-                              ),
-                              const Icon(
-                                Icons.share,
-                                size: 28,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        onTap: () {
-                          isSharingOrDownloadingValueNotifier.value = true;
-                          AppUtils()
-                              .savePictureToGallery(
-                                  downloadLink: image.links.download ?? '')
-                              .whenComplete(
-                            () {
-                              isSharingOrDownloadingValueNotifier.value = false;
-                              AppUtils().showSnackBar(
-                                context: context,
-                                text: 'Image successfully saved into gallery',
-                              );
-                            },
-                          );
-                        },
-                        padding: const EdgeInsets.all(8),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Download',
-                                style: AppFonts.smallStyle,
-                              ),
-                              const Icon(
-                                Icons.download,
-                                size: 28,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  DefaultLike(
+                      authState: authState,
+                      image: image,
+                      likedOpacityValueNotifier: likedOpacityValueNotifier),
+                  ImageActionsPopup(
+                      image: image,
+                      isSharingOrDownloadingValueNotifier:
+                          isSharingOrDownloadingValueNotifier),
                 ],
               ),
               if (image.location?.city != null &&

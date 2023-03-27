@@ -11,6 +11,7 @@ import '../../../core/colors.dart';
 import '../../../core/fonts.dart';
 import '../../common/circular_loader.dart';
 import '../../favorite/state/user_liked_images_cubit.dart';
+import 'drawer_list_tile.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -284,41 +285,6 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DrawerListTile extends StatelessWidget {
-  final void Function()? onTap;
-  final IconData icon;
-  final String text;
-  const DrawerListTile({
-    super.key,
-    required this.onTap,
-    required this.icon,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ShaderMask(
-        blendMode: BlendMode.srcIn,
-        shaderCallback: (bounds) => AppColors.linearGradientRed,
-        child: ListTile(
-          onTap: onTap,
-          tileColor: Colors.transparent,
-          leading: Icon(
-            icon,
-            size: 40,
-          ),
-          title: Text(
-            text,
-            style: AppFonts.titleStyle,
           ),
         ),
       ),

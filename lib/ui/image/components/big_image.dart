@@ -11,6 +11,7 @@ import '../../common/animated_icon.dart';
 import '../../common/circular_loader.dart';
 import '../../common/auth_suggestion_dialog.dart';
 import '../state/image_cubit.dart';
+import 'container_like.dart';
 
 class BigImage extends StatelessWidget {
   final UnsplashImage image;
@@ -113,83 +114,10 @@ class BigImage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (image.liked_by_user)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          if (authState is AuthAuthorizedState) {
-                            context.read<ImageBloc>().add(
-                                  ImageEvent.unlikeImage(
-                                    image: image,
-                                  ),
-                                );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: ((context) =>
-                                  const AuthSuggestionDialog()),
-                            );
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(21),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(15),
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.favorite,
-                            color: Colors.red.shade900,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          if (authState is AuthAuthorizedState) {
-                            context.read<ImageBloc>().add(
-                                  ImageEvent.likeImage(
-                                    image: image,
-                                  ),
-                                );
-                            likedOpacityValueNotifier.value = 1.0;
-                            Future.delayed(
-                              const Duration(
-                                milliseconds: 1000,
-                              ),
-                              () => likedOpacityValueNotifier.value = 0,
-                            );
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: ((context) =>
-                                  const AuthSuggestionDialog()),
-                            );
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(21),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(15),
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.favorite_outline,
-                            color: Colors.red.shade900,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    ),
+                  ContainerLike(
+                      authState: authState,
+                      image: image,
+                      likedOpacityValueNotifier: likedOpacityValueNotifier),
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Align(

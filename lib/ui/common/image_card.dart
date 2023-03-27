@@ -97,21 +97,6 @@ class ImageCard extends StatelessWidget {
                 ),
               ),
             ),
-            // ValueListenableBuilder(
-            //   valueListenable: widget.likedImageIdValueNotifier,
-            //   builder: (context, isItLikedImage, child) =>
-            //       isItLikedImage == widget.image.id
-            //           ? Align(
-            //               alignment: Alignment.center,
-            //               child: OpacityAnimatedIcon(
-            //                 color: Colors.red.shade900,
-            //                 notifier: widget.likedOpacityValueNotifier,
-            //                 icon: Icons.favorite_rounded,
-            //                 size: 21.0,
-            //               ),
-            //             )
-            //           : const SizedBox(),
-            // ),
           ],
         ),
         placeholder: (context, url) => Card(

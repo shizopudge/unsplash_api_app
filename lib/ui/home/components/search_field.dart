@@ -33,12 +33,6 @@ class SearchField extends StatelessWidget {
             currentFocus.unfocus();
           }
         },
-        // onEditingComplete: () => context.read<ImagesBloc>().add(
-        //       ImagesEvent.searchImages(
-        //         query: searchController.text.trim(),
-        //         page: 1,
-        //       ),
-        //     ),
         cursorColor: Colors.black,
         cursorWidth: 1,
         cursorRadius: const Radius.circular(21),

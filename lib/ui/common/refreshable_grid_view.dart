@@ -43,6 +43,60 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
     super.dispose();
   }
 
+  void _onUnlikeTap(String imageId) {
+    if (widget.isFavorite) {
+      context.read<LikedImagesBloc>().add(
+            LikedImagesEvent.unlikeImage(
+              imageId: imageId,
+              images: widget.images,
+            ),
+          );
+    } else {
+      context.read<ImagesBloc>().add(
+            ImagesEvent.unlikeImage(
+              imageId: imageId,
+              images: widget.images,
+            ),
+          );
+    }
+  }
+
+  void _onDoubleTap(UnsplashImage image) {
+    if (image.liked_by_user) {
+      if (widget.isFavorite) {
+        context.read<LikedImagesBloc>().add(
+              LikedImagesEvent.unlikeImage(
+                imageId: image.id,
+                images: widget.images,
+              ),
+            );
+      } else {
+        context.read<ImagesBloc>().add(
+              ImagesEvent.unlikeImage(
+                imageId: image.id,
+                images: widget.images,
+              ),
+            );
+      }
+    } else {
+      if (widget.isFavorite) {
+        context.read<LikedImagesBloc>().add(
+              LikedImagesEvent.likeImage(
+                imageId: image.id,
+                images: widget.images,
+              ),
+            );
+      } else {
+        context.read<ImagesBloc>().add(
+              ImagesEvent.likeImage(
+                imageId: image.id,
+                images: widget.images,
+              ),
+            );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final int state = context.watch<HomeGridTypeCubit>().state;
@@ -78,74 +132,8 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                     isFavorite: widget.isFavorite,
                     likedOpacityValueNotifier: _likedOpacityValueNotifier,
                     likedImageIdValueNotifier: _likedImageIdValueNotifier,
-                    onUnlikedTap: () {
-                      if (widget.isFavorite) {
-                        context.read<LikedImagesBloc>().add(
-                              LikedImagesEvent.unlikeImage(
-                                imageId: image.id,
-                                images: widget.images,
-                              ),
-                            );
-                      } else {
-                        context.read<ImagesBloc>().add(
-                              ImagesEvent.unlikeImage(
-                                imageId: image.id,
-                                images: widget.images,
-                              ),
-                            );
-                      }
-                    },
-                    onDoubleTap: image.liked_by_user
-                        ? () {
-                            if (widget.isFavorite) {
-                              context.read<LikedImagesBloc>().add(
-                                    LikedImagesEvent.unlikeImage(
-                                      imageId: image.id,
-                                      images: widget.images,
-                                    ),
-                                  );
-                            } else {
-                              context.read<ImagesBloc>().add(
-                                    ImagesEvent.unlikeImage(
-                                      imageId: image.id,
-                                      images: widget.images,
-                                    ),
-                                  );
-                            }
-                          }
-                        : () {
-                            if (widget.isFavorite) {
-                              context.read<LikedImagesBloc>().add(
-                                    LikedImagesEvent.likeImage(
-                                      imageId: image.id,
-                                      images: widget.images,
-                                    ),
-                                  );
-                              // _likedImageIdValueNotifier.value = image.id;
-                              // _likedOpacityValueNotifier.value = 1.0;
-                              // Future.delayed(
-                              //   const Duration(
-                              //     milliseconds: 1000,
-                              //   ),
-                              //   () => _likedOpacityValueNotifier.value = 0,
-                              // );
-                            } else {
-                              context.read<ImagesBloc>().add(
-                                    ImagesEvent.likeImage(
-                                      imageId: image.id,
-                                      images: widget.images,
-                                    ),
-                                  );
-                              // _likedImageIdValueNotifier.value = image.id;
-                              // _likedOpacityValueNotifier.value = 1.0;
-                              // Future.delayed(
-                              //   const Duration(
-                              //     milliseconds: 1000,
-                              //   ),
-                              //   () => _likedOpacityValueNotifier.value = 0,
-                              // );
-                            }
-                          },
+                    onUnlikedTap: () => _onUnlikeTap(image.id),
+                    onDoubleTap: () => _onDoubleTap(image),
                   );
                 },
                 childCount: widget.images.length,
@@ -172,74 +160,8 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                         isFavorite: widget.isFavorite,
                         likedOpacityValueNotifier: _likedOpacityValueNotifier,
                         likedImageIdValueNotifier: _likedImageIdValueNotifier,
-                        onUnlikedTap: () {
-                          if (widget.isFavorite) {
-                            context.read<LikedImagesBloc>().add(
-                                  LikedImagesEvent.unlikeImage(
-                                    imageId: image.id,
-                                    images: widget.images,
-                                  ),
-                                );
-                          } else {
-                            context.read<ImagesBloc>().add(
-                                  ImagesEvent.unlikeImage(
-                                    imageId: image.id,
-                                    images: widget.images,
-                                  ),
-                                );
-                          }
-                        },
-                        onDoubleTap: image.liked_by_user
-                            ? () {
-                                if (widget.isFavorite) {
-                                  context.read<LikedImagesBloc>().add(
-                                        LikedImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                } else {
-                                  context.read<ImagesBloc>().add(
-                                        ImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                }
-                              }
-                            : () {
-                                if (widget.isFavorite) {
-                                  context.read<LikedImagesBloc>().add(
-                                        LikedImagesEvent.likeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                  _likedImageIdValueNotifier.value = image.id;
-                                  _likedOpacityValueNotifier.value = 1.0;
-                                  Future.delayed(
-                                    const Duration(
-                                      milliseconds: 1000,
-                                    ),
-                                    () => _likedOpacityValueNotifier.value = 0,
-                                  );
-                                } else {
-                                  context.read<ImagesBloc>().add(
-                                        ImagesEvent.likeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                  _likedImageIdValueNotifier.value = image.id;
-                                  _likedOpacityValueNotifier.value = 1.0;
-                                  Future.delayed(
-                                    const Duration(
-                                      milliseconds: 1000,
-                                    ),
-                                    () => _likedOpacityValueNotifier.value = 0,
-                                  );
-                                }
-                              },
+                        onUnlikedTap: () => _onUnlikeTap(image.id),
+                        onDoubleTap: () => _onDoubleTap(image),
                       );
                     },
                     childCount: widget.images.length,
@@ -270,78 +192,8 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                                 _likedOpacityValueNotifier,
                             likedImageIdValueNotifier:
                                 _likedImageIdValueNotifier,
-                            onUnlikedTap: () {
-                              if (widget.isFavorite) {
-                                context.read<LikedImagesBloc>().add(
-                                      LikedImagesEvent.unlikeImage(
-                                        imageId: image.id,
-                                        images: widget.images,
-                                      ),
-                                    );
-                              } else {
-                                context.read<ImagesBloc>().add(
-                                      ImagesEvent.unlikeImage(
-                                        imageId: image.id,
-                                        images: widget.images,
-                                      ),
-                                    );
-                              }
-                            },
-                            onDoubleTap: image.liked_by_user
-                                ? () {
-                                    if (widget.isFavorite) {
-                                      context.read<LikedImagesBloc>().add(
-                                            LikedImagesEvent.unlikeImage(
-                                              imageId: image.id,
-                                              images: widget.images,
-                                            ),
-                                          );
-                                    } else {
-                                      context.read<ImagesBloc>().add(
-                                            ImagesEvent.unlikeImage(
-                                              imageId: image.id,
-                                              images: widget.images,
-                                            ),
-                                          );
-                                    }
-                                  }
-                                : () {
-                                    if (widget.isFavorite) {
-                                      context.read<LikedImagesBloc>().add(
-                                            LikedImagesEvent.likeImage(
-                                              imageId: image.id,
-                                              images: widget.images,
-                                            ),
-                                          );
-                                      _likedImageIdValueNotifier.value =
-                                          image.id;
-                                      _likedOpacityValueNotifier.value = 1.0;
-                                      Future.delayed(
-                                        const Duration(
-                                          milliseconds: 1000,
-                                        ),
-                                        () => _likedOpacityValueNotifier.value =
-                                            0,
-                                      );
-                                    } else {
-                                      context.read<ImagesBloc>().add(
-                                            ImagesEvent.likeImage(
-                                              imageId: image.id,
-                                              images: widget.images,
-                                            ),
-                                          );
-                                      _likedImageIdValueNotifier.value =
-                                          image.id;
-                                      _likedOpacityValueNotifier.value = 1.0;
-                                      Future.delayed(
-                                        const Duration(
-                                          milliseconds: 1000,
-                                        ),
-                                        () => _likedOpacityValueNotifier.value =
-                                            0,
-                                      );
-                                    }
-                                  },
+                            onUnlikedTap: () => _onUnlikeTap(image.id),
+                            onDoubleTap: () => _onDoubleTap(image),
                           );
                         },
                       ),
@@ -361,78 +213,8 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                                   _likedOpacityValueNotifier,
                               likedImageIdValueNotifier:
                                   _likedImageIdValueNotifier,
-                              onUnlikedTap: () {
-                                if (widget.isFavorite) {
-                                  context.read<LikedImagesBloc>().add(
-                                        LikedImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                } else {
-                                  context.read<ImagesBloc>().add(
-                                        ImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                }
-                              },
-                              onDoubleTap: image.liked_by_user
-                                  ? () {
-                                      if (widget.isFavorite) {
-                                        context.read<LikedImagesBloc>().add(
-                                              LikedImagesEvent.unlikeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                      } else {
-                                        context.read<ImagesBloc>().add(
-                                              ImagesEvent.unlikeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                      }
-                                    }
-                                  : () {
-                                      if (widget.isFavorite) {
-                                        context.read<LikedImagesBloc>().add(
-                                              LikedImagesEvent.likeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                        _likedImageIdValueNotifier.value =
-                                            image.id;
-                                        _likedOpacityValueNotifier.value = 1.0;
-                                        Future.delayed(
-                                          const Duration(
-                                            milliseconds: 1000,
-                                          ),
-                                          () => _likedOpacityValueNotifier
-                                              .value = 0,
-                                        );
-                                      } else {
-                                        context.read<ImagesBloc>().add(
-                                              ImagesEvent.likeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                        _likedImageIdValueNotifier.value =
-                                            image.id;
-                                        _likedOpacityValueNotifier.value = 1.0;
-                                        Future.delayed(
-                                          const Duration(
-                                            milliseconds: 1000,
-                                          ),
-                                          () => _likedOpacityValueNotifier
-                                              .value = 0,
-                                        );
-                                      }
-                                    },
+                              onUnlikedTap: () => _onUnlikeTap(image.id),
+                              onDoubleTap: () => _onDoubleTap(image),
                             );
                           },
                         )
@@ -450,78 +232,8 @@ class _GridViewRefresherState extends State<GridViewRefresher> {
                                   _likedOpacityValueNotifier,
                               likedImageIdValueNotifier:
                                   _likedImageIdValueNotifier,
-                              onUnlikedTap: () {
-                                if (widget.isFavorite) {
-                                  context.read<LikedImagesBloc>().add(
-                                        LikedImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                } else {
-                                  context.read<ImagesBloc>().add(
-                                        ImagesEvent.unlikeImage(
-                                          imageId: image.id,
-                                          images: widget.images,
-                                        ),
-                                      );
-                                }
-                              },
-                              onDoubleTap: image.liked_by_user
-                                  ? () {
-                                      if (widget.isFavorite) {
-                                        context.read<LikedImagesBloc>().add(
-                                              LikedImagesEvent.unlikeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                      } else {
-                                        context.read<ImagesBloc>().add(
-                                              ImagesEvent.unlikeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                      }
-                                    }
-                                  : () {
-                                      if (widget.isFavorite) {
-                                        context.read<LikedImagesBloc>().add(
-                                              LikedImagesEvent.likeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                        _likedImageIdValueNotifier.value =
-                                            image.id;
-                                        _likedOpacityValueNotifier.value = 1.0;
-                                        Future.delayed(
-                                          const Duration(
-                                            milliseconds: 1000,
-                                          ),
-                                          () => _likedOpacityValueNotifier
-                                              .value = 0,
-                                        );
-                                      } else {
-                                        context.read<ImagesBloc>().add(
-                                              ImagesEvent.likeImage(
-                                                imageId: image.id,
-                                                images: widget.images,
-                                              ),
-                                            );
-                                        _likedImageIdValueNotifier.value =
-                                            image.id;
-                                        _likedOpacityValueNotifier.value = 1.0;
-                                        Future.delayed(
-                                          const Duration(
-                                            milliseconds: 1000,
-                                          ),
-                                          () => _likedOpacityValueNotifier
-                                              .value = 0,
-                                        );
-                                      }
-                                    },
+                              onUnlikedTap: () => _onUnlikeTap(image.id),
+                              onDoubleTap: () => _onDoubleTap(image),
                             );
                           },
                         ),
