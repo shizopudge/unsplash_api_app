@@ -33,11 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ImagesBloc(
             imagesRepository: ImagesRepository(),
-          )..add(
-              const ImagesEvent.getImages(
-                page: 1,
-              ),
-            ),
+          ),
         ),
         BlocProvider(
           create: (context) => ImageBloc(

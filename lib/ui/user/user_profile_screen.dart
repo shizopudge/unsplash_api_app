@@ -29,7 +29,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void initState() {
     super.initState();
     _pageController.addListener(_onPageChanged);
-    _showAvatarValueNotifier.value = true;
+    Future.delayed(
+      const Duration(milliseconds: 1500),
+      () => _showAvatarValueNotifier.value = true,
+    );
   }
 
   @override

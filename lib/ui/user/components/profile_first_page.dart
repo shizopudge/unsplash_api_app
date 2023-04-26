@@ -39,7 +39,7 @@ class ProfileFirstPage extends StatelessWidget {
                 imageBuilder: (context, imageProvider) =>
                     ValueListenableBuilder(
                   valueListenable: _showAvatarValueNotifier,
-                  builder: (context, isShowed, child) => Card(
+                  builder: (context, isShowed, _) => Card(
                     margin: const EdgeInsets.all(8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(21),

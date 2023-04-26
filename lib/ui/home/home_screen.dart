@@ -28,11 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final RefreshController _refreshController2 = RefreshController();
   final ValueNotifier<bool> _isCollapsed = ValueNotifier<bool>(false);
   List<UnsplashImage> _currentImages = [];
-  int _currentPage = 1;
+  late int _currentPage;
   bool _isPagination = false;
   @override
   void initState() {
     super.initState();
+    _currentPage = 1;
+    context.read<ImagesBloc>().add(
+          const ImagesEvent.getImages(
+            page: 1,
+          ),
+        );
     _scrollController.addListener(_onScroll);
   }
 

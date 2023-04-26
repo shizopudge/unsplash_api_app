@@ -32,6 +32,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   bool _isPagination = false;
 
   @override
+  void dispose() {
+    super.dispose();
+    _refreshController.dispose();
+    _refreshController2.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final LikedImagesState state = context.watch<LikedImagesBloc>().state;
     final String theme = context.watch<ThemeCubit>().state;
