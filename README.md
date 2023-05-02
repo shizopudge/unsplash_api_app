@@ -12,14 +12,13 @@
 ### Пакеты | Packages
 - animated_text_kit
 - cached_network_image
-- cupertino_icons
 - dio
 - flutter_bloc
 - flutter_native_splash
 - flutter_secure_storage
 - flutter_staggered_grid_view
 - flutter_web_auth_2
-- freezed_annotation:
+- freezed_annotation
 - gallery_saver
 - go_router
 - google_fonts
