@@ -1,16 +1,39 @@
-# unsplash_api_app
+# Unsplash API app
 
-A new Flutter project.
+### Функционал | Functionality
 
-## Getting Started
+- Просмотр изображений с сайта https://unsplash.com/
+- Поиск изображений с сайта https://unsplash.com/
+- Авторизация с помощью oauth2.0
+- Просмотр профилей пользователей
+- Добавление изображений в понравившиеся 
+- Возможность поделиться ссылкой, изображением или скачать изображение на девайс
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Пакеты | Packages
+- animated_text_kit
+- cached_network_image
+- cupertino_icons
+- dio
+- flutter_bloc
+- flutter_native_splash
+- flutter_secure_storage
+- flutter_staggered_grid_view
+- flutter_web_auth_2
+- freezed_annotation:
+- gallery_saver
+- go_router
+- google_fonts
+- http
+- intl
+- json_annotation
+- path_provider
+- pull_to_refresh
+- rive
+- share_plus
+- shared_preferences
+- url_launcher
+- uuid
+- build_runner
+- flutter_launcher_icons
+- freezed
+- json_serializable
